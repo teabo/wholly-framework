@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="Operlog">
+	<!--操作日志
+		常规调用，基类实现（在com.whollyframework.base.dao.ibatis.IBatisBaseDAO.java类中有实现方法）
+	-->
+	<insert id="insert">
+		 insert into sys_oper_log (LOG_ID, USERNAME, LOGINNAME, USER_ID, OPERTIME, OPERTYPE, OPERCONTENT, OPERPATH, AGENTSYSTEM,
+      AGENTEXPLORER, AGENTIP, AGENTHOSTNAME, ORGID, ORG)
+    values (#id#, #username#, #loginname#, #user_id#, #opertime#, #opertype#, #operContent#, #operPath#, #agentsystem#, #agentexplorer#, #agentip#,
+      #agenthostname#, #orgId#, #org#)
+	</insert>
+	
+	
+	<!-- 常规调用 end -->
+</sqlMap>

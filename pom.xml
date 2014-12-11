@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.whollyframework</groupId>
 	<artifactId>wholly-framework</artifactId>
@@ -48,6 +48,7 @@
 		<springframework.version>3.2.11.RELEASE</springframework.version>
 		<spring-data-jpa.version>1.7.0.RELEASE</spring-data-jpa.version>
 		<springside.version>4.1.0.GA</springside.version>
+		<spring-mock.version>2.0.8</spring-mock.version>
 	</properties>
 
 	<dependencies>
@@ -85,7 +86,8 @@
 		<module>wholly-ddltools</module>
 		<module>wholly-utils</module>
 		<module>wholly-core</module>
-	</modules>
+    <module>wholly-demo</module>
+  </modules>
 
 
 </project>

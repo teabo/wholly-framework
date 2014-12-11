@@ -201,6 +201,12 @@
 
 		<dependency>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-mock</artifactId>
+			<version>${spring-mock.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${springframework.version}</version>
 			<exclusions>
