@@ -21,7 +21,11 @@
 			<version>${whollyframework.version}</version>
 		</dependency>
 		
-		
+		<dependency>
+		  <groupId>org.apache.thrift</groupId>
+		  <artifactId>libthrift</artifactId>
+		  <version>0.9.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>wholly-demo</finalName>

@@ -20,42 +20,6 @@
 				<maven.compiler.target>1.6</maven.compiler.target>
 				<maven.compiler.compilerVersion>1.6</maven.compiler.compilerVersion>
 			</properties>
-			<repositories>
-				<repository>
-					<id>nexus</id>
-					<url>http://192.168.2.200:8081/nexus/content/groups/public/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-			</repositories>
-			<pluginRepositories>
-				<pluginRepository>
-					<id>nexus</id>
-					<url>http://192.168.2.200:8081/nexus/content/groups/public/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</pluginRepository>
-			</pluginRepositories>
-			<distributionManagement>
-				<repository>
-					<id>Releases</id>
-					<name>Nexus Release Repository</name>
-					<url>http://192.168.2.200:8081/nexus/content/repositories/releases/</url>
-				</repository>
-				<snapshotRepository>
-					<id>Snapshots</id>
-					<name>Nexus Snapshot Repository</name>
-					<url>http://192.168.2.200:8081/nexus/content/repositories/snapshots/</url>
-				</snapshotRepository>
-			</distributionManagement>
 		</profile>
 	</profiles>
 
