@@ -1,0 +1,123 @@
+*{
+	margin:0;
+	padding:0;
+	font-size:12px;
+}
+a{
+	text-decoration:none;
+}
+ul{
+	list-style-type:none;
+}
+ul li{
+	float:left;
+}
+
+/*中间主体部分--右侧内容部分*/
+.form_query{
+	width:98%;
+	margin:0 auto;
+	margin-top:1%;
+	height:160px;
+	border:1px solid #ddd;
+}
+.title{
+	height:28px;
+	line-height:28px;
+	letter-spacing:1px;
+	border:1px solid #DFE3E6;
+	border-bottom:0px;
+	color:#214C9B;
+	width:99.8%;
+	background:url("../../images/portal/title_bg.jpg") repeat-x;
+}
+.title span{
+	padding-left:25px;
+	font-size:13px;
+	font-weight:bold;
+	background:url("../../images/portal/title_logo.png") no-repeat 9px center;
+}
+.ctrl{
+	height:28px;
+	line-height:28px;
+	color:#012488;
+	width:98%;
+	margin:0 auto;
+	border-left:1px solid #ddd;
+	border-right:1px solid #ddd;
+}
+.add,.edit,.del{
+	width:40px;
+	padding-left:45px;
+	height:28px;
+	display:inline-block;
+	line-height:28px;
+	letter-spacing:2px;
+}
+.add{
+	background:url("../../images/portal/add.jpg") no-repeat 27% center;
+}
+.edit{
+	background:url("../../images/portal/edit.jpg") no-repeat 27% center;
+}
+.del{
+	background:url("../../images/portal/del.jpg") no-repeat 27% center;
+}
+/*表格分页*/
+.table_page{
+	width:98%;
+	height:30px;
+	line-height:30px;
+	letter-spacing:2px;
+	margin:0 auto;
+	background:#F4F4F4;
+	border:1px solid #ddd;
+	border-top:0px;
+	text-indent:10px;
+	_vertical-align:bottom;
+}
+.table_page p{
+	_margin-top:3px;
+}
+.txt_page{
+	border:1px solid #95B8E7;
+	background:#EFF7FF;
+	width:30px;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+}
+.index_page,.last_page{
+	width:18px;
+	height:20px;
+	border:0px;
+	cursor:pointer;
+}
+.index_page{
+	background:url("../../images/portal/index_page.gif") no-repeat center center;
+}
+.last_page{
+	background:url("../../images/portal/last_page.gif") no-repeat center center;
+}
+.pre_page,.next_page{
+	width:16px;
+	height:20px;
+	border:0px;
+	cursor:pointer;
+}
+.pre_page{
+	background:url("../../images/portal/pre_page.gif") no-repeat center center;	
+}
+.next_page{
+	background:url("../../images/portal/next_page.gif") no-repeat center center;	
+}
+
+
+
+
+
+
+
+
+
+

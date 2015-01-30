@@ -1,0 +1,191 @@
+
+.tab_form{
+	border-collapse:collapse;
+	width:95%;
+	margin:15px auto;
+}
+.tab_form tr{
+	height:34px;
+}
+.tab_form tr td{
+	line-height:200%;
+}
+.tab_form tr td.field{
+	text-align:right;
+	font-size:12px; 
+	color:#203d75;
+}
+.tab_form tr td.con{
+	padding-left:1%;
+	width:40%;
+}
+td{white-space:nowrap;}
+.tab_form_txt, .tab_textarea{border:1px solid #abadb3; padding-left:3px;width:282px; height:22px;line-height:22px;}
+/* .tab_textarea{ line-height:20px; height:60px; resize:none; overflow:hidden;} */
+.tab_textarea{ line-height:20px; height:60px; resize:none; overflow:auto;}
+.tab_form_select{width:288px;border:1px solid #abadb3; }
+
+.input_time{
+	height:22px;
+	line-height:22px;
+	border:1px solid #abadb3;
+	width:130px;
+}
+.activity_box{
+	width:100%;
+	height:30px;
+	margin-bottom:10px;
+	line-height:30px;
+	text-align:center;
+	color:#000;
+	border-top: 1px solid #dfe3e6;
+}
+.activity_box input{
+	/*width:113px;
+	height:41px;
+	line-height:41px;
+	border:0px;
+	margin-top:8px;
+	margin-right:0.5%;
+	cursor:pointer;
+	*/
+	width:66px;
+	height:22px;
+	line-height:20px;
+	text-align:center;
+	vertical-align:middle;
+	border:0px;
+	color:#000;
+	cursor:pointer;
+	border:1px solid #9DBDE9;
+	margin-right:10px;
+	background:url("../../images/portal/btn_bg.jpg") repeat-x;
+}
+.activity_box input.save_new{
+	/*background:url("../../images/act/save_new.jpg") no-repeat;*/
+}
+.activity_box input.save{
+	/*background:url("../../images/act/save.jpg") no-repeat;*/
+}
+.activity_box input.return{
+	/*background:url("../../images/act/return.jpg") no-repeat;
+	margin-right:2%;*/
+}
+
+.front-scroll-auto .title{
+	text-align:center;
+	height:55px;
+	line-height:55px;
+	color:#224D9C;
+	font-weight:bold;
+	letter-spacing:2px;
+	font-size:20px;
+	font-style:'微软雅黑';
+	clear:both;
+}
+
+.datagrid-toolbar{
+	width:100%;
+	/* height:55px;
+	line-height:55px; */
+	border-bottom:1px solid #CDD9DC;
+	background:#fff;
+	vertical-align:middle;
+}
+.datagrid-toolbar .form_fields{
+	letter-spacing:1px;
+	vertical-align:middle;
+	_margin-top:15px;
+}
+.tool_box{
+	margin-bottom:15px;
+}
+.tool_box input{
+	vertical-align:middle;
+	width:130px;
+	height:22px;
+	line-height:22px;
+	border:1px solid #ccc;
+	color:#5c5c5c;
+}
+.tool_box .input_text{
+	margin-right:2%;
+	padding-left:0.5%;
+	color:#666;
+}
+
+.btn{
+    /*margin-right:1%;
+	width:54px;
+	height:21px;
+	line-height:21px;
+	border:0px;
+	background:url("../../images/act/butt_comm.jpg") no-repeat;
+	padding-left:5px;
+	letter-spacing:2px;
+	cursor:pointer; */
+	width:66px;
+	height:22px;
+	line-height:20px;
+	text-align:center;
+	border:0px;
+	color:#000;
+	cursor:pointer;
+	border:1px solid #9DBDE9;
+	margin-left:12px;
+	background:url("../../images/portal/btn_bg.jpg") repeat-x;
+}
+
+.tool_operate{
+	height:30px;
+	width:100%;
+	line-height:30px;
+	background: #fff;
+	border-top:1px solid #e3e3e3;
+	padding-left: 15px;
+}
+.tool_operate input{
+	color:#069;
+	font-size:13px;
+	display:inline-block;
+	height:24px; 
+	line-height:24px; 
+	color:#002588; 
+	border:none;
+	margin-top:5px;
+	cursor:pointer; 
+	_padding-top:5px;
+	padding-left:25px; 
+	padding-right:15px;
+	background:url(../images/main/btn_bg.png) no-repeat;
+}
+/* .tool_operate a:hover{
+	text-decoration:underline;
+} */
+.tool_operate input.add{
+	background:url("../../images/act/add.jpg") no-repeat left center;
+}
+.tool_operate input.edit{
+	background:url("../../images/act/edit.jpg") no-repeat left center;
+}
+.tool_operate input.quit{
+	background:url("../../images/act/quit.gif") no-repeat left center;
+}
+.tool_operate input.del{
+	background:url("../../images/act/del.jpg") no-repeat left center;
+}
+.tool_operate input.pause{
+	background:url("../../images/act/pause.png") no-repeat left center;	
+}
+.tool_operate input.able{
+	background:url("../../images/act/able.png") no-repeat left center;	
+}
+.tool_operate input.modify_pwd{
+	background:url("../../images/act/modify_pwd.png") no-repeat left center;	
+}
+.tool_operate input.reg{
+	background:url("../../images/act/reg.png") no-repeat left center;	
+}
+.tool_operate input.send_power{
+	background:url("../../images/act/send_power.png") no-repeat left center;	
+}

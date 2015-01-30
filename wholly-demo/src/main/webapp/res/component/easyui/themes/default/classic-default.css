@@ -1,0 +1,44 @@
+@CHARSET "UTF-8";
+
+#top-wrapper {
+	width: 100%;
+	height: 40px;
+	background: url("images/wrapper/top_bg.gif") repeat-x;
+}
+
+#top-wrapper #top-logo {
+	float: left;
+	width: 147px;
+	height: 37px;
+	background: url("images/wrapper/top_logo_bg.gif") no-repeat;
+}
+
+#top-wrapper #top-logo span {
+	overflow: hidden;
+	float: left;
+	margin: 12px 0px 0px 45px;
+	width: 80px;
+	white-space: nowrap;
+}
+
+#top-wrapper #top-shortcut {
+	float: right;
+	height: 37px;
+}
+
+#top-wrapper #top-shortcut .shortcut {
+	float: left;
+	margin: 10px 10px;
+}
+
+/* ==================================================================== */
+#left-wrapper {
+	width: 200px;
+}
+
+/* ==================================================================== */
+#bottom-wrapper {
+	width: 100%;
+	height: 25px;
+	background: url("images/wrapper/top_bg.gif") repeat-x;
+}

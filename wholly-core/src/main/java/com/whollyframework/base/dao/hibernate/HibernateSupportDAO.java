@@ -39,6 +39,7 @@ public class HibernateSupportDAO<T, PK extends Serializable> {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
+	@Autowired
 	protected SessionFactory sessionFactory;
 
 	protected Class<T> entityClass;

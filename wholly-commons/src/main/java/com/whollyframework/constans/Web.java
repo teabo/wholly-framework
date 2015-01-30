@@ -44,17 +44,19 @@ public class Web {
 	
 	public static final String CURRENT_SKIN = "skin";
 	
-	public static final String FRAMEWORK_ANONYMOUS_ACCESS = "teabo.framework.anonymous.access";
+	public static final String FRAMEWORK_ANONYMOUS_ACCESS = "whollyframework.anonymous.access";
 	
-	public static final String FRAMEWORK_ADMIN_ACCESS = "teabo.framework.admin.access";
+	public static final String FRAMEWORK_ADMIN_ACCESS = "whollyframework.admin.access";
 	
-	public static final String FRAMEWORK_STARTUP_LISTENER = "teabo.framework.startup.listener";
+	public static final String FRAMEWORK_STARTUP_LISTENER = "whollyframework.startup.listener";
 	
-	public static final String FRAMEWORK_SECURITY_FILTER = "teabo.framework.security.filter";
+	public static final String FRAMEWORK_SECURITY_FILTER = "whollyframework.security.filter";
 	
-	public static final String FRAMEWORK_DEFAULT_SKIN = "teabo.framework.skin.default";
+	public static final String FRAMEWORK_DEFAULT_SKIN = "whollyframework.skin.default";
 	
-	public static final String FRAMEWORK_ERROR_URI = "teabo.framework.error.uri";
+	public static final String FRAMEWORK_ERROR_URI = "whollyframework.error.uri";
+	
+	public static final String FRAMEWORK_WEBSITE_TITLE = "whollyframework.website.title";
 	
 	
 }

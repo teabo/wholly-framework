@@ -1,0 +1,35 @@
+.evenRow{ background-color: #F7F7F7; }
+.oddRow{background-color: #FFF;}
+.activeRow{background-color: #C8E1F7;}
+.clickRow{background-color: #C8E1F7;}
+
+*{
+	margin:0;
+	padding:0;
+}
+body{ 
+	color: #000; 
+	font-family: "微软雅黑"; 
+}
+
+.table_solid {
+	border-bottom: 1px solid #ddd; 
+	border-right: 1px solid #ddd; 
+	position: relative;
+	width:98.1%; 
+	margin: 0px auto; 
+}
+.table_solid th,.table_solid td{ 
+	border-left: 1px solid #ddd; 
+	border-top: 1px solid #ddd; 
+	color: #000; 
+	padding: 0.5em; 
+	font-size:12px;
+	font-weight:normal;
+}
+.table_solid th{ 
+	background-color:#E7E4E4;
+	font-size:13px;
+	font-weight:bold;
+	color:#333;
+}

@@ -1,0 +1,80 @@
+.nTab{
+width: 99%;
+height:auto;
+margin: 0 auto;
+background:#FFF;
+background-position:left;
+background-repeat:repeat-y;
+margin-bottom:2px;
+}
+.nTab .TabTitle{
+clear: both;
+height:35px;
+overflow: hidden;
+}
+.nTab .TabTitle ul{
+margin:0;
+padding:0;
+}
+.nTab .TabTitle li{
+/* width: 80px; */
+padding-top: 6px;
+padding-right: 0px;
+padding-left: 0px;
+padding-bottom: 7px;
+list-style-type: none;
+float:left;
+}
+.nTab .TabTitle .active{ 
+	border-radius: 3px 3px 0 0;
+	padding-left:13px;
+	padding-right:13px;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	border:1px solid #3776bd;
+	padding-top:5px;
+	margin-top:0px;
+	color:#274585;
+	letter-spacing:1px;
+	/*background:url(../images/tab_active.jpg) repeat-x;*/
+	/*background: linear-gradient(to bottom, #EFFDFF 0px, #FFFFFF 100%) repeat-x scroll 0 0 rgba(0, 0, 0, 0);*/
+	background: #c2cee4;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eff5ff', endColorstr='#ffffff');
+	background: -webkit-gradient(linear, left top, left bottom, from(#eff5ff), to(#ffffff));
+	background: -moz-linear-gradient(top, #eff5ff, #ffffff);
+    outline: medium none;
+	margin:0 2px;
+	cursor:pointer;
+	margin-top:7px;
+}
+.nTab .TabTitle .normal{ 
+	border-radius: 3px 3px 0 0;
+	padding-left:13px;
+	padding-right:13px;
+	height:20px;
+	line-height:20px;
+	padding-top:5px;
+	margin-top:0px;
+	/* color:#fff; */
+	letter-spacing:1px;
+	text-align:center;
+	border:1px solid #3776bd;
+	/* background:url(../images/tab_normal.jpg) repeat-x; */
+	background:#4b85e6;
+    color: #FFF;
+	margin:0 2px;
+	cursor:pointer;
+	margin-top:7px;
+}
+.nTab .TabContent{
+	width:auto;
+	height:100%;
+	background:#fff;
+	margin: 0px auto;
+	padding:5px 0 0 0;
+	border-bottom:1px solid #DFE3E6;
+}
+.none {
+display:none;
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        version="2.0" 
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+        					http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+     <display-name>Pager Tags</display-name>
+     <tlib-version>1.0</tlib-version>
+     <!-- 短名 -->
+     <short-name>pager</short-name>
+     <!-- 定义uri -->
+     <uri>/pager-tags</uri>
+     
+     <!-- 定义标签 -->
+     <tag>
+     	<!-- 标签名 -->
+     	<name>pager</name>
+     	<!-- 标签处理类 -->
+     	<tag-class>com.sunshine.core.search.util.PagerTag</tag-class>
+     	<!-- 标签体为空 -->
+     	<body-content>empty</body-content>
+     	
+     	<!-- 当前页码 -->
+     	<attribute>
+     		<!-- 属性名 -->
+     		<name>pageNo</name>
+     		<!-- 必须 -->
+     		<required>true</required>
+     		<!-- 属性值支持EL表达式-->
+     		<fragment>true</fragment>
+     	</attribute>
+     	
+     	<!-- 每页显示的数量 -->
+     	<attribute>
+     		<!-- 属性名 -->
+     		<name>linesPerPage</name>
+     		<!-- 必须 -->
+     		<required>true</required>
+     		<!-- 属性值支持EL表达式-->
+     		<fragment>true</fragment>
+     	</attribute>
+     	
+     	<!-- 总记录条数 -->
+     	<attribute>
+     		<!-- 属性名 -->
+     		<name>rowCount</name>
+     		<!-- 必须 -->
+     		<required>true</required>
+     		<!-- 属性值支持EL表达式-->
+     		<fragment>true</fragment>
+     	</attribute>
+     	
+     	<!-- 提交的URL -->
+     	<attribute>
+     		<!-- 属性名 -->
+     		<name>submitUrl</name>
+     		<!-- 必须 -->
+     		<required>true</required>
+     		<!-- 属性值支持EL表达式-->
+     		<fragment>true</fragment>
+     	</attribute>
+     	
+     	<!-- class样式名 -->
+     	<attribute>
+     		<!-- 属性名 -->
+     		<name>style</name>
+     		<!-- 必须 -->
+     		<required>false</required>
+     		<!-- 属性值支持EL表达式-->
+     		<fragment>true</fragment>
+     	</attribute>
+     </tag>
+</taglib>

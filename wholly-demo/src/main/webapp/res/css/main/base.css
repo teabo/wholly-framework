@@ -1,0 +1,238 @@
+*{
+	margin:0px;
+	padding:0px;
+}
+body{
+	font-size:12px;
+}
+
+a {
+	text-decoration: none;
+	font-size: 9.5pt;
+}
+
+a:active {
+
+}
+
+a:HOVER {
+	color: #069;
+	text-shadow: black;
+}
+
+/***front skin body******/
+.front-body {
+	margin-top: 5px;
+	margin-left: 5px;
+	background-color: #dfe8f6;
+}
+
+.front-body-mainframe {
+	padding: 0px;
+	margin: 1px;
+	background-color: #dfe8f6;
+}
+
+.front-body-document {
+	overflow: hidden;
+	margin-left: 0px;
+	margin-top: 5px;
+	margin-right: 5px;
+}
+
+.front-header {
+	background-image: url('../../../images/main/main/header_bg.gif');
+	background-repeat: repeat-x;
+	height: 21px;
+	border-bottom: 1px solid #99bbe8;
+}
+
+/*******margin**********/
+.front-margin0 {
+	margin: 0px;
+	padding: 0px;
+}
+
+.front-margin {
+	margin-left: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-right: 5px;
+}
+
+.front-margin1 {
+	margin-left: 0px;
+	margin-top: 5px;
+	margin-right: 5px;
+}
+
+/********scroll *********/
+.front-scroll-hidden {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+.front-scroll-auto {
+	overflow-x: auto;
+	overflow-y: auto;
+	border:1px solid #DFE3E6;
+}
+
+/*****visibility****/
+.front-visibility-hidden {
+	visibility: hidden
+}
+
+/*****align******/
+.front-align-top {
+	vertical-align: top;
+}
+
+/**********bgcolor*************/
+.front-bgcolor1 {
+	background-color: #dfe8f6;
+}
+.front-bgcolor2 {
+	background-color: white;
+}
+
+.front-bgcolor3 {
+	background-color: #edf4ff;
+}
+.front-bgcolor4 {
+	background-color: #e5edf8;
+}
+
+
+/******border******/
+.front-boder {
+	border: 1px solid #99bbe8;
+}
+
+.front-border-bottom {
+	border-bottom: 1px solid #99bbe8;
+	margin: 0;
+	padding: 0;
+}
+
+.front-border-top {
+	border-top: 1px solid #99bbe8;
+}
+
+.front-border-left {
+	border-left: 1px solid #99bbe8;
+	margin: 0;
+	padding: 0;
+}
+
+.front-border-right {
+	border-right: 1px solid #99bbe8;
+	margin: 0;
+	padding: 0;
+}
+
+.front-border2 {
+	border: 0px solid #FFFFFF
+}
+
+.transparent_message {
+	position: absolute;
+	top:0;
+	left:0;
+	COLOR: #23571d;
+	font-size:14px;
+	width: 100%;
+	padding: 5px;
+	TEXT-ALIGN: center;
+	opacity: 0.8;
+	moz-border-radius: 10px;
+	letter-spacing:1px;
+	border-left:1px solid #D8DDE1;
+	border-right:1px solid #D8DDE1;
+}
+
+.transparent_error {
+	BACKGROUND: #ffa3a9;
+}
+
+.transparent_error P {
+	COLOR: #560109
+}
+
+.transparent_notice {
+	background:lightblue;
+}
+
+.transparent_notice P {
+	COLOR: #23571d
+}
+
+.table_noborder{width:100%; border-collapse: collapse;border-spacing: 0px;}
+.table_border{width:100%; border:0;align:center;cellpadding:1;cellspacing:1}
+
+
+/***********table tr td****************/
+.front-table-common {width:100%; height:100%; border: 0px; border-collapse: collapse;border-spacing: 0px;}
+.front-table-full-width {width:100%; border: 0px; border-collapse: collapse;border-spacing: 0px;}
+.front-table-full-all {width:100%; height:100%;border: 0px; border-collapse: collapse;border-spacing: 0px;}
+.front-table-homepage {width:25%; border: 0px;}
+.front-table-banner {
+	border: 0px; 
+	border-collapse: collapse;
+	border-spacing: 0px;
+	height:21px;
+	width:100%;
+	border: 0px;
+	background-image: url('../imgages/act/banner_back.gif');
+}
+.front-table-lefttop_container {
+	border-collapse: collapse;
+	border-spacing: 0px;
+	width:194px;
+	height: 22px;
+	border: 1px solid #99bbe8;
+	background-color:#fffff8;
+	margin-top:5px;
+	margin-bottom:0px;
+}
+.front-table-act {
+	background-image: url('../../images/main/act/act_back.gif');
+	background-repeat: repeat-x;
+	height: 27px;
+	vertical-align: middle;
+}
+.front-table-act2 {
+	background-image: url('../../images/main/act/act_back2.gif');
+	background-repeat: repeat-x;
+	height: 27px;
+	vertical-align: middle;
+}
+
+
+.input-cmd1 {
+	width: auto;
+	align: left;
+	background-color: #FFFFFF;
+	background: transparent; /* 鑳屾櫙鑹查�鏄�*/ 
+	border: 0;
+	font-size: 9.5pt;
+}
+
+.input-cmd {
+	width: auto;
+	align: left;
+	background-color: #FFFFFF;
+	/*border: 1px solid #999999;*/ /*border:0;*/
+	background: transparent; /* 鑳屾櫙鑹查�鏄�*/
+	margin: 1px;
+	padding: 1px;
+	/*color:#005aa7;*/
+	border-bottom: 1px solid #000000; /* 涓嬪垝绾挎晥鏋�*/
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+}
+.tool_box_b{
+	color:#203D75;
+	font-weight:normal;
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wls:weblogic-web-app xmlns:wls="http://xmlns.oracle.com/weblogic/weblogic-web-app" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://xmlns.oracle.com/weblogic/weblogic-web-app http://xmlns.oracle.com/weblogic/weblogic-web-app/1.0/weblogic-web-app.xsd">
+    <wls:weblogic-version>10.3.2</wls:weblogic-version>
+    <wls:context-root>wholly-demo</wls:context-root>
+    <wls:logging>
+        <wls:log-filename>exchange</wls:log-filename>
+        <wls:number-of-files-limited>true</wls:number-of-files-limited>
+        <wls:file-count>7</wls:file-count>
+        <wls:file-size-limit>1024</wls:file-size-limit>
+    </wls:logging>
+    <wls:container-descriptor>
+        <wls:session-monitoring-enabled>true</wls:session-monitoring-enabled>
+        <wls:prefer-web-inf-classes>true</wls:prefer-web-inf-classes>
+        <wls:show-archived-real-path-enabled>true</wls:show-archived-real-path-enabled>
+    </wls:container-descriptor>
+</wls:weblogic-web-app>

@@ -1,0 +1,65 @@
+/*中间主体部分--左侧下拉菜单*/
+@charset "utf-8";
+body{font-family:Arial, Helvetica, sans-serif;font-size:1px;font-weight:normal;margin:0px;padding:0px;}
+p,from,h1,h2,h3,h4,h5,h6{margin:0px;padding:0px;}
+ul,ol{margin:0px;padding:0px;list-style-type:none;}
+img{border:none;}
+a{color:#000;}
+a:hover{text-decoration:none;}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.clearfix{display:inline-table}
+*html .clearfix{height:1%}
+.clearfix{display:block}
+*+html .clearfix{min-height:1%}
+/* ny_zb */
+.ny_zb{width:100%;height:579px;overflow-x:hidden;overflow-y:auto;background:#F2F2F4;font-family:"微软雅黑";margin:0 auto;margin-top:10px;}
+.ny_zblb1{padding:10px 10px 0px 15px;}
+
+.ny_zblb1 li{line-height:33px;font-size:13px;color:#333;float:left;width:100%;}
+.ny_zblb1 li a{
+	display:block;
+	padding-left:16%;
+	text-decoration:none;
+	color:#333;
+	background:url(../../images/portal/bottom.gif) no-repeat 95% center;
+}
+.ny_zblb1 li a.cur{
+	color:#252525;
+	font-weight:bold;
+	font-size:13px;
+	background:url(../../images/portal/top.gif) no-repeat 95% center;
+	text-decoration:none;
+}
+
+.ny_zblb1 li ul{display:none;color:#666;padding:5px 0 5px 30px;}
+.ny_zblb1 li ul li{float:none;background-image:none;height:26px;line-height:26px;margin-top:0px;font-size:12px;}
+.ny_zblb1 li ul li a{padding-left:2%;height:25px;display:block;background:none;}
+.ny_zblb1 li ul a:hover{color:#2f2f2f;}
+
+.leftnav_titlebg1{
+	background:url(../../images/portal/leftnav_titlebg1.gif) no-repeat left center;
+}
+.title_leftimg{
+	position:relative;
+	height:30px;
+	font-size:13px;
+}
+.title_leftimg img{
+	position:absolute;
+	top:8px;
+	left:1%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

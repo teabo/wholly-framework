@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints version="2.0" xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime">
+	<!-- <endpoint name="exinsideCallsPort" implementation="com.sunshine.transport.services.inside.DefaultSharedNotify"
+		url-pattern="/ws/exinsideCalls">
+	</endpoint>
+	<endpoint name="exoutsideCallsPort" implementation="com.sunshine.transport.services.outside.DefaultNotifyCalls"
+		url-pattern="/ws/exoutsideCalls">
+	</endpoint> -->
+</endpoints>

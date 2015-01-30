@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr/dwr30.dtd">
+
+<dwr>
+	<allow>
+		<create creator="new" javascript="Sequence">
+			<param name="class" value="com.sunshine.util.sequence.Sequence"/>
+		</create>
+		<create creator="new" javascript="StringUtil">
+			<param name="class" value="com.sunshine.util.StringUtil"/>
+		</create>
+		<create creator="new" javascript="HtmlEncoderUtil">
+			<param name="class" value="com.sunshine.util.HtmlEncoder"/>
+		</create>
+		<create creator="new" javascript="SecurityUtil">
+			<param name="class" value="com.sunshine.util.Security"/>
+		</create>
+		
+
+	</allow>
+
+	<signatures>
+	<![CDATA[
+		import java.util.Map;
+		import java.util.Collection;
+		import java.util.TreeSet;
+		import javax.servlet.http.HttpServletRequest;
+		import com.sunshine.util.StringUtil;
+		import com.sunshine.util.sequence.Sequence;
+		import com.sunshine.util.HtmlEncoder;
+		import com.sunshine.util.Security;
+	]]>
+	</signatures>
+</dwr>

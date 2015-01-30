@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+<link rel="stylesheet" href="css/step-dc.css" />
+<script type="text/javascript" src="./step-jquery-dc.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div class="test">
+
+
+</div>
+<br/>
+<div style="width: 500px;margin-left: 30px;margin-top: 15px;">
+当前步骤：第<input type="text"  value="5" id="currentStepVal" />步
+<button onclick="StepTool.drawStep(jQuery('#currentStepVal').val(),stepListJson);" type="button">重新生成</button>
+</div>
+</body>
+</html>
+<script>
+	//所有步骤的数据
+	var stepListJson=[{StepNum:1,StepTitle:"第一步",StepText:"vdsfsdf",StepDate:"2015-01-13 18:15:00"},
+    {StepNum:2,StepTitle:"第二步",StepText:"vdsfsdf",StepDate:"2015-01-13 18:15:00"},
+    {StepNum:3,StepTitle:"第三步",StepText:"vdsfsdf",StepDate:"2015-01-13 18:15:00"},
+    {StepNum:4,StepTitle:"第四步",StepText:"vdsfsdf",StepDate:"2015-01-13 18:15:00"},
+    {StepNum:5,StepTitle:"第五步",StepText:"vdsfsdf",StepDate:"2015-01-13 18:15:00"},
+    {StepNum:6,StepTitle:"第六步",StepText:"vdsfsdf",StepDate:"2015-01-13 18:15:00"},
+    {StepNum:7,StepTitle:"第七步",StepText:"vdsfsdf",StepDate:"2015-01-13 18:15:00"}];
+	
+	//当前进行到第几步
+	var currentStep=5;
+//new一个工具类
+var StepTool = new Step_Tool_dc("test","mycall");
+//使用工具对页面绘制相关流程步骤图形显示
+StepTool.drawStep(currentStep,stepListJson);
+//回调函数
+function mycall(restult){
+	alert("mycall"+result.StepNum+":"+result.StepTitle);
+	StepTool.drawStep(result.StepNum,stepListJson);
+	//TODO...这里可以填充点击步骤的后加载相对应数据的代码
+}
+</script>
