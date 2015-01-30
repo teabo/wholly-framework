@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
+            http://www.springframework.org/schema/tx 
+            http://www.springframework.org/schema/tx/spring-tx-2.5.xsd 
+            http://www.springframework.org/schema/data/jpa 
+            http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd 
+            http://www.springframework.org/schema/context 
+            http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<!-- 定时任务
+	<import resource="spring-*.xml"></import>  -->
+
+
+	<!--指定Spring配置中用到的属性文件 -->
+	<bean id="propertyConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="classpath:applicationContext-hbm.xml"/>
+	<import resource="classpath:applicationContext-ibatis.xml"/>
+	<!-- ibatis2.x 配置 -->
+	<!-- 配置系统的数据源BHCP -->
+	<!-- <bean id="dataSource" class="com.sunshine.datasource.dbcp.DBCPBasicDataSource" 
+		destroy-method="close"> <property name="driverClassName" value="${jdbc.driver}" 
+		/> <property name="url" value="${jdbc.url}" /> <property name="username" 
+		value="${jdbc.username}" /> <property name="password" value="${jdbc.password}" 
+		/> < Connection Pooling Info > <property name="initialSize" value="${jdbc.minConnection}" /> 
+		<property name="maxActive" value="${jdbc.maxConnection}" /> <property name="maxIdle" value="${jdbc.maxConnection}" 
+		/> <property name="minIdle" value="${jdbc.minConnection}" /> <property name="maxWait" value="${jdbc.maxWait}" 
+		/> <property name="poolPreparedStatements" value="true" /> <property name="defaultAutoCommit" 
+		value="false" /> <property name="logAbandoned" value="true" /> <property 
+		name="removeAbandoned" value="true" /> <property name="removeAbandonedTimeout" 
+		value="120" /> < 打开检查,用异步线程evict进行检查 > <property name="testWhileIdle" value="true" 
+		/> <property name="validationQuery"> <value>select count(*) from T_SYS_USER</value> 
+		</property> <property name="validationQueryTimeout" value="1" /> <property 
+		name="timeBetweenEvictionRunsMillis" value="30000" /> <property name="numTestsPerEvictionRun" 
+		value="50" /> </bean> -->
+
+	<!--配置系统的数据源C3P0 -->
+	<!-- <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+		destroy-method="close"> <property name="driverClass" value="${jdbc.driver}" 
+		/> <property name="jdbcUrl" value="${jdbc.url}" /> <property name="properties" 
+		ref="dataSourceProperties"/> <property name="acquireIncrement" value="1"/> 
+		<property name="idleConnectionTestPeriod" value="300"/> <property name="maxPoolSize" 
+		value="${jdbc.maxConnection}"/> <property name="minPoolSize" value="${jdbc.minConnection}"/> <property name="initialPoolSize" 
+		value="${jdbc.minConnection}" /> <property name="numHelperThreads" value="3"/> <property name="maxIdleTime" 
+		value="${jdbc.maxWait}" /> <property name="acquireRetryAttempts" value="2"/> <property 
+		name="preferredTestQuery" value="select count(*) from T_SYS_USER"/> <property 
+		name="testConnectionOnCheckin" value="true"/> </bean> <bean id="dataSourceProperties" 
+		class="com.sunshine.datasource.security.PropertiesEncryptFactoryBean"> <property 
+		name="properties"> <props> <prop key="user">${jdbc.username}</prop> <prop 
+		key="password">${jdbc.password}</prop> </props> </property> </bean> -->
+	<!--End配置系统的数据源C3P0 -->
+
+	<!--配置系统的数据源JNDI -->
+	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">  
+        <property name="jndiName">  
+            <value>${jdbc.jndiName}</value>  
+        </property>  
+    </bean>   -->
+    <!--End配置系统的数据源JNDI -->
+    
+	<!--配置系统的数据源Proxool -->
+	<bean id="dataSource"
+		class="com.sunshine.datasource.proxool.DefaultProxoolDataSource">
+		<property name="driver" value="${jdbc.driver}" />
+		<property name="driverUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="alias" value="Pool_dbname" />
+		<property name="prototypeCount" value="0" />
+		<property name="maximumConnectionCount" value="${jdbc.maxConnection}" />
+		<property name="minimumConnectionCount" value="${jdbc.minConnection}" />
+		<property name="simultaneousBuildThrottle" value="50" />
+		<property name="houseKeepingTestSql" value="${jdbc.houseKeepingTestSql}" />
+	</bean>
+	<!--End配置系统的数据源Proxool -->
+
+	<!-- Jpa 配置 -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
+		<property name="packagesToScan" value="com.sunshine" />
+		<property name="jpaProperties">
+			<props>
+				<prop key="cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+				<prop key="net.sf.ehcache.configurationResourceName">cache/ehcache-hibernate-local.xml</prop>
+				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="hibernateJpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="databasePlatform">
+			<bean factory-method="getDialect" class="org.springside.modules.persistence.Hibernates">
+				<constructor-arg ref="dataSource" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Jpa 事务配置 -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	<!--End Jpa 配置 -->
+
+	<!-- begin Hibernate配置 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<!-- <property name="configLocation" value="classpath:hibernate.cfg.xml" /> -->
+		<property name="mappingResources">
+			<ref bean="mappingResources"/>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.cache.use_query_cache">${hibernate.use_query_cache}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.jdbc.fetch_size">${hibernate.fetch_size}</prop>
+				<prop key="hibernate.jdbc.batch_size">${hibernate.batch_size}</prop>
+				<prop key="hibernate.default_batch_fetch_size">${hibernate.default_batch_fetch_size}</prop>
+				<prop key="hibernate.order_updates">${hibernate.order_updates}</prop>
+				<prop key="hibernate.connection.release_mode">${hibernate.connection.release_mode}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+				<prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
+				<!-- <prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop> -->
+				<!--自动创建表   -->
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop> 
+				<!--  
+					hibernate.current_session_context_class 是hibernate 4使用session事物的模式
+					1: org.hibernate.context.internal.ThreadLocalSessionContext - 当前session通过当前执行的线程来跟踪和界定。
+					2: org.hibernate.context.internal.JTASessionContext- 当前session根据JTA来跟踪和界定。这和以前的仅支持JTA的方法是完全一样的。
+					3：org.hibernate.context.internal.ManagedSessionContext
+					
+					使用spring时 默认是 ，用spring的事务管理 则用org.springframework.orm.hibernate4.SpringSessionContext
+					--> 
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>	
+	
+	<!-- begin Hibernate参与事务 的方法和类-->
+	<tx:advice id="txHibernateAdvice" transaction-manager="hibernateTransactionManager">
+		<tx:attributes>
+			<tx:method name="do*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- end Hibernate配置 -->
+	
+	<!-- 配置iBatis的sqlMapClient -->
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocations">
+			<list>
+				<value>classpath:ibatis-config.xml</value>
+				<!-- <value>classpath:com/sunshine/core/ibatis-map-config.xml</value> -->
+			</list>
+		</property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="ibatisTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 配置事务特性 -->
+	<tx:advice id="txIbatisAdvice" transaction-manager="ibatisTransactionManager">
+		<tx:attributes>
+			<tx:method name="do*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<!--End 配置iBatis的sqlMapClient -->
+	
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="hibernateServiceMethod" expression="execution(* com.sunshine..service.hibernate.*Service*.*(..)))" />
+		<aop:pointcut id="jpaServiceMethod" expression="execution(* com.sunshine..service.jpa.*Service*.*(..)))" />
+		<aop:pointcut id="ibatisServiceMethod" expression="(execution(* com.sunshine..service.*Service*.*(..)))" />
+		<aop:advisor pointcut-ref="ibatisServiceMethod" advice-ref="txIbatisAdvice" />
+		<aop:advisor pointcut-ref="hibernateServiceMethod" advice-ref="txHibernateAdvice" />
+		<aop:advisor pointcut-ref="jpaServiceMethod" advice-ref="transactionManager"/>
+	</aop:config>
+	
+	<context:annotation-config />
+	<context:component-scan base-package="com.sunshine.***.**"></context:component-scan>
+</beans>
