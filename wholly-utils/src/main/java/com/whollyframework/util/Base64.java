@@ -198,6 +198,20 @@ public class Base64 {
 		}
 		return true;
 	}
+	
+	public static String decode2String(String data) {
+		return new String(decode(data));
+	}
+	public static String decode2String(byte[] data) {
+		return new String(decode(data));
+	}
+	public static String encode2String(String data) {
+		return decode2String(data.getBytes());
+	}
+	public static String encode2String(byte[] data) {
+		return new String(encode(data));
+	}
+	
 	public static void main(String[] args) {
 		String data = "中华人民共和国";
 		byte[] result = Base64.encode(data.getBytes());
