@@ -1,0 +1,11 @@
+import "EnumType.proto";
+
+package com.whollyframework.protobuf;
+option java_package = "com.whollyframework.protobuf.model";
+option java_outer_classname = "InnerMessageProtos";
+
+message InnerMessage {
+	optional string name = 1 [default = "name"];
+	optional int32 id = 2;
+	optional EnumType type = 3 [default = UNIVERSAL];
+}

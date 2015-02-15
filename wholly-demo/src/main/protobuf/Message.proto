@@ -1,0 +1,25 @@
+import "InnerMessage.proto";
+package com.whollyframework.protobuf;
+option java_package = "com.whollyframework.protobuf.model";
+option java_outer_classname = "MessageProtos";
+option optimize_for = SPEED ;  //CODE_SIZE,LITE_RUNTIME
+option java_generic_services = false;
+message Message {
+	
+	required string strObj = 1 [default="hello"];
+	optional int32 int32Obj = 2;
+	optional int64 int64Obj = 3;
+	optional uint32 uint32Obj = 4;
+	optional uint64 uint64Obj = 5;
+	optional sint32 sint32Obj = 6;
+	optional sint64 sint64Obj = 7;
+	optional fixed32 fixed32Obj = 8;
+	optional fixed64 fixed64Obj = 9;
+	optional sfixed32 sfixed32Obj = 10;
+	optional sfixed64 sfixed64Obj = 11;
+	optional bool 	boolObj = 12;
+	optional bytes 	bytesObj = 13;
+	optional float folatObj = 14 [deprecated=true];
+	repeated double doubleObj = 15 [packed=true]; //
+	optional InnerMessage innerMessage = 16;
+}
