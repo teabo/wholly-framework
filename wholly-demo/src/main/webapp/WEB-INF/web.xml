@@ -158,8 +158,8 @@
 	</error-page>
 	<jsp-config>
 		<taglib>
-			<taglib-uri>teabo</taglib-uri>
-			<taglib-location>/WEB-INF/teabo.tld</taglib-location>
+			<taglib-uri>wholly</taglib-uri>
+			<taglib-location>/WEB-INF/wholly.tld</taglib-location>
 		</taglib>
 	</jsp-config>
 </web-app>

@@ -5,15 +5,13 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hibernate.criterion.Restrictions;
-
 public class Junction implements Criterion {
     private final List<Criterion> conditions = new ArrayList<Criterion>();
-    private final Op op;
+    private final Operation operation;
 
     /**
      */
-    public enum Op {
+    public enum Operation {
         OR, AND;
         
         public String getValueType(){
@@ -28,8 +26,8 @@ public class Junction implements Criterion {
         }
     }
     
-    public Junction(Op op, Criterion... criterion){
-        this.op = op;
+    public Junction(Operation op, Criterion... criterion){
+        this.operation = op;
         Collections.addAll( conditions, criterion );
     }
     
@@ -49,8 +47,12 @@ public class Junction implements Criterion {
         return conditions;
     }
     
-    public String getOp() {
-        return op.getValueType();
+    public String getOpName() {
+        return operation.getValueType();
+    }
+    
+    public Operation getOperation(){
+    	return this.operation;
     }
     
     public String toSqlString() {
@@ -63,7 +65,7 @@ public class Junction implements Criterion {
         while ( itr.hasNext() ) {
             buffer.append( ( itr.next() ).toSqlString() );
             if ( itr.hasNext() ) {
-                buffer.append( getOp() );
+                buffer.append( getOpName() );
             }
         }
 
@@ -77,24 +79,6 @@ public class Junction implements Criterion {
             Collections.addAll( typedValues, subValues );
         }
         return typedValues.toArray( new Object[ typedValues.size() ] );
-    }
-    
-    public org.hibernate.criterion.Criterion buildHibernateCriterion(){
-        org.hibernate.criterion.Junction junction;
-        switch (op) {
-            case OR:
-                junction = Restrictions.disjunction();
-                break;
-            case AND:
-                junction = Restrictions.conjunction();
-                break;
-            default:
-                return null;
-        }
-        for ( Criterion condition : conditions ) {
-            junction.add(condition.buildHibernateCriterion());
-        }
-        return junction;
     }
 
     public String getType(){

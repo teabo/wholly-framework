@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.whollyframework.base.model.FormPurview;
+import com.whollyframework.authentications.Authorizations;
 import com.whollyframework.util.HtmlEncoder;
 
 /**
@@ -23,27 +23,27 @@ public class ExpressionUtil {
 	/**
 	 * 获取自定义按钮是否显示
 	 * 
-	 * @param formPurview
+	 * @param authorizations
 	 *            权限控制类
-	 * @param key
+	 * @param button
 	 *            自定义按钮标识名
 	 * @return
 	 */
-	public static boolean getUserButton(FormPurview formPurview, String key) {
-		return formPurview.getUserButton(key);
+	public static boolean checkButton(Authorizations authorizations, String button) {
+		return authorizations.checkButton(button);
 	}
 
 	/**
 	 * 获取字段是否只读
 	 * 
-	 * @param formPurview
+	 * @param authorizations
 	 *            权限控制类
-	 * @param key
+	 * @param fieldName
 	 *            字段标识名
 	 * @return
 	 */
-	public static boolean getFieldReadOnly(FormPurview formPurview, String key) {
-		return formPurview.getFieldReadOnly(key);
+	public static boolean checkFieldReadyOnly(Authorizations authorizations, String fieldName) {
+		return authorizations.checkFieldReadyOnly(fieldName);
 	}
 	
 	@SuppressWarnings("rawtypes")

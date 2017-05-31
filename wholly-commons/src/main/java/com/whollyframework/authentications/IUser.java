@@ -92,12 +92,6 @@ public interface IUser extends IValueObject {
 	boolean isAdmin();
 	
 	/**
-	 * 职务
-	 * @return
-	 */
-	String getStation();
-	
-	/**
 	 * 身份证ID
 	 * @return
 	 */

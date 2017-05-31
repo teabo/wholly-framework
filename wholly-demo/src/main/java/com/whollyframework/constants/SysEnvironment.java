@@ -80,20 +80,20 @@ public class SysEnvironment {
 		return Environment.getInstance().getContextPath();
 	}
 
-	public String get_wwwServer() {
-		return Environment.getInstance().get_wwwServer();
+	public String getServerName() {
+		return Environment.getInstance().getServerName();
 	}
 
-	public void set_wwwServer(String _wwwServer) {
-		Environment.getInstance().set_wwwServer(_wwwServer);;
+	public void setServerName(String serverName) {
+		Environment.getInstance().setServerName(serverName);
 	}
 
-	public int get_wwwPort() {
-		return Environment.getInstance().get_wwwPort();
+	public int getServerPort() {
+		return Environment.getInstance().getServerPort();
 	}
 
-	public void set_wwwPort(int _wwwPort) {
-		Environment.getInstance().set_wwwPort(_wwwPort);
+	public void setServerPort(int serverPort) {
+		Environment.getInstance().setServerPort(serverPort);
 	}
 
 	public String getContext(String uri) {

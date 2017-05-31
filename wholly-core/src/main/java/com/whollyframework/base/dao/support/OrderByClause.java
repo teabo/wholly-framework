@@ -1,7 +1,5 @@
 package com.whollyframework.base.dao.support;
 
-import org.hibernate.criterion.Order;
-
 /**
  * Class that describes a sort order.
  * 
@@ -40,10 +38,6 @@ public class OrderByClause {
                 (sortOrder == SortOrder.DESC) ? " DESC " : " ASC ");
         
         return retVal.toString();
-    }
-    
-    public Order toOrder() {
-        return (sortOrder == SortOrder.DESC) ? Order.desc(columnName) : Order.asc(columnName);
     }
     
     public boolean equals(Object o) {

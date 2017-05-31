@@ -38,7 +38,7 @@
 
 	
 	<!-- project default level -->
-	<logger name="com.sunshine" level="INFO" />
+	<logger name="com.whollyframework" level="INFO" />
 	
 	<root level="DEBUG">
 		<appender-ref ref="console" />

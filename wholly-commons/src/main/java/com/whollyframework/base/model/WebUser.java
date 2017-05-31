@@ -8,6 +8,7 @@ import com.whollyframework.authentications.IGroup;
 import com.whollyframework.authentications.IOrganization;
 import com.whollyframework.authentications.IPermission;
 import com.whollyframework.authentications.IRole;
+import com.whollyframework.authentications.IUserExtend;
 import com.whollyframework.authentications.IWebUser;
 
 /**
@@ -23,14 +24,8 @@ public class WebUser extends BaseUser implements IWebUser{
 
 	public WebUser(BaseUser user){
 		this.setId(user.getId());
-		this.setEmail(user.getEmail());
 		this.setLoginName(user.getLoginName());
 		this.setCertId(user.getCertId());
-		this.setEducation(user.getEducation());
-		this.setPhotoUrl(user.getPhotoUrl());
-		this.setTelephone(user.getTelephone());
-		this.setOfferphone(user.getOfferphone());
-		this.setStation(user.getStation());
 		this.setUserName(user.getUserName());
 		this.setSuperior(user.getSuperior());
 		this.setUserLevel(user.getUserLevel());
@@ -38,6 +33,7 @@ public class WebUser extends BaseUser implements IWebUser{
 		this.setGroups(user.getGroups());
 		this.setPermissions(user.getPermissions());
 		this.setRoles(user.getRoles());
+		this.setUserExtend(user.getUserExtend());
 	}
 
 	private List<? extends IRole> roles;
@@ -53,6 +49,8 @@ public class WebUser extends BaseUser implements IWebUser{
 	private String _onlineUserid;
 	
 	private String _sessionid;
+	
+	private IUserExtend userExtend;
 	
 	public List<? extends IRole> getRoles() {
 		return roles;
@@ -139,5 +137,13 @@ public class WebUser extends BaseUser implements IWebUser{
 	
 	public String getSessionid() {
 		return _sessionid;
+	}
+	
+	public IUserExtend getUserExtend() {
+		return userExtend;
+	}
+
+	public void setUserExtend(IUserExtend userExtend) {
+		this.userExtend = userExtend;
 	}
 }

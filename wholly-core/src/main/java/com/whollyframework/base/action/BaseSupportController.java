@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.whollyframework.authentications.Authorizations;
 import com.whollyframework.authentications.IWebUser;
 import com.whollyframework.base.model.DataPackage;
 import com.whollyframework.base.model.ParamsTable;
@@ -51,6 +52,8 @@ public abstract class BaseSupportController<E, ID extends Serializable> implemen
 	protected DataPackage<E> datas;
 
 	protected ID[] _selects;
+	
+	protected Authorizations authorizations = new Authorizations();
 
 	/**
 	 * 路径命名空间
@@ -75,6 +78,8 @@ public abstract class BaseSupportController<E, ID extends Serializable> implemen
 	private ArrayList<String> actionMessages = new ArrayList<String>();
 
 	private IWebUser user;
+	
+	private String viewSuffix = ".jsp";
 
 	public BaseSupportController(E content) {
 		this.content = content;
@@ -117,6 +122,17 @@ public abstract class BaseSupportController<E, ID extends Serializable> implemen
 		return result;
 	}
 
+	@RequestMapping(value = "/saveAndNew")
+	public String saveAndNew(E content, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		this.setRequest(request);
+		this.setResponse(response);
+		this.setContent(content);
+		String result = saveAndNew();
+		setAttribute("content", getContent());
+		setActionNotices();
+		return result;
+	}
+
 	@RequestMapping(value = "/list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		this.setRequest(request);
@@ -126,20 +142,22 @@ public abstract class BaseSupportController<E, ID extends Serializable> implemen
 		setActionNotices();
 		return result;
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/delete")
-	public String delete(ID[] _selects, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String delete(@RequestParam(value = "_selects")String[] _selects, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		this.setRequest(request);
 		this.setResponse(response);
-		this._selects = _selects;
+		this._selects = (ID[]) _selects;
 		return delete();
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/deleteAjax")
-	public void deleteAjax(ID[] _selects, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void deleteAjax(@RequestParam(value = "_selects")String[] _selects, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		this.setRequest(request);
 		this.setResponse(response);
-		this._selects = _selects;
+		this._selects = (ID[]) _selects;
 		deleteAjax();
 	}
 	
@@ -165,6 +183,8 @@ public abstract class BaseSupportController<E, ID extends Serializable> implemen
 	protected abstract String edit();
 
 	protected abstract String save();
+	
+	protected abstract String saveAndNew();
 
 	protected abstract String list();
 
@@ -179,6 +199,9 @@ public abstract class BaseSupportController<E, ID extends Serializable> implemen
 	protected String forward(String viewpath) {
 		StringBuilder path = new StringBuilder();
 		path.append(namespace).append("/").append(viewpath);
+		if (viewpath.indexOf(".action")==-1){
+			path.append(viewSuffix);
+		}
 		return path.toString();
 	}
 
@@ -189,7 +212,12 @@ public abstract class BaseSupportController<E, ID extends Serializable> implemen
 	 * @return
 	 */
 	protected String fullPathForward(String viewpath) {
-		return viewpath;
+		StringBuilder path = new StringBuilder();
+		path.append(viewpath);
+		if (viewpath.indexOf(".action")==-1){
+			path.append(viewSuffix);
+		}
+		return path.toString();
 	}
 
 	/**
@@ -201,6 +229,9 @@ public abstract class BaseSupportController<E, ID extends Serializable> implemen
 	protected String redirect(String viewpath) {
 		StringBuilder path = new StringBuilder();
 		path.append("redirect:").append(namespace).append("/").append(viewpath);
+		if (viewpath.indexOf(".action")==-1){
+			path.append(viewSuffix);
+		}
 		return path.toString();
 	}
 
@@ -213,6 +244,9 @@ public abstract class BaseSupportController<E, ID extends Serializable> implemen
 	protected String fullPathRedirect(String viewpath) {
 		StringBuilder path = new StringBuilder();
 		path.append("redirect:").append(viewpath);
+		if (viewpath.indexOf(".action")==-1){
+			path.append(viewSuffix);
+		}
 		return path.toString();
 	}
 
@@ -372,10 +406,15 @@ public abstract class BaseSupportController<E, ID extends Serializable> implemen
 	}
 
 	protected void setActionNotices() {
-		request.setAttribute("hasFieldErrors", hasFieldErrors());
-		request.setAttribute("hasActionMessages", hasActionMessages());
-		request.setAttribute("fieldErrors", fieldErrors);
-		request.setAttribute("actionMessages", actionMessages);
+		request.setAttribute(Web.SCOPE_ATTRIBUTE_AUTHORIZATIONS, authorizations);
+		request.setAttribute(Web.SCOPE_ATTRIBUTE_HAS_FIELDERRORS, hasFieldErrors());
+		request.setAttribute(Web.SCOPE_ATTRIBUTE_HAS_ACTIONMESSAGES, hasActionMessages());
+		request.setAttribute(Web.SCOPE_ATTRIBUTE_FIELDERRORS, fieldErrors);
+		request.setAttribute(Web.SCOPE_ATTRIBUTE_ACTIONMESSAGES, actionMessages);
+	}
+	
+	public void setNamespaceToScope(HttpServletRequest request){
+		request.setAttribute(Web.SCOPE_ATTRIBUTE_NAMESPACE, namespace);
 	}
 
 	public void addFieldError(String key, String value) {
@@ -401,4 +440,13 @@ public abstract class BaseSupportController<E, ID extends Serializable> implemen
 	public void setUser(IWebUser user) {
 		this.user = user;
 	}
+
+	public String getViewSuffix() {
+		return viewSuffix;
+	}
+
+	public void setViewSuffix(String viewSuffix) {
+		this.viewSuffix = viewSuffix;
+	}
+	
 }

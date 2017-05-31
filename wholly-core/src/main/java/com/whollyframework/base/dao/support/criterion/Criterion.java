@@ -5,6 +5,4 @@ public interface Criterion {
     String toSqlString();
     
     Object[] getParamValues();
-    
-    org.hibernate.criterion.Criterion buildHibernateCriterion();
 }

@@ -402,7 +402,30 @@ public abstract class AbstractSQLUtils {
 				cndtn.append(" ( ");
 				for (int j = 0; j < vallist.length; j++) {
 					val = vallist[j];
+					// $b$[aField!=bField]n_wField 或 $b$[aField=bField]n_wField
+					// $b$[aField!=bField]s_wField 或 $b$[aField=bField]s_wField
+					if (prmn.toLowerCase().startsWith("$")) {
+						Pattern pattern = Pattern.compile("[$(\\[){1}(!=){1}=(\\]){1}]+");
+						String[] fields = pattern.split(prmn);
+						if (fields != null && fields.length == 5) {
+							fieldname = fields[4].substring(fields[4].indexOf("_") + 1);
+							StringBuilder sql = new StringBuilder();
+							if (prmn.indexOf("!=") > 0) {
+								sql.append(fields[2]).append(" not in ");
+							} else {
+								sql.append(fields[2]).append("in ");
+							}
+							
+							sql.append("(select ").append(fields[3]).append(" from ").append(fields[1]);
 
+							ParamsTable p = new ParamsTable();
+							p.setParameter(fields[4], val);
+							sql.append(" where ").append(this.createWhereWithString(p)).append(")");
+							
+							cndtn.append(sql).append(" or ");
+						}
+						continue;
+					}
 					// 等于(number equals) 或 等于(string equals)
 					if ((prmn.toLowerCase().startsWith(OPERATIONS.get(OP_NUM_EQUALS))) && val.length() > 0) {
 						cndtn.append(fieldname).append(" = ").append(val).append(" or ");

@@ -1,7 +1,5 @@
 package com.whollyframework.base.dao.support.criterion;
 
-import org.hibernate.criterion.Restrictions;
-
 public class NotCriterion implements Criterion {
 	private final Criterion criterion;
 
@@ -27,10 +25,6 @@ public class NotCriterion implements Criterion {
 	@Override
 	public String toString() {
 		return "not " + criterion.toString();
-	}
-
-	public org.hibernate.criterion.Criterion buildHibernateCriterion() {
-		return Restrictions.not(criterion.buildHibernateCriterion());
 	}
 
 	public String getType() {

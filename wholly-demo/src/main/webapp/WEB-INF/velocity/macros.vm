@@ -1,0 +1,8 @@
+#*取得页面链接基地址*#
+#macro(baseUrl)
+	${req.getBaseUrl($request)}
+#end
+
+#macro(ctxPath)
+	${req.getContextPath($request)}
+#end

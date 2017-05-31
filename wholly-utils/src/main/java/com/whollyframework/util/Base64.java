@@ -213,10 +213,16 @@ public class Base64 {
 	}
 	
 	public static void main(String[] args) {
-		String data = "中华人民共和国";
-		byte[] result = Base64.encode(data.getBytes());
-		System.out.println(data);
-		System.out.println(new String(result));
-		System.out.println(new String(Base64.decode(new String(result))));
+		String str = "http://212.201.208.22:2212/entry?C=0300000001&ContentID=000001000000045903&F=72103_72104";
+		str = str + str + str + str + str;
+		byte [] b= org.apache.commons.net.util.Base64.encodeBase64(str.getBytes());
+		System.out.println(new String(b));  
+		b=org.apache.commons.net.util.Base64.decodeBase64(b);  
+        System.out.println(new String(b));  
+		
+        byte [] s= Base64.encode(str.getBytes());  
+        System.out.println(new String(s));  
+        s=Base64.decode(s);  
+        System.out.println(new String(s));  
 	}
 }

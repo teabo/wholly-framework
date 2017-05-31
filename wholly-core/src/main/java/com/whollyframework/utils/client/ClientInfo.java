@@ -36,7 +36,7 @@ public class ClientInfo {
 
 	public ClientInfo(String info) {
 		this.info = info;
-		userAgent = UserAgent.parseUserAgentString(info);
+		userAgent = new UserAgent(info);
 	}
 
 	/**

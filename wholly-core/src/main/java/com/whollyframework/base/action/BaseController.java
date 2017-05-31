@@ -86,6 +86,29 @@ public abstract class BaseController<E, ID extends Serializable> extends
 		}
 		return redirect("list.action");
 	}
+	
+	protected String saveAndNew() {
+		boolean isNew = ((ValueObject) getContent()).getIstemp() == 1;
+		try {
+			if (!preAction())
+				return forward("content");
+			setPublicVariables();
+			// Save the value object and return the success message.
+			if (isNew)
+				getService().doCreate(getContent());
+			else
+				getService().doUpdate(getContent());
+
+			this.addActionMessage("保存成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.addFieldError("1", e.getMessage());
+			if (isNew)
+				((ValueObject) getContent()).setIstemp(1);
+			return forward("content");
+		}
+		return create();
+	}
 
 	protected String list() {
 		try {

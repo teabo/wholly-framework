@@ -30,7 +30,7 @@ public class CalendarUtil {
 		return thisMonth;
 	}
 
-	public Map<String, String> get_year() {
+	public Map<String, String> getYear() {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy");
 		String stryear = format.format(new Date());
@@ -42,7 +42,7 @@ public class CalendarUtil {
 		return map;
 	}
 
-	public Map<String, String> get_month() {
+	public Map<String, String> getMonth() {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		for (int i = 1; i < 13; i++) {
 			if (i < 10)

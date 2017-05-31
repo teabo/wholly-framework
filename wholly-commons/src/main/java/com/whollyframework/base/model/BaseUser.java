@@ -1,6 +1,7 @@
 package com.whollyframework.base.model;
 
 import com.whollyframework.authentications.IUser;
+import com.whollyframework.authentications.IUserExtend;
 
 
 /**
@@ -44,6 +45,11 @@ public abstract class BaseUser extends ValueObject implements IUser {
 	 * 用户姓名
 	 */
 	private String name;
+	
+	/**
+	 * 用户性别
+	 */
+	private String sex;
 
 	/**
 	 * 用户登录名
@@ -66,52 +72,18 @@ public abstract class BaseUser extends ValueObject implements IUser {
 	private String certId; 
 
 	/**
-	 * 性别
-	 */
-	private String sex;
-
-	/**
-	 * 移动电话
-	 */
-	private String telephone;
-
-	/**
-	 * 办公电话
-	 */
-	private String offerphone;
-	
-	/**
-	 * 学历
-	 */
-	private String education;
-	
-	/**
-	 * 相片路径
-	 */
-	private String photoUrl;
-
-	/**
 	 * 上级用户对象
 	 */
 	private IUser superior;
 
 	/**
-	 * Email地址
-	 */
-	private String email;
-
-	/**
 	 * 用户等级
 	 */
 	protected int userLevel;
-
 	/**
-	 * 职务
+	 * 用户状态。 0:禁用；1:启用
 	 */
-	private String station;
-	
-	/**状态  1.在职 2.离职**/
-    private int state = 1;
+	private int status; 
     
 	public String getName() {
 		return name;
@@ -121,6 +93,14 @@ public abstract class BaseUser extends ValueObject implements IUser {
 		this.name = name;
 	}
 	
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
 	public String getUserName() {
 		return name;
 	}
@@ -161,60 +141,12 @@ public abstract class BaseUser extends ValueObject implements IUser {
 		this.certId = certId;
 	}
 
-	public String getSex() {
-		return sex;
-	}
-
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-
-	public String getTelephone() {
-		return telephone;
-	}
-
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-
-	public String getOfferphone() {
-		return offerphone;
-	}
-
-	public void setOfferphone(String offerphone) {
-		this.offerphone = offerphone;
-	}
-
-	public String getEducation() {
-		return education;
-	}
-
-	public void setEducation(String education) {
-		this.education = education;
-	}
-
-	public String getPhotoUrl() {
-		return photoUrl;
-	}
-
-	public void setPhotoUrl(String photoUrl) {
-		this.photoUrl = photoUrl;
-	}
-
 	public IUser getSuperior() {
 		return superior;
 	}
 
 	public void setSuperior(IUser superior) {
 		this.superior = superior;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public int getUserLevel() {
@@ -225,20 +157,16 @@ public abstract class BaseUser extends ValueObject implements IUser {
 		this.userLevel = userLevel;
 	}
 
-	public String getStation() {
-		return station;
+	/**
+	 * 用户状态。
+	 * @return  0:禁用；1:启用
+	 */
+	public int getStatus() {
+		return status;
 	}
 
-	public void setStation(String station) {
-		this.station = station;
-	}
-
-	public int getState() {
-		return state;
-	}
-
-	public void setState(int state) {
-		this.state = state;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public boolean isAdmin() {
@@ -263,4 +191,8 @@ public abstract class BaseUser extends ValueObject implements IUser {
 	public boolean isSuperAdmin() {
 		return ADMIN_SUPER_TYPE==(userLevel&ADMIN_SUPER_TYPE);
 	}
+	
+	public abstract IUserExtend getUserExtend();
+	
+	public abstract void setUserExtend(IUserExtend userExtend);
 }

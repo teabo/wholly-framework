@@ -1,19 +1,17 @@
 package com.whollyframework.base.dao.support.criterion;
 
-import org.hibernate.criterion.Restrictions;
-
 public class SingleCriterion implements Criterion {
 	private final String propertyName;
-	private final Op op;
+	private final Operation operation;
 
-	public SingleCriterion(String propertyName, Op op) {
+	public SingleCriterion(String propertyName, Operation op) {
 		this.propertyName = propertyName;
-		this.op = op;
+		this.operation = op;
 	}
 
 	/**
      */
-	public enum Op {
+	public enum Operation {
 		NULL, NOTNULL, EMPTY, NOTEMPTY;
 
 		public String getValueType() {
@@ -36,13 +34,18 @@ public class SingleCriterion implements Criterion {
 		return propertyName;
 	}
 
-	public String getOp() {
-		return op.getValueType();
+	public String getOpName() {
+		return operation.getValueType();
+	}
+	
+	public Operation getOperation() {
+		return operation;
 	}
 
+	
 	public String toSqlString() {
 		final StringBuilder fragment = new StringBuilder();
-		fragment.append(getPropertyName()).append(getOp());
+		fragment.append(getPropertyName()).append(getOpName());
 		return fragment.toString();
 	}
 
@@ -52,23 +55,8 @@ public class SingleCriterion implements Criterion {
 
 	public String toString() {
 		final StringBuilder fragment = new StringBuilder();
-		fragment.append(getPropertyName()).append(getOp());
+		fragment.append(getPropertyName()).append(getOpName());
 		return fragment.toString();
-	}
-
-	public org.hibernate.criterion.Criterion buildHibernateCriterion() {
-		switch (op) {
-		case NULL:
-			return Restrictions.isNull(getPropertyName());
-		case NOTNULL:
-			return Restrictions.isNotNull(getPropertyName());
-		case EMPTY:
-			return Restrictions.isEmpty(getPropertyName());
-		case NOTEMPTY:
-			return Restrictions.isNotEmpty(getPropertyName());
-		default:
-			return null;
-		}
 	}
 
 	public String getType() {

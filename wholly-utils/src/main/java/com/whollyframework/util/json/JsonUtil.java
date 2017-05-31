@@ -11,10 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig.Feature;
@@ -27,6 +23,10 @@ import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
 import com.whollyframework.util.StringUtil;
 import com.whollyframework.util.tree.JNode;
 import com.whollyframework.util.tree.Node;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 /**
  * @proejct yun-app
@@ -106,20 +106,11 @@ public class JsonUtil {
 	}
 
 	public static Object toBean(String jsonStr, Class<?> objClass) {
-		JSONObject jsonObject = JSONObject.fromObject(jsonStr);
-		Object obj = JSONObject.toBean(jsonObject, objClass);
-		return obj;
-	}
-
-	public static String collection2Json(Collection<?> collection) {
-		return collection2Json(collection, new String[] {});
-	}
-
-	public static String collection2Json(Collection<?> collection, String[] excludes) {
-		JsonConfig jsonConfig = new JsonConfig();
-		JSONArray jsonArray = JSONArray.fromObject(collection, jsonConfig);
-
-		return jsonArray.toString();
+		try {
+			return getMapper().readValue(jsonStr, objClass);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	/**
@@ -198,9 +189,6 @@ public class JsonUtil {
 	public static ObjectMapper getMapper() {
 		if (mapper == null) {
 			mapper = new ObjectMapper(); // can reuse, share globally
-			mapper.configure(Feature.WRITE_NULL_MAP_VALUES, false);
-			mapper.setSerializationInclusion(Inclusion.NON_NULL);
-			mapper.getSerializerProvider().setNullKeySerializer(new CustomNullKeySerializer());
 			mapper.setAnnotationIntrospector(new CustomFilteringIntrospector());
 			
 		}
@@ -246,11 +234,10 @@ public class JsonUtil {
 		String json = toJson(attr);
 		System.out.println(json);
 		
-//		json = collection2Json(list);
-//		System.out.println(json);
-//		
-//		node.setAttr(valueMap);
-//		json = collection2Json(list);
-//		System.out.println(json);
+		json = toJson(list);
+		System.out.println(json);
+		
+		json = toJson2(list);
+		System.out.println(json);
 	}
 }

@@ -23,11 +23,11 @@ public abstract class Tree<E> {
 	public abstract void search();
 
 	public String toJSON() {
-		return JsonUtil.collection2Json(childNodes);
+		return JsonUtil.toJson(childNodes);
 	}
 
 	public String toSearchJSON() {
-		return JsonUtil.collection2Json(searchNodes);
+		return JsonUtil.toJson(searchNodes);
 	}
 
 	public Collection<String> getSearchNodes() {

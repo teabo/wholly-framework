@@ -1,0 +1,10 @@
+<html>
+<head>
+<title>hello!</title>
+#parse("/common.vm")
+</head>
+<body>
+#parse("/msg.vm")
+<h1>Hello, ${name}!</h1>
+</body>
+</html>

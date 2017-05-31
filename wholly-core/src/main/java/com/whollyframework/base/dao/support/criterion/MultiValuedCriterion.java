@@ -1,15 +1,13 @@
 package com.whollyframework.base.dao.support.criterion;
 
-import org.hibernate.criterion.Restrictions;
-
 public class MultiValuedCriterion implements Criterion {
 	private final String propertyName;
 	private final Object[] values;
-	private final Op op;
+	private final Operation operation;
 
 	/**
      */
-	public enum Op {
+	public enum Operation {
 		IN, NOT_IN, BETWEEN;
 
 		public String getValueType() {
@@ -26,10 +24,10 @@ public class MultiValuedCriterion implements Criterion {
 		}
 	}
 
-	public MultiValuedCriterion(String propertyName, Object[] values, Op op) {
+	public MultiValuedCriterion(String propertyName, Object[] values, Operation op) {
 		this.propertyName = propertyName;
 		this.values = values;
-		this.op = op;
+		this.operation = op;
 	}
 
 	public String getPropertyName() {
@@ -40,17 +38,21 @@ public class MultiValuedCriterion implements Criterion {
 		return values;
 	}
 
-	public String getOp() {
-		return op.getValueType();
+	public Operation getOperation() {
+		return this.operation;
 	}
 
+	public String getOpName() {
+		return operation.getValueType();
+	}
+	
 	public String toSqlString() {
 		final StringBuilder fragment = new StringBuilder();
 		fragment.append("(").append(getPropertyName());
-		switch (op) {
+		switch (operation) {
 		case IN:
 		case NOT_IN:
-			fragment.append(getOp()).append("(");
+			fragment.append(getOpName()).append("(");
 			for (int i = 0; values != null && i < values.length; i++) {
 				if (i > 0) fragment.append(",");
 				fragment.append("?");
@@ -58,7 +60,7 @@ public class MultiValuedCriterion implements Criterion {
 			fragment.append(")");
 			break;
 		case BETWEEN:
-			fragment.append(getOp()).append("? AND ?");
+			fragment.append(getOpName()).append("? AND ?");
 			break;
 		default:
 			break;
@@ -75,10 +77,10 @@ public class MultiValuedCriterion implements Criterion {
 	public String toString() {
 		final StringBuilder fragment = new StringBuilder();
 		fragment.append("(").append(getPropertyName());
-		switch (op) {
+		switch (operation) {
 		case IN:
 		case NOT_IN:
-			fragment.append(getOp()).append("(");
+			fragment.append(getOpName()).append("(");
 			for (int i = 0; values != null && i < values.length; i++) {
 				if (i > 0) fragment.append(",");
 				fragment.append(values[i]);
@@ -86,7 +88,7 @@ public class MultiValuedCriterion implements Criterion {
 			fragment.append(")");
 			break;
 		case BETWEEN:
-			fragment.append(getOp()).append(values[0]).append(" AND ").append(values[1]);
+			fragment.append(getOpName()).append(values[0]).append(" AND ").append(values[1]);
 			break;
 		default:
 			break;
@@ -94,19 +96,6 @@ public class MultiValuedCriterion implements Criterion {
 		fragment.append(")");
 
 		return fragment.toString();
-	}
-
-	public org.hibernate.criterion.Criterion buildHibernateCriterion() {
-		switch (op) {
-		case IN:
-			return Restrictions.in(getPropertyName(), values);
-		case NOT_IN:
-			return Restrictions.not(Restrictions.in(getPropertyName(), values));
-		case BETWEEN:
-			return Restrictions.between(getPropertyName(), values[0], values[1]);
-		default:
-			return null;
-		}
 	}
 
 	public String getType() {

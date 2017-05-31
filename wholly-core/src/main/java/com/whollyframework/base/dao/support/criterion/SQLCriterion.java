@@ -1,7 +1,5 @@
 package com.whollyframework.base.dao.support.criterion;
 
-import org.hibernate.criterion.Restrictions;
-
 public class SQLCriterion implements Criterion {
 	private final String sql;
 
@@ -19,10 +17,6 @@ public class SQLCriterion implements Criterion {
 
 	public Object[] getParamValues() {
 		return new Object[0];
-	}
-
-	public org.hibernate.criterion.Criterion buildHibernateCriterion() {
-		return Restrictions.sqlRestriction(sql);
 	}
 
 	public String getType() {

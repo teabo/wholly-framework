@@ -58,22 +58,12 @@ public class SecurityFilter extends HttpServlet implements Filter {
 			e1.printStackTrace();
 		}
 	}
-
-	public void doFilter(ServletRequest request, ServletResponse response,
+	
+	protected void doFilterInteral(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-
+		
 		HttpServletRequest hreq = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
-		String wwwServer = Environment.getInstance().get_wwwServer();
-		int wwwPort = Environment.getInstance().get_wwwPort();
-		if (StringUtil.isBlank(wwwServer)){
-			Environment.getInstance().set_wwwServer(hreq.getLocalAddr());
-		}
-		if (wwwPort==-1){
-			Environment.getInstance().set_wwwPort(hreq.getServerPort());
-		}
-		// 获取参数前需设置编码
-		request.setCharacterEncoding(Environment.getInstance().getEncoding());
 		String uri = hreq.getRequestURI();
 
 		if (ANONYMOUS_ACCESS){
@@ -134,6 +124,23 @@ public class SecurityFilter extends HttpServlet implements Filter {
 				resp.sendRedirect(hreq.getContextPath() + "/security/denied.jsp");
 			}
 		}
+	}
+
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		HttpServletRequest hreq = (HttpServletRequest) request;
+		String wwwServer = Environment.getInstance().getServerName();
+		int wwwPort = Environment.getInstance().getServerPort();
+		if (StringUtil.isBlank(wwwServer)){
+			Environment.getInstance().setServerName(hreq.getLocalAddr());
+		}
+		if (wwwPort==-1){
+			Environment.getInstance().setServerPort(hreq.getServerPort());
+		}
+		// 获取参数前需设置编码
+		request.setCharacterEncoding(Environment.getInstance().getEncoding());
+		
+		doFilterInteral(request, response, chain);
 	}
 
 	/**

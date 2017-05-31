@@ -5,7 +5,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.sunshine.core.user.model.UserVO" table="T_USER_TEST2"
+	<class name="com.whollyframework.web.user.model.UserVO" table="T_USER_TEST2"
 		dynamic-update="true" lazy="false" batch-size="10">
 
 		<id name="id" column="ID" type="java.lang.String">

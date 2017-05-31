@@ -1,5 +1,5 @@
 <%@page import="com.whollyframework.utils.Dispatcher"%>
-<%@ taglib prefix="o" uri="teabo"%>
+<%@ taglib prefix="o" uri="wholly"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isErrorPage="true"%>
 <html>

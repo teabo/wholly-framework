@@ -2,18 +2,12 @@ package com.whollyframework.base.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-
 /**
- * 对于基于jpa和hibernate管理的实体类，统一主键生成策略
+ * 实体类
  * 
  * @author chris xu
  * 
  */
-@MappedSuperclass
 public class ValueObject extends VersionSupport {
 
 	/**
@@ -72,9 +66,6 @@ public class ValueObject extends VersionSupport {
 
 	private int istemp;
 
-	@Id
-	@GeneratedValue(generator = "generator")
-	@Column(name = "ID")
 	public String getId() {
 		return id;
 	}

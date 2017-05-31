@@ -4,6 +4,19 @@ package com.whollyframework.constans;
  * The web variable.
  */
 public class Web {
+	
+	public static final String  SCOPE_ATTRIBUTE_NAMESPACE = "namespace";
+	
+	public static final String  SCOPE_ATTRIBUTE_AUTHORIZATIONS = "authorizations";
+	
+	public static final String  SCOPE_ATTRIBUTE_HAS_FIELDERRORS = "hasFieldErrors";
+	
+	public static final String  SCOPE_ATTRIBUTE_FIELDERRORS = "fieldErrors";
+	
+	public static final String  SCOPE_ATTRIBUTE_HAS_ACTIONMESSAGES = "hasActionMessages";
+	
+	public static final String  SCOPE_ATTRIBUTE_ACTIONMESSAGES = "actionMessages";
+	
 	public static final String DEFAULT_SHOWPASSWORD = "888888";
 
 	/**
@@ -44,6 +57,8 @@ public class Web {
 	
 	public static final String CURRENT_SKIN = "skin";
 	
+	public static final String FRAMEWORK_PROPERTIES_FILE = "default.properties";
+	
 	public static final String FRAMEWORK_ANONYMOUS_ACCESS = "whollyframework.anonymous.access";
 	
 	public static final String FRAMEWORK_ADMIN_ACCESS = "whollyframework.admin.access";
@@ -57,6 +72,9 @@ public class Web {
 	public static final String FRAMEWORK_ERROR_URI = "whollyframework.error.uri";
 	
 	public static final String FRAMEWORK_WEBSITE_TITLE = "whollyframework.website.title";
+	
+	public static final String FRAMEWORK_I18N_ENCODING = "whollyframework.i18n.encoding";
+	
 	
 	
 }

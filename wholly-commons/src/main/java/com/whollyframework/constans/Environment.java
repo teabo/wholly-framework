@@ -18,9 +18,8 @@ import org.slf4j.LoggerFactory;
  * The environment variable.
  */
 public class Environment implements Serializable {
-	
-	private static final Logger log = LoggerFactory.getLogger(Environment.class);
 
+	private static final Logger log = LoggerFactory.getLogger(Environment.class);
 	/**
 	 * 
 	 */
@@ -56,14 +55,14 @@ public class Environment implements Serializable {
 	private Environment() {
 		Properties prop = new Properties();
 		InputStream is = Environment.class.getClassLoader()
-				.getResourceAsStream("default.properties");
+				.getResourceAsStream(Web.FRAMEWORK_PROPERTIES_FILE);
 		try {
 			prop.load(is);
 		} catch (IOException e) {
-			log.error("加载属性文件\"default.properties\"异常：",e);
+			e.printStackTrace();
 		}
 
-		setEncoding(prop.getProperty("teabo.framework.i18n.encoding"));
+		setEncoding(prop.getProperty(Web.FRAMEWORK_I18N_ENCODING));
 	}
 
 	public static Environment getInstance() {
@@ -119,20 +118,28 @@ public class Environment implements Serializable {
 		return _contextPath;
 	}
 
-	public String get_wwwServer() {
+	/**
+	 * http://localhost:8080/demo
+	 * @return localhost
+	 */
+	public String getServerName() {
 		return _wwwServer;
 	}
 
-	public void set_wwwServer(String _wwwServer) {
-		this._wwwServer = _wwwServer;
+	public void setServerName(String serverName) {
+		this._wwwServer = serverName;
 	}
 
-	public int get_wwwPort() {
+	/**
+	 * http://localhost:8080/demo
+	 * @return 8080
+	 */
+	public int getServerPort() {
 		return _wwwPort;
 	}
-
-	public void set_wwwPort(int _wwwPort) {
-		this._wwwPort = _wwwPort;
+	
+	public void setServerPort(int serverPort) {
+		this._wwwPort = serverPort;
 	}
 
 	public String getContext(String uri) {

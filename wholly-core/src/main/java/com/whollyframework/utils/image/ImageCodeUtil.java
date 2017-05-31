@@ -29,6 +29,7 @@ public class ImageCodeUtil {
     private static ConfigurableCaptchaService cs                = new ConfigurableCaptchaService();
     static {
         // cs.setColorFactory(new SingleColorFactory(new Color(25, 60, 170)));
+    	System.setProperty("java.awt.headless", "true");
         cs.setColorFactory(new ColorFactory() {
             public Color getColor(int x) {
                 int[] c = new int[3];

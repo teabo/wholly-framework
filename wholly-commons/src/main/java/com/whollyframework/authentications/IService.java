@@ -1,5 +1,7 @@
 package com.whollyframework.authentications;
 
+import java.io.Serializable;
+
 
 
 
@@ -7,11 +9,11 @@ package com.whollyframework.authentications;
  * @author Chris Xu
  * @since 2011-4-29 上午10:56:18
  */
-public interface IService {
+public interface IService<E, ID extends Serializable> {
 
 	/**
-	 * @param authorId
+	 * @param id
 	 * @return
 	 */
-	public IValueObject find(String authorId) throws Exception;
+	public E find(ID id) throws Exception;
 }

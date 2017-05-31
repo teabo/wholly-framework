@@ -1,0 +1,34 @@
+#set ($cxtPath = ${req.contextPath})
+<script type="text/javascript">
+var contextPath = '${cxtPath}';
+</script>
+<link rel="stylesheet" href="${cxtPath}/res/css/default_charset.css" />
+<link rel="stylesheet" href="${cxtPath}/res/css/main/base.css" />
+<link rel="stylesheet" href="${cxtPath}/res/component/easyui/themes/default/easyui.css">
+<link rel="stylesheet" href="${cxtPath}/res/css/main/main.css" />
+<link rel="stylesheet" href="${cxtPath}/res/component/easyui/themes/icon.css">
+<link rel="stylesheet" href="${cxtPath}/res/component/easyui/themes/default/classic-default.css" />
+
+
+<link rel="stylesheet" href="${cxtPath}/res/component/msgbox/messagebox.css" />
+<!--[if !IE]><!--> 
+<script type="text/javascript" src="${cxtPath}/res/js/jquery-2.0.0.min.js"></script>
+<!--<![endif]-->
+<!--[if gte IE 9]> 
+<script type="text/javascript" src="${cxtPath}/res/js/jquery-2.0.0.min.js"></script>
+<![endif]-->
+<!--[if lt IE 9]> 
+<script type="text/javascript" src="${cxtPath}/res/js/jquery-1.9.1.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="${cxtPath}/res/js/jquery.form.js"></script>
+<script type="text/javascript" src="${cxtPath}/res/js/jquery.ba-resize.min.js"></script>
+<script type="text/javascript" src="${cxtPath}/res/component/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${cxtPath}/res/component/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="${cxtPath}/res/component/msgbox/messagebox.js"></script>
+<script type="text/javascript" src="${cxtPath}/res/js/util.js"></script>
+<script type="text/javascript" src="${cxtPath}/res/js/math.js"></script>
+<script type="text/javascript" src="${cxtPath}/res/js/validation.js"></script>
+
+
+
+
