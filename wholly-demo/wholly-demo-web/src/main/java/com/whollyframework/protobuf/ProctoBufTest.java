@@ -39,37 +39,37 @@ public class ProctoBufTest {
         final MessagePojo pojoOBj = getPojoBean();
 
         // Serializable测试
-//        testTemplate(new TestCallback() {
-//
-//            public String getName() {
-//                return "Serializable Test";
-//            }
-//
-//            @Override
-//            public byte[] writeObject(Object source) {
-//                try {
-//                    ByteArrayOutputStream bout = new ByteArrayOutputStream();
-//                    ObjectOutputStream output = new ObjectOutputStream(bout);
-//                    output.writeObject(source);
-//                    return bout.toByteArray();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                return null;
-//            }
-//
-//            @Override
-//            public Object readObject(byte[] bytes) {
-//                try {
-//                    ByteArrayInputStream bin = new ByteArrayInputStream(bytes);
-//                    ObjectInputStream input = new ObjectInputStream(bin);
-//                    return input.readObject();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                return null;
-//            }
-//        }, pojoOBj, testCount);
+        testTemplate(new TestCallback() {
+
+            public String getName() {
+                return "Serializable Test";
+            }
+
+            @Override
+            public byte[] writeObject(Object source) {
+                try {
+                    ByteArrayOutputStream bout = new ByteArrayOutputStream();
+                    ObjectOutputStream output = new ObjectOutputStream(bout);
+                    output.writeObject(source);
+                    return bout.toByteArray();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            public Object readObject(byte[] bytes) {
+                try {
+                    ByteArrayInputStream bin = new ByteArrayInputStream(bytes);
+                    ObjectInputStream input = new ObjectInputStream(bin);
+                    return input.readObject();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }, pojoOBj, testCount);
 
         // protobuf测试
         testTemplate(new TestCallback() {

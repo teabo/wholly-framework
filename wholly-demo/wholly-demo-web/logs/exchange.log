@@ -1,0 +1,17 @@
+15:03:49.917 [Thread-1] ERROR org.apache.thrift.server.THsHaServer - run() exiting due to uncaught error
+java.lang.OutOfMemoryError: Java heap space
+	at java.nio.HeapByteBuffer.<init>(HeapByteBuffer.java:39) ~[na:1.6.0_27]
+	at java.nio.ByteBuffer.allocate(ByteBuffer.java:312) ~[na:1.6.0_27]
+	at org.apache.thrift.server.AbstractNonblockingServer$FrameBuffer.read(AbstractNonblockingServer.java:371) ~[libthrift-0.9.2.jar:0.9.2]
+	at org.apache.thrift.server.AbstractNonblockingServer$AbstractSelectThread.handleRead(AbstractNonblockingServer.java:203) ~[libthrift-0.9.2.jar:0.9.2]
+	at org.apache.thrift.server.TNonblockingServer$SelectAcceptThread.select(TNonblockingServer.java:207) ~[libthrift-0.9.2.jar:0.9.2]
+	at org.apache.thrift.server.TNonblockingServer$SelectAcceptThread.run(TNonblockingServer.java:158) ~[libthrift-0.9.2.jar:0.9.2]
+15:05:08.786 [pool-1-thread-1] WARN  o.a.t.s.AbstractNonblockingServer$FrameBuffer - Exception while invoking!
+org.apache.thrift.protocol.TProtocolException: Bad version in readMessageBegin
+	at org.apache.thrift.protocol.TBinaryProtocol.readMessageBegin(TBinaryProtocol.java:223) ~[libthrift-0.9.2.jar:0.9.2]
+	at org.apache.thrift.TBaseProcessor.process(TBaseProcessor.java:27) ~[libthrift-0.9.2.jar:0.9.2]
+	at org.apache.thrift.server.AbstractNonblockingServer$FrameBuffer.invoke(AbstractNonblockingServer.java:518) ~[libthrift-0.9.2.jar:0.9.2]
+	at org.apache.thrift.server.Invocation.run(Invocation.java:18) [libthrift-0.9.2.jar:0.9.2]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886) [na:1.6.0_27]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908) [na:1.6.0_27]
+	at java.lang.Thread.run(Thread.java:662) [na:1.6.0_27]
