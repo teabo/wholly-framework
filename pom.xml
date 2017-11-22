@@ -4,18 +4,21 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.whollyframework</groupId>
 	<artifactId>wholly-framework</artifactId>
-	<version>1.0.0-RC1</version>
+	<version>1.0.0-RC2</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<whollyframework.version>1.0.0-RC1</whollyframework.version>
+		<whollyframework.version>1.0.0-RC2</whollyframework.version>
 
+		<swagger.version>2.2.2</swagger.version>
+		<swagger.springmvc.version>1.0.2</swagger.springmvc.version>
+		<fasterxml.jackson.version>2.4.4</fasterxml.jackson.version>
 		<UserAgentUtils.version>1.20</UserAgentUtils.version>
 		<velocity.version>1.7</velocity.version>
 		<freemarker.version>2.3.23</freemarker.version>
-
+		
 		<patchca.version>0.5.0</patchca.version>
 		<aspectj.version>1.8.0</aspectj.version>
 		<junit.version>3.8.1</junit.version>
@@ -51,14 +54,56 @@
 		<mybatis.version>3.2.7</mybatis.version>
 		<mybatis-spring.version>1.2.2</mybatis-spring.version>
 		<ibatis-sqlmap.version>2.3.4.726</ibatis-sqlmap.version>
-		<springframework.version>3.2.11.RELEASE</springframework.version>
+		<!-- <springframework.version>3.2.11.RELEASE</springframework.version> -->
+		<springframework.version>4.1.7.RELEASE</springframework.version>
 		<spring-data-jpa.version>1.7.0.RELEASE</spring-data-jpa.version>
 		<springside.version>4.1.0.GA</springside.version>
 		<spring-mock.version>2.0.8</spring-mock.version>
+		
+		<bouncycastle.version>138</bouncycastle.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>bouncycastle</groupId>
+				<artifactId>bcprov-jdk14</artifactId>
+				<version>${bouncycastle.version}</version>
+			</dependency>
+			<!-- swagger-springmvc -->
+		    <dependency>
+		        <groupId>com.mangofactory</groupId>
+		        <artifactId>swagger-springmvc</artifactId>
+		        <version>${swagger.springmvc.version}</version>
+		    </dependency>
+		    <dependency>
+	            <groupId>io.springfox</groupId>
+	            <artifactId>springfox-swagger2</artifactId>
+	            <version>${swagger.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>io.springfox</groupId>
+	            <artifactId>springfox-swagger-ui</artifactId>
+	            <version>${swagger.version}</version>
+	        </dependency>
+	        
+	        <dependency>
+	            <groupId>com.fasterxml.jackson.core</groupId>
+	            <artifactId>jackson-annotations</artifactId>
+	            <version>${fasterxml.jackson.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>com.fasterxml.jackson.core</groupId>
+	            <artifactId>jackson-databind</artifactId>
+	            <version>${fasterxml.jackson.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>com.fasterxml.jackson.core</groupId>
+	            <artifactId>jackson-core</artifactId>
+	            <version>${fasterxml.jackson.version}</version>
+	        </dependency>
+		    <!-- swagger-springmvc dependencies -->
+		    
 			<!-- mybatis -->
 			<dependency>
 				<groupId>org.mybatis</groupId>
@@ -70,11 +115,11 @@
 				<artifactId>mybatis-spring</artifactId>
 				<version>${mybatis-spring.version}</version>
 			</dependency>
-
+			
 			<dependency>
-				<groupId>eu.bitwalker</groupId>
-				<artifactId>UserAgentUtils</artifactId>
-				<version>${UserAgentUtils.version}</version>
+			    <groupId>eu.bitwalker</groupId>
+			    <artifactId>UserAgentUtils</artifactId>
+			    <version>${UserAgentUtils.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.velocity</groupId>
@@ -86,13 +131,34 @@
 				<artifactId>freemarker</artifactId>
 				<version>${freemarker.version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
 
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
 				<version>${commons-lang3.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback-classic.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
 			<!-- Datasource Config Jars -->
 			<dependency>
 				<groupId>commons-dbcp</groupId>
@@ -301,15 +367,6 @@
 				<version>${springframework.version}</version>
 			</dependency>
 
-			<!-- Object-to-Relation-Mapping (ORM) integration with Hibernate, JPA, 
-				and iBatis. (depends on spring-core, spring-beans, spring-context, spring-tx) 
-				Define this if you need ORM (org.springframework.orm.*) -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-orm</artifactId>
-				<version>${springframework.version}</version>
-			</dependency>
-
 			<!-- Object-to-XML Mapping (OXM) abstraction and integration with JAXB, 
 				JiBX, Castor, XStream, and XML Beans. (depends on spring-core, spring-beans, 
 				spring-context) Define this if you need OXM (org.springframework.oxm.*) -->
@@ -443,24 +500,20 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>${logback-classic.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>log4j-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
 		</dependency>
 
 	</dependencies>
@@ -473,6 +526,7 @@
 		<module>wholly-orm-ibatis</module>
 		<module>wholly-orm-mybatis</module>
 		<module>wholly-demo</module>
+		<module>wholly-generator</module>
 	</modules>
 
 	<profiles>

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -46,17 +47,17 @@ public class ObjectUtil {
 
 	private static final String GET_METHOD = "get";
 
-    private static final int GET_METHOD_LEN = GET_METHOD.length();
+	private static final int GET_METHOD_LEN = GET_METHOD.length();
 
-    private static final String SET_METHOD = "set";
+	private static final String SET_METHOD = "set";
 
-    private static final int SET_METHOD_LEN = SET_METHOD.length();
+	private static final int SET_METHOD_LEN = SET_METHOD.length();
 
-    private static Map<Class<?>, Map<String, Method>> sMethods;
+	private static Map<Class<?>, Map<String, Method>> sMethods;
 
-    private static Map<Class<?>, Map<String, Method>> gMethods;
+	private static Map<Class<?>, Map<String, Method>> gMethods;
 
-    private static Map<Class<?>, Map<String, MappingField>> allMappingFields;
+	private static Map<Class<?>, Map<String, MappingField>> allMappingFields;
 
 	private static final Map<Class<?>, Map<MethodKey, Method>> class2MethodMap = new ConcurrentHashMap<Class<?>, Map<MethodKey, Method>>();
 
@@ -72,13 +73,12 @@ public class ObjectUtil {
 
 	static {
 		sMethods = new HashMap<Class<?>, Map<String, Method>>();
-        gMethods = new HashMap<Class<?>, Map<String, Method>>();
-        allMappingFields = new HashMap<Class<?>, Map<String, MappingField>>();
-        
+		gMethods = new HashMap<Class<?>, Map<String, Method>>();
+		allMappingFields = new HashMap<Class<?>, Map<String, MappingField>>();
+
 		// 注册转换器
 		BeanUtilsBean util = BeanUtilsBean.getInstance();
 		util.getConvertUtils().register(new IntegerArrayConverter(), int[].class);
-
 
 		base2PackClassMap.put(int.class, Integer.class);
 		base2PackClassMap.put(double.class, Double.class);
@@ -90,162 +90,147 @@ public class ObjectUtil {
 		base2PackClassMap.put(float.class, Float.class);
 	}
 
-	public static Map<String, Method> getGMethods(Class<?> clazz,
-            String... removals) {
-        return getGMethods(clazz, removals != null && removals.length > 0
-                && removals[0] != null ? Arrays.asList(removals) : null);
-    }
+	public static Map<String, Method> getGMethods(Class<?> clazz, String... removals) {
+		return getGMethods(clazz,
+				removals != null && removals.length > 0 && removals[0] != null ? Arrays.asList(removals) : null);
+	}
 
-    public static Map<String, Method> getGMethods(Class<?> clazz,
-            List<String> removals) {
-        if (removals == null) {
-            removals = new ArrayList<String>();
-        } else {
-            removals = new ArrayList<String>(removals);
-        }
-        // 固定移除Object的getClass方法产生的字段值
-        removals.add("class");
-        return getMethods(clazz, GET_METHOD, GET_METHOD_LEN, gMethods, removals);
-    }
+	public static Map<String, Method> getGMethods(Class<?> clazz, List<String> removals) {
+		if (removals == null) {
+			removals = new ArrayList<String>();
+		} else {
+			removals = new ArrayList<String>(removals);
+		}
+		// 固定移除Object的getClass方法产生的字段值
+		removals.add("class");
+		return getMethods(clazz, GET_METHOD, GET_METHOD_LEN, gMethods, removals);
+	}
 
-    public static Map<String, Method> getSMethods(Class<?> clazz,
-            String... removals) {
-        return getSMethods(clazz, removals != null && removals.length > 0
-                && removals[0] != null ? Arrays.asList(removals) : null);
-    }
+	public static Map<String, Method> getSMethods(Class<?> clazz, String... removals) {
+		return getSMethods(clazz,
+				removals != null && removals.length > 0 && removals[0] != null ? Arrays.asList(removals) : null);
+	}
 
-    public static Map<String, Method> getSMethods(Class<?> clazz,
-            List<String> removals) {
-        return getMethods(clazz, SET_METHOD, SET_METHOD_LEN, sMethods, removals);
-    }
+	public static Map<String, Method> getSMethods(Class<?> clazz, List<String> removals) {
+		return getMethods(clazz, SET_METHOD, SET_METHOD_LEN, sMethods, removals);
+	}
 
-    private static Map<String, Method> getMethods(Class<?> clazz,
-            String prefix, int prefixLen,
-            Map<Class<?>, Map<String, Method>> allMethods, List<String> removals) {
-        Map<String, Method> result = allMethods.get(clazz);
-        if (result == null) {
-            // 提取所有字段对应的getter/setter方法
-            result = new HashMap<String, Method>();
-            Method[] cms = clazz.getMethods();
-            String methodName = null;
-            Ignore ignore = null;
-            for (Method method : cms) {
-                if ((methodName = method.getName()).startsWith(prefix)) {
-                    ignore = method.getAnnotation(Ignore.class);
-                    if (ignore != null && ignore.value()) {
-                        continue;
-                    }
-                    method.setAccessible(true);
-                    result.put(makeKey(methodName, prefixLen), method);
-                }
-            }
-            allMethods.put(clazz, new HashMap<String, Method>(result));
-        }
-        // 允许每次根据具体情况移除特定字段
-        if (removals != null) {
-            for (String name : removals) {
-                result.remove(name.toLowerCase());
-            }
-        }
-        return result;
-    }
+	private static Map<String, Method> getMethods(Class<?> clazz, String prefix, int prefixLen,
+			Map<Class<?>, Map<String, Method>> allMethods, List<String> removals) {
+		Map<String, Method> result = allMethods.get(clazz);
+		if (result == null) {
+			// 提取所有字段对应的getter/setter方法
+			result = new HashMap<String, Method>();
+			Method[] cms = clazz.getMethods();
+			String methodName = null;
+			Ignore ignore = null;
+			for (Method method : cms) {
+				if ((methodName = method.getName()).startsWith(prefix)) {
+					ignore = method.getAnnotation(Ignore.class);
+					if (ignore != null && ignore.value()) {
+						continue;
+					}
+					method.setAccessible(true);
+					result.put(makeKey(methodName, prefixLen), method);
+				}
+			}
+			allMethods.put(clazz, new HashMap<String, Method>(result));
+		}
+		// 允许每次根据具体情况移除特定字段
+		if (removals != null) {
+			for (String name : removals) {
+				result.remove(name.toLowerCase());
+			}
+		}
+		return result;
+	}
 
-    private static String makeKey(String methodName, int len) {
-        StringBuffer fieldName = new StringBuffer(32);
-        char[] chs = methodName.substring(len).toCharArray();
-        chs[0] = Character.toLowerCase(chs[0]);
-        for (char ch : chs) {
-//            if (Character.isUpperCase(ch)) {
-//                fieldName.append('_');
-//            }
-//            fieldName.append(Character.toLowerCase(ch));
-        	fieldName.append(ch);
-        }
-        return fieldName.toString();
-    }
+	private static String makeKey(String methodName, int len) {
+		StringBuffer fieldName = new StringBuffer(32);
+		char[] chs = methodName.substring(len).toCharArray();
+		chs[0] = Character.toLowerCase(chs[0]);
+		for (char ch : chs) {
+			// if (Character.isUpperCase(ch)) {
+			// fieldName.append('_');
+			// }
+			// fieldName.append(Character.toLowerCase(ch));
+			fieldName.append(ch);
+		}
+		return fieldName.toString();
+	}
 
-    public static Map<String, MappingField> getColumnFields(Class<?> clazz,
-            String... removals) {
-        return getColumnFields(clazz, removals != null && removals.length > 0
-                && removals[0] != null ? Arrays.asList(removals) : null);
-    }
+	public static Map<String, MappingField> getColumnFields(Class<?> clazz, String... removals) {
+		return getColumnFields(clazz,
+				removals != null && removals.length > 0 && removals[0] != null ? Arrays.asList(removals) : null);
+	}
 
-    private static Map<String, MappingField> getColumnFields(Class<?> clazz,
-            List<String> removals) {
-        Map<String, MappingField> result = allMappingFields.get(clazz);
-        if (result == null) {
-            // 提取所有字段
-            result = new HashMap<String, MappingField>();
-            Field[] fields = clazz.getDeclaredFields();
-            String fieldName = null;
-            Ignore ignore = null;
-            Column column = null;
-            for (int i = 0; i < fields.length; i++) {
-                if (Modifier.isStatic(fields[i].getModifiers())
-                        || Modifier.isFinal(fields[i].getModifiers())) {
-                    continue;
-                }
-                ignore = fields[i].getAnnotation(Ignore.class);
-                if (ignore != null && ignore.value()) {
-                    continue;
-                }
+	private static Map<String, MappingField> getColumnFields(Class<?> clazz, List<String> removals) {
+		Map<String, MappingField> result = allMappingFields.get(clazz);
+		if (result == null) {
+			// 提取所有字段
+			result = new HashMap<String, MappingField>();
+			Field[] fields = clazz.getDeclaredFields();
+			String fieldName = null;
+			Ignore ignore = null;
+			Column column = null;
+			for (int i = 0; i < fields.length; i++) {
+				if (Modifier.isStatic(fields[i].getModifiers()) || Modifier.isFinal(fields[i].getModifiers())) {
+					continue;
+				}
+				ignore = fields[i].getAnnotation(Ignore.class);
+				if (ignore != null && ignore.value()) {
+					continue;
+				}
 
-                column = fields[i].getAnnotation(Column.class);
-                if (column != null && !StringUtil.isBlank(column.value())) {
-                    MappingField field = new MappingField();
-                    // 以匹配getter/setter键
-                    fieldName = makeKey(fields[i].getName(), 0);
-                    field.setName(fieldName);
-                    field.setColumn_name(column.value());
-                    result.put(fieldName, field);
-                }
-            }
+				column = fields[i].getAnnotation(Column.class);
+				if (column != null && !StringUtil.isBlank(column.value())) {
+					MappingField field = new MappingField();
+					// 以匹配getter/setter键
+					fieldName = makeKey(fields[i].getName(), 0);
+					field.setName(fieldName);
+					field.setColumn_name(column.value());
+					result.put(fieldName, field);
+				}
+			}
 
-            allMappingFields.put(clazz, result);
-        }
-        // 允许每次根据具体情况移除特定字段
-        if (removals != null) {
-            for (String name : removals) {
-                result.remove(name.toLowerCase());
-            }
-        }
+			allMappingFields.put(clazz, result);
+		}
+		// 允许每次根据具体情况移除特定字段
+		if (removals != null) {
+			for (String name : removals) {
+				result.remove(name.toLowerCase());
+			}
+		}
 
-        return result;
-    }
-    
-    public static String[] getFieldNames(String[] columnNames, Class<?> clazz,
-            String... removals) {
-        return getFieldNames(
-                columnNames,
-                clazz,
-                removals != null && removals.length > 0 && removals[0] != null ? Arrays
-                        .asList(removals) : null);
-    }
+		return result;
+	}
 
-    public static String[] getFieldNames(String[] columnNames, Class<?> clazz,
-            List<String> removals) {
-        Map<String, MappingField> fields = getColumnFields(clazz, removals);
-        if (fields.size() > 0)
-            for (int i = 0; i < columnNames.length; i++) {
-                columnNames[i] = getMethodName(fields, columnNames[i]);
-            }
-        return columnNames;
-    }
-    
-    private static String getMethodName(Map<String, MappingField> fields,
-            String columnName) {
-        for (Iterator<MappingField> iterator = fields.values().iterator(); iterator
-                .hasNext();) {
-            MappingField field = iterator.next();
-            if (columnName.equalsIgnoreCase(field.getColumn_name())) {
-                return field.getName();
-            }
-        }
-        return columnName;
-    }
-    
-	public static Object copyProperties(Object dest, Object orig) throws IllegalAccessException,
-			InvocationTargetException {
+	public static String[] getFieldNames(String[] columnNames, Class<?> clazz, String... removals) {
+		return getFieldNames(columnNames, clazz,
+				removals != null && removals.length > 0 && removals[0] != null ? Arrays.asList(removals) : null);
+	}
+
+	public static String[] getFieldNames(String[] columnNames, Class<?> clazz, List<String> removals) {
+		Map<String, MappingField> fields = getColumnFields(clazz, removals);
+		if (fields.size() > 0)
+			for (int i = 0; i < columnNames.length; i++) {
+				columnNames[i] = getMethodName(fields, columnNames[i]);
+			}
+		return columnNames;
+	}
+
+	private static String getMethodName(Map<String, MappingField> fields, String columnName) {
+		for (Iterator<MappingField> iterator = fields.values().iterator(); iterator.hasNext();) {
+			MappingField field = iterator.next();
+			if (columnName.equalsIgnoreCase(field.getColumn_name())) {
+				return field.getName();
+			}
+		}
+		return columnName;
+	}
+
+	public static Object copyProperties(Object dest, Object orig)
+			throws IllegalAccessException, InvocationTargetException {
 		BeanUtils.copyProperties(dest, orig);
 		return dest;
 	}
@@ -338,8 +323,8 @@ public class ObjectUtil {
 				return name2MethodMap.get(new MethodKey(methodName, new Class[] { value.getClass() }));
 			} else {
 				Map<MethodKey, Method> name2MethodUpperCaseMap = class2MethodUpperCaseMap.get(bean.getClass());
-				return name2MethodUpperCaseMap.get(new MethodKey(methodName.toUpperCase(), new Class[] { value
-						.getClass() }));
+				return name2MethodUpperCaseMap
+						.get(new MethodKey(methodName.toUpperCase(), new Class[] { value.getClass() }));
 			}
 		} else {
 			Method[] methods = bean.getClass().getMethods();
@@ -558,8 +543,8 @@ public class ObjectUtil {
 		return simpleName;
 	}
 
-	public static Object convertToMap(Class<?> type, Map<?, ?> map) throws IntrospectionException,
-			IllegalAccessException, InstantiationException, InvocationTargetException {
+	public static Object convertToMap(Class<?> type, Map<?, ?> map)
+			throws IntrospectionException, IllegalAccessException, InstantiationException, InvocationTargetException {
 		BeanInfo beanInfo = Introspector.getBeanInfo(type); // 获取类属性
 		Object obj = type.newInstance(); // 创建 JavaBean 对象
 
@@ -581,9 +566,10 @@ public class ObjectUtil {
 		}
 		return obj;
 	}
-	
+
 	/**
 	 * 将对象转换为MAP
+	 * 
 	 * @param bean
 	 * @return
 	 */
@@ -625,92 +611,103 @@ public class ObjectUtil {
 
 		return returnMap;
 	}
-	
-    /**
-     * 获取类型
-     * 
-     * @param type
-     * @return
-     */
-    public static Class<?> getClass(String type) {
-        Class<?> result = null;
-        try {
-            result = Class.forName(type);
-        } catch (Exception e) {
-        }
-        return result;
-    }
 
-    /**
-     * 获取实例
-     * 
-     * @param type
-     * @return
-     */
-    public static Object getInstance(String type) {
-        Object result = null;
-        try {
-            result = getClass(type).newInstance();
-        } catch (Exception e) {
-        }
-        return result;
-    }
-    
-    /**
-     * 获取实例
-     * 
-     * @param data
-     * @return
-     */
-    public static Object getInstance(byte[] data) {
-        Object result = null;
-        ByteArrayInputStream buffer = new ByteArrayInputStream(data);
-        ObjectInputStream is = null;
-        try {
-            is = new ObjectInputStream(buffer);
-            result = is.readObject();
-        } catch (Exception e) {
-        	log.error(e.getMessage());
-            e.printStackTrace();
-        } finally {
-            close(is);
-            close(buffer);
-        }
-        return result;
-    }
-    
-    /**
-     * 获取字节码
-     * 
-     * @param instance
-     * @return
-     */
-    public static byte[] getBytes(Object instance) {
-        byte[] result = null;
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        ObjectOutputStream os = null;
-        try {
-            os = new ObjectOutputStream(buffer);
-            os.writeObject(instance);
-            result = buffer.toByteArray();
-        } catch (Exception e) {
-        	log.error(e.getMessage());
-            e.printStackTrace();
-        } finally {
-            close(os);
-            close(buffer);
-        }
-        return result;
-    }
-    
-    private static void close(Closeable instance) {
-        if (instance != null) {
-            try {
-                instance.close();
-            } catch (IOException e) {
-            }
-        }
-    }
+	/**
+	 * 获取类型
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public static Class<?> getClass(String type) {
+		Class<?> result = null;
+		try {
+			result = Class.forName(type);
+		} catch (Exception e) {
+		}
+		return result;
+	}
+
+	public Constructor<?> getConstructor(String type, Class<?>... parameterTypes)
+			throws NoSuchMethodException, SecurityException {
+		Constructor<?> result = null;
+		try {
+			result = getClass(type).getConstructor(parameterTypes);
+		} catch (Exception e) {
+		}
+		return result;
+	}
+
+	/**
+	 * 获取实例
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public static Object getInstance(String type) {
+		Object result = null;
+		try {
+			result = getClass(type).newInstance();
+		} catch (Exception e) {
+		}
+		return result;
+	}
+
+	/**
+	 * 获取实例
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public static Object getInstance(byte[] data) {
+		Object result = null;
+		ByteArrayInputStream buffer = new ByteArrayInputStream(data);
+		ObjectInputStream is = null;
+		try {
+			is = new ObjectInputStream(buffer);
+			result = is.readObject();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			close(is);
+			close(buffer);
+		}
+		return result;
+	}
+
+	/**
+	 * 获取字节码
+	 * 
+	 * @param instance
+	 * @return
+	 */
+	public static byte[] getBytes(Object instance) {
+		byte[] result = null;
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		ObjectOutputStream os = null;
+		try {
+			os = new ObjectOutputStream(buffer);
+			os.writeObject(instance);
+			result = buffer.toByteArray();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			close(os);
+			close(buffer);
+		}
+		return result;
+	}
+
+	private static void close(Closeable instance) {
+		if (instance != null) {
+			try {
+				instance.close();
+			} catch (IOException e) {
+			}
+		}
+	}
+
 	/**
 	 * @param args
 	 * @throws InvocationTargetException
@@ -722,10 +719,10 @@ public class ObjectUtil {
 	 */
 	public static void main(String[] args) throws IntrospectionException, IllegalAccessException,
 			InvocationTargetException, IllegalArgumentException, SecurityException, NoSuchFieldException {
-//		FormField field = new InputField();
-//		field.setId("1001");
-//		field.setFieldtype("test");
-//		System.out.println(convertToMap(field));
+		// FormField field = new InputField();
+		// field.setId("1001");
+		// field.setFieldtype("test");
+		// System.out.println(convertToMap(field));
 	}
 }
 

@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 import com.whollyframework.authentications.IWebUser;
 import com.whollyframework.util.property.DefaultProperty;
 import com.whollyframework.util.sequence.Sequence;
-import com.whollyframework.util.sequence.SequenceException;
 
 public class OnlineUserBindingListener implements HttpSessionBindingListener {
 	private static final Logger logger = Logger
@@ -36,7 +35,7 @@ public class OnlineUserBindingListener implements HttpSessionBindingListener {
 		String onlineUserid = null;
 		try {
 			onlineUserid = Sequence.getTimeSequence();
-		} catch (SequenceException e) {
+		} catch (Exception e) {
 			onlineUserid = Sequence.getSequence();
 		}
 		if (this._user != null) {

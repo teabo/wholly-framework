@@ -375,11 +375,35 @@ public class DateUtil {
 		Calendar today = Calendar.getInstance();
 		return (today.get(Calendar.YEAR)) * 100 + today.get(Calendar.MONTH) + 1;
 	}
+	
+	static public int getMonth(Date date) throws ParseException {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		return c.get(Calendar.MONTH) + 1;
+	}
 
 	static public int getYearMonth(Date date) throws ParseException {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		return (c.get(Calendar.YEAR)) * 100 + c.get(Calendar.MONTH) + 1;
+	}
+	
+	static public int getYear(Date date) throws ParseException {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		return c.get(Calendar.YEAR);
+	}
+	
+	static public int getWeek(Date date) throws ParseException {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		return c.get(Calendar.WEEK_OF_MONTH);
+	}
+	
+	static public String getYearMonthWeek(Date date) throws ParseException {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		return getYearMonth(date) + "-W" + c.get(Calendar.WEEK_OF_MONTH);
 	}
 
 	// 获取相隔年数
@@ -711,7 +735,7 @@ public class DateUtil {
 
 	public static void main(String[] args) {
 		try {
-			System.out.println(parseToDate("2014/06/12 23:59:59 021"));
+			//System.out.println(parseToDate("2014/06/12 23:59:59 021"));
 			// getDaysOfMonth(new Date(),new Date(),"02");
 			// Double s=new Double("123.6");
 //			int days = getDaysOfMonth(Y_M_D_HMS_FORMAT.parse("2007-6-6"), Y_M_D_HMS_FORMAT
@@ -770,7 +794,11 @@ public class DateUtil {
 //			// cld.set(Calendar.DAY_OF_MONTH, 1);
 //			cld.set(Calendar.HOUR_OF_DAY, 7);
 			// log.info(cld.get(Calendar.HOUR_OF_DAY));
-
+			System.out.println(DateUtil.getYear(getToday()));
+//			System.out.println(DateUtil.getYearMonth(getToday()));
+//			System.out.println(DateUtil.getMonth(getToday()));
+//			System.out.println(DateUtil.getWeek(getToday()));
+			System.out.println(DateUtil.getYearMonthWeek(getToday()));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

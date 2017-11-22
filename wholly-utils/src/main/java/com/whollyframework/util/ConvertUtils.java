@@ -29,9 +29,8 @@ public class ConvertUtils {
 	 * @param collection 来源集合.
 	 * @param propertyName 要提取的属性名.
 	 */
-	@SuppressWarnings("unchecked")
-	public static List convertElementPropertyToList(final Collection collection, final String propertyName) {
-		List list = new ArrayList();
+	public static List<Object> convertElementPropertyToList(final Collection<Object> collection, final String propertyName) {
+		List<Object> list = new ArrayList<Object>();
 
 		try {
 			for (Object obj : collection) {
@@ -51,10 +50,9 @@ public class ConvertUtils {
 	 * @param propertyName 要提取的属性名.
 	 * @param separator 分隔符.
 	 */
-	@SuppressWarnings("unchecked")
-	public static String convertElementPropertyToString(final Collection collection, final String propertyName,
+	public static String convertElementPropertyToString(final Collection<Object> collection, final String propertyName,
 			final String separator) {
-		List list = convertElementPropertyToList(collection, propertyName);
+		List<Object> list = convertElementPropertyToList(collection, propertyName);
 		return StringUtil.join(list, separator);
 	}
 

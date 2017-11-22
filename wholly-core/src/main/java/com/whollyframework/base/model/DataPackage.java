@@ -148,7 +148,7 @@ public class DataPackage<E> implements Serializable {
 		map.put("_currpage", getPageNo());
 		map.put("rows", getDatas());
 		
-		return JsonUtil.toJson2(map);
+		return JsonUtil.toJson(map);
 	}
 	
 	//修改为支持日期字段

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configurations>
+	<resources>
+		<include path="template"/>
+	</resources>
+	
+	<generators>
+		<generator name="Common" class="com.whollyframework.generator.core.CommonGenerator"/>
+		<generator name="Controller" class="com.whollyframework.generator.core.controller.ControllerGenerator"/>
+		<generator name="Model" class="com.whollyframework.generator.core.model.ModelGenerator"/>
+		
+		<generator name="MyBatis.Service" class="com.whollyframework.generator.core.service.MyBatisServiceGenerator"/>
+		<generator name="MyBatis.DAO" class="com.whollyframework.generator.core.dao.MyBatisDAOGenerator"/>
+		<generator name="MyBatis.Sqlmap" class="com.whollyframework.generator.core.config.MyBatisSqlmapGenerator"/>
+	</generators>
+	
+	<config name="mvc">
+		<property name="generator" value="Controller"/>
+		<property name="template.path" value="template/mvc"/>
+		<property name="template.file" value="{}Controller.java.ftl"/>
+		<property name="model.src" value="src/main/java"/>
+		<property name="model.package" value="com.whollyframework.portal"/>
+		<property name="model.springMvcPath" value="/portal"/>
+		<property name="model.subpackage" value="web"/>
+	</config>
+	
+	<config name="rest">
+		<property name="generator" value="Controller"/>
+		<property name="template.path" value="template/rest"/>
+		<property name="template.file" value="{}RestController.java.ftl"/>
+		<property name="model.src" value="src/main/java"/>
+		<property name="model.package" value="com.whollyframework.portal"/>
+		<property name="model.springRestPath" value="/api"/>
+		<property name="model.subpackage" value="rest"/>
+	</config>
+	
+	<config name="serviceInterface">
+		<property name="generator" value="MyBatis.Service"/>
+		<property name="template.path" value="template/service"/>
+		<property name="template.file" value="{}Service.java.ftl"/>
+		<property name="model.src" value="src/main/java"/>
+		<property name="model.package" value="com.whollyframework.portal"/>
+		<property name="model.subpackage" value="service"/>
+	</config>
+	
+	<config name="serviceImpl">
+		<property name="generator" value="MyBatis.Service"/>
+		<property name="template.path" value="template/service"/>
+		<property name="template.file" value="{}ServiceImpl.java.ftl"/>
+		<property name="model.src" value="src/main/java"/>
+		<property name="model.package" value="com.whollyframework.portal"/>
+		<property name="model.subpackage" value="service"/>
+	</config>
+	
+	<config name="model">
+		<property name="generator" value="Model"/>
+		<property name="template.path" value="template/model"/>
+		<property name="template.file" value="{}VO.java.ftl"/>
+		<property name="model.src" value="src/main/java"/>
+		<property name="model.package" value="com.whollyframework.portal"/>
+		<property name="model.subpackage" value="model"/>
+	</config>
+	
+	<config name="daoInterface">
+		<property name="generator" value="MyBatis.DAO"/>
+		<property name="template.path" value="template/dao"/>
+		<property name="template.file" value="{}DAO.java.ftl"/>
+		<property name="model.src" value="src/main/java"/>
+		<property name="model.package" value="com.whollyframework.portal"/>
+		<property name="model.subpackage" value="dao"/>
+	</config>
+	
+	<config name="daoImpl">
+		<property name="generator" value="MyBatis.DAO"/>
+		<property name="template.path" value="template/dao"/>
+		<property name="template.file" value="{}DAOImpl.java.ftl"/>
+		<property name="model.src" value="src/main/java"/>
+		<property name="model.package" value="com.whollyframework.portal"/>
+		<property name="model.subpackage" value="dao"/>
+	</config>
+	
+	<config name="sqlmap">
+		<property name="generator" value="MyBatis.Sqlmap"/>
+		<property name="template.path" value="template/config"/>
+		<property name="template.file" value="mapper-{}.xml.ftl"/>
+		<property name="model.src" value="src/main/java"/>
+		<property name="model.package" value="com.whollyframework.portal"/>
+		<property name="model.modelId" value="id"/>
+		<property name="model.subpackage" value=""/>
+	</config>
+	
+</Configurations>

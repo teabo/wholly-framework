@@ -1,18 +1,19 @@
 package com.whollyframework.base.service;
 
 import java.io.Serializable;
+import java.util.List;
 
-import com.whollyframework.base.dao.IDesignDAO;
-import com.whollyframework.base.dao.MybatisCurdRepository;
+import com.whollyframework.base.dao.support.SQLUtils;
+import com.whollyframework.base.model.ParamsTable;
 
 public abstract class MybatisCurdService<E, ID extends Serializable> extends BaseService<E, ID> {
-
-	public abstract MybatisCurdRepository<E, ID> getRepository();
-
-	@Override
-	public IDesignDAO<E, ID> getDAO() {
-		return getRepository();
+	
+	public List<E> simpleQuery(ParamsTable params) throws Exception {
+		return simpleQuery(params, new SQLUtils());
 	}
 
+	public boolean isEmpty() throws Exception {
+		return isEmpty(new SQLUtils());
+	}
 
 }

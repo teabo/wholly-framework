@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.whollyframework</groupId>
 		<artifactId>wholly-framework</artifactId>
-		<version>1.0.0-RC1</version>
+		<version>1.0.0-RC2</version>
 	</parent>
 	<artifactId>wholly-core</artifactId>
 
@@ -31,6 +31,12 @@
 		<dependency>
 			<groupId>com.whollyframework</groupId>
 			<artifactId>wholly-utils</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-lang</artifactId>
+					<groupId>commons-lang</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -69,26 +75,42 @@
 		<!-- <dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> 
 			<version>${mysql.version}</version> </dependency> -->
 
-		<!-- <dependency> <groupId>antlr</groupId> <artifactId>antlr</artifactId> 
-			</dependency> -->
+		<!-- <dependency>
+			<groupId>antlr</groupId>
+			<artifactId>antlr</artifactId>
+		</dependency> -->
+		
 
-
-		<!-- <dependency> <groupId>commons-beanutils</groupId> <artifactId>commons-beanutils</artifactId> 
-			<exclusions> <exclusion> <artifactId>commons-logging</artifactId> <groupId>commons-logging</groupId> 
-			</exclusion> </exclusions> </dependency> -->
+		<!-- <dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency> -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 		</dependency>
 
 		<!-- Jaxws Config Jars -->
-		<!-- <dependency> <groupId>com.sun.xml.ws</groupId> <artifactId>jaxws-rt</artifactId> 
-			</dependency> <dependency> <groupId>com.sun.xml.ws</groupId> <artifactId>jaxws-tools</artifactId> 
-			</dependency> -->
+		<!-- <dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-tools</artifactId>
+		</dependency> -->
 		<!--End Jaxws Config Jars -->
 
-		<!-- <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId> 
-			</dependency> -->
+		<!-- <dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+		</dependency> -->
 
 		<dependency>
 			<groupId>com.jamonapi</groupId>
@@ -175,14 +197,6 @@
 			<artifactId>spring-jdbc</artifactId>
 		</dependency>
 
-		<!-- Object-to-Relation-Mapping (ORM) integration with Hibernate, JPA, 
-			and iBatis. (depends on spring-core, spring-beans, spring-context, spring-tx) 
-			Define this if you need ORM (org.springframework.orm.*) -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-		</dependency>
-
 		<!-- Object-to-XML Mapping (OXM) abstraction and integration with JAXB, 
 			JiBX, Castor, XStream, and XML Beans. (depends on spring-core, spring-beans, 
 			spring-context) Define this if you need OXM (org.springframework.oxm.*) -->
@@ -204,6 +218,18 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
+		
+		<!-- swagger-springmvc -->
+	    <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <!-- <dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger-ui</artifactId>
+		</dependency> -->
+
+	    <!-- swagger-springmvc dependencies -->
 	</dependencies>
 	<profiles>
 		<profile>

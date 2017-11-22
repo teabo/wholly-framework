@@ -50,9 +50,14 @@ public class PersistenceUtils {
 		PersistenceUtils.runtimeDBConn.set(null);
 		logger.debug("has closed a runtimeDBConn!!!");
 	}
-
+	
 	public static DataSource getC3P0DataSource(String username, String password, String driver, String url,
 			String poolSize, String timeout) throws Exception {
+		return getC3P0DataSource(username, password, driver, url, Integer.parseInt(poolSize), Integer.parseInt(timeout));
+	}
+
+	public static DataSource getC3P0DataSource(String username, String password, String driver, String url,
+			int poolSize, int timeout) throws Exception {
 
 		ComboPooledDataSource ds = new ComboPooledDataSource();
 
@@ -60,8 +65,8 @@ public class PersistenceUtils {
 		ds.setPassword(password);
 		ds.setDriverClass(driver);
 		ds.setJdbcUrl(url);
-		ds.setMaxPoolSize(Integer.parseInt(poolSize));
-		ds.setMaxIdleTime(Integer.parseInt(timeout));
+		ds.setMaxPoolSize(poolSize);
+		ds.setMaxIdleTime(timeout);
 		// ds.setMaxAdministrativeTaskTime(5000);
 		ds.setNumHelperThreads(20);
 		ds.setMaxStatements(0);
@@ -71,6 +76,11 @@ public class PersistenceUtils {
 
 	public static DataSource getDBCPDataSource(String username, String password, String driver, String url,
 			String poolSize, String timeout) {
+		return getDBCPDataSource(username, password, driver, url, Integer.parseInt(poolSize), Integer.parseInt(timeout));
+	}
+	
+	public static DataSource getDBCPDataSource(String username, String password, String driver, String url,
+			int poolSize, int timeout) {
 
 		BasicDataSource ds = new BasicDataSource();
 
@@ -82,9 +92,9 @@ public class PersistenceUtils {
 		// ds.setMaxOpenPreparedStatements(10);
 		// ds.setInitialSize(10);
 		ds.setMaxIdle(5);
-		ds.setMaxActive(Integer.parseInt(poolSize));
+		ds.setMaxActive(poolSize);
 
-		ds.setMaxWait(Integer.parseInt(timeout));
+		ds.setMaxWait(timeout);
 		ds.setDefaultAutoCommit(true);
 		logger.debug("has new a BasicDataSource!!!");
 		return ds;

@@ -1,5 +1,6 @@
 package com.whollyframework.util.sequence;
 
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -29,16 +30,30 @@ public class Sequence {
 
 	public static synchronized String getGuid() {
 		UUID uuid = UUID.randomUUID();
-		return uuid.toString();
+		String str = uuid.toString();
+		// 去掉"-"符号
+		String temp = str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23)
+				+ str.substring(24);
+		return temp;
 	}
 
-	public static synchronized String getTimeSequence() throws SequenceException {
+	public static String getRandomString(int length) { // length表示生成字符串的长度
+		String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+		Random random = new Random();
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < length; i++) {
+			int number = random.nextInt(base.length());
+			sb.append(base.charAt(number));
+		}
+		return sb.toString();
+	}
+
+	public static synchronized String getTimeSequence() {
 		long result = System.currentTimeMillis();
 		if (result == millis) {
 			old++;
 			if (old >= base)
-				throw new SequenceException(
-						"It had exceed the maxium sequence in this moment.");
+				throw new RuntimeException("It had exceed the maxium sequence in this moment.");
 			result = millis * base + old;
 		} else {
 			millis = result;
@@ -63,12 +78,17 @@ public class Sequence {
 		}
 
 	}
+	
+	public static synchronized String getRandomSequence() {
+		return Sequence.getRandomString(48);
+	}
 
 	public static void main(String[] args) throws Exception {
-//		System.out.println(Sequence.getGuid());
-//		System.out.println(Sequence.getSequence());
-		System.out.println(Sequence.getTimeSequence());
-		System.out.println(Sequence.getSequenceTimes());// 125292303662500000
-
+		System.out.println(Sequence.getGuid());
+		System.out.println(Sequence.getSequence());
+		System.out.println(Sequence.getTimeSequence());// 125292303662500000
+		System.out.println(Sequence.getSequenceTimes());
+		System.out.println(Sequence.getRandomString(19));
+		System.out.println(Sequence.getRandomSequence());
 	}
 }

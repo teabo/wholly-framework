@@ -11,11 +11,14 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
 import com.whollyframework.ddltools.model.Column;
+import com.whollyframework.ddltools.model.Index;
+import com.whollyframework.ddltools.model.IndexColumn;
 import com.whollyframework.ddltools.model.Table;
 
 public class DBUtils {
@@ -117,17 +120,8 @@ public class DBUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (tableSet != null) {
-					tableSet.close();
-				}
-				if (pstm != null) {
-					pstm.close();
-				}
-			} catch (SQLException e) {
-
-				e.printStackTrace();
-			}
+			closeResultSet(tableSet);
+			closeStatement(pstm);
 		}
 
 		return rtn;
@@ -158,7 +152,7 @@ public class DBUtils {
 
 			DatabaseMetaData metaData = conn.getMetaData();
 			tableSet = metaData.getTables(catalog, schemaPattern, null,
-					new String[] { "TABLE" });
+					new String[] { "TABLE" , "VIEW"});
 
 			while (tableSet.next()) {
 				String tableName = tableSet.getString(3);
@@ -167,16 +161,8 @@ public class DBUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (tableSet != null) {
-					tableSet.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			closeResultSet(tableSet);
+			closeConnection(conn);
 		}
 
 		return rtn;
@@ -206,6 +192,7 @@ public class DBUtils {
 		Collection<Table> rtn = new ArrayList<Table>();
 
 		ResultSet tableSet = null;
+		ResultSet pkSet = null;
 		Statement smt = null;
 		try {
 
@@ -227,17 +214,28 @@ public class DBUtils {
 			}
 
 			DatabaseMetaData metaData = conn.getMetaData();
-			tableSet = metaData.getColumns(catalog, schemaPattern, tableName,
-					null);
-			Map<String, String> map = new HashMap<String, String>();
-			if (tableSet != null) {
-				while (tableSet.next()) {
-					String name = tableSet.getString("COLUMN_NAME");
-					String defaultValue = tableSet.getString("COLUMN_DEF");
-					map.put(name, defaultValue);
-				}
-				tableSet.close();
-			}
+			tableSet = metaData.getColumns(catalog, schemaPattern, tableName, null);
+			// 获取表主键信息
+            pkSet = metaData.getPrimaryKeys(catalog, schemaPattern, tableName);
+            List<String> pkNameLst = new ArrayList<String>();
+            if (pkSet != null) {
+                while (pkSet.next()) {
+                    String pkName = pkSet.getString("COLUMN_NAME");
+                    pkNameLst.add(pkName);
+                }
+            }
+            Map<String, String> map = new HashMap<String, String>();
+            Map<String, String> commentsMap = new HashMap<String, String>();
+            if (tableSet != null) {
+                while (tableSet.next()) {
+                    String name = tableSet.getString("COLUMN_NAME");
+                    String defaultValue = tableSet.getString("COLUMN_DEF");
+                    String commnents = tableSet.getString("REMARKS");// 获取描述
+                    map.put(name, defaultValue);
+                    commentsMap.put(name, commnents);
+                }
+                tableSet.close();
+            }
 			if (map.size() > 0) {
 				Table table = new Table(tableName.toUpperCase());
 				String sqlStr = "SELECT * FROM " + tableName;
@@ -247,11 +245,16 @@ public class DBUtils {
 				for (int i = 0; i < rsmd.getColumnCount(); i++) {
 					String name = rsmd.getColumnLabel(i + 1);
 					int typeCode = rsmd.getColumnType(i + 1);
-					Column column = new Column("", name.toUpperCase(), typeCode);
+					Column column = new Column(commentsMap.get(name.toUpperCase()), name.toUpperCase(), typeCode);
+					column.setComment(commentsMap.get(name.toUpperCase()));// 保存描述
+                    if (pkNameLst.contains(name.toUpperCase())) {
+                        column.setPrimaryKey(true);
+                    }
 					if (typeCode == Types.VARCHAR) {
 						int length = rsmd.getPrecision(i + 1);
 						column.setLength(length);
-					} else if (typeCode == Types.NUMERIC) {
+					} else  if (typeCode == Types.NUMERIC || typeCode == Types.DECIMAL 
+							|| typeCode == Types.DOUBLE || typeCode == Types.FLOAT) {
 						int length = rsmd.getPrecision(i + 1);
 						int fixedLength = rsmd.getScale(i + 1);
 						column.setLength(length);
@@ -260,35 +263,45 @@ public class DBUtils {
 					column.setDefualtValue(map.get(name));
 					table.getColumns().add(column);
 				}
+				// ---加载数据库索引
+                ResultSet indexSet = metaData.getIndexInfo(catalog, schemaPattern, tableName, false, true);
+                if (indexSet != null) {
+                    while (indexSet.next()) {
+                        Short type = indexSet.getShort("TYPE");
+                        if (type == DatabaseMetaData.tableIndexStatistic) {
+                            continue;
+                        }
+                        String indexName = indexSet.getString("INDEX_NAME");
+                        Index index = table.findIndex(indexName);
+                        if (index == null) {
+                            index = new Index(indexName);
+                            table.addIndexs(index);
+                        }
+                        index.setNon_unique(indexSet.getBoolean("NON_UNIQUE"));
+                        index.addIndexColumns(new IndexColumn(indexSet.getString("COLUMN_NAME")));
+                        
+                    }
+                }
 				rtn.add(table);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (tableSet != null) {
-					tableSet.close();
-				}
-				if (smt != null) {
-					smt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			closeResultSet(pkSet);
+			closeResultSet(tableSet);
+			closeStatement(smt);
+			closeConnection(conn);
 		}
 
 		return rtn;
 	}
 
-	public int executeBatch(String sql, Connection conn) throws Exception {
+	public static int executeBatch(String sql, Connection conn) throws Exception {
 		String[] commands = sql.split(SQLBuilder.SQL_DELIMITER);
 		return executeBatch(commands, conn);
 	}
 
-	public int executeBatch(String[] commands, Connection conn)
+	public static int executeBatch(String[] commands, Connection conn)
 			throws Exception {
 		int errors = 0;
 		int commandCount = 0;
@@ -333,7 +346,7 @@ public class DBUtils {
 			}
 			throw e;
 		} finally {
-			statement.close();
+			closeStatement(statement);
 		}
 		return errors;
 	}
@@ -366,5 +379,35 @@ public class DBUtils {
 			return "public".toUpperCase();
 		}
 		return "";
+	}
+	
+	public static void closeResultSet(ResultSet result) {
+		try {
+			if (result != null) {
+				result.close();
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+	}
+	
+	public static void closeStatement(Statement stmt) {
+		try {
+			if (stmt != null) {
+				stmt.close();
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+	}
+	
+	public static void closeConnection(Connection dbConnection) {
+		try {
+			if (dbConnection != null && !dbConnection.isClosed()) {
+				dbConnection.close();
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
 	}
 }

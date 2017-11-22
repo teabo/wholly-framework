@@ -57,6 +57,8 @@ public class Web {
 	
 	public static final String CURRENT_SKIN = "skin";
 	
+	public static final String FRAMEWORK_XML_PROPS_FILE = "default-props.xml";
+	
 	public static final String FRAMEWORK_PROPERTIES_FILE = "default.properties";
 	
 	public static final String FRAMEWORK_ANONYMOUS_ACCESS = "whollyframework.anonymous.access";
@@ -72,9 +74,7 @@ public class Web {
 	public static final String FRAMEWORK_ERROR_URI = "whollyframework.error.uri";
 	
 	public static final String FRAMEWORK_WEBSITE_TITLE = "whollyframework.website.title";
-	
+
 	public static final String FRAMEWORK_I18N_ENCODING = "whollyframework.i18n.encoding";
-	
-	
 	
 }

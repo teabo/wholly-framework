@@ -31,6 +31,9 @@ public class StartupListener extends HttpServlet implements ServletContextListen
 			Environment evt = Environment.getInstance();
 			evt.setContextPath(sce.getServletContext().getContextPath());
 			evt.setApplicationRealPath(sce.getServletContext().getRealPath("/"));
+			
+			evt.setEncoding(DefaultProperty.getProperty(Web.FRAMEWORK_I18N_ENCODING));
+			evt.setWebSiteTitle(DefaultProperty.getProperty(Web.FRAMEWORK_WEBSITE_TITLE));
 
 			// 已废弃
 			sce.getServletContext().setAttribute(Environment.class.getName(), evt);

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.whollyframework</groupId>
 		<artifactId>wholly-framework</artifactId>
-		<version>1.0.0-RC1</version>
+		<version>1.0.0-RC2</version>
 	</parent>
 	<artifactId>wholly-orm-ibatis</artifactId>
 
@@ -15,6 +15,12 @@
 			<artifactId>wholly-core</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>3.2.13.RELEASE</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.ibatis</groupId>
 			<artifactId>ibatis-sqlmap</artifactId>

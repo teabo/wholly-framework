@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.whollyframework</groupId>
 		<artifactId>wholly-framework</artifactId>
-		<version>1.0.0-RC1</version>
+		<version>1.0.0-RC2</version>
 	</parent>
 	<artifactId>wholly-orm-hbm</artifactId>
 
@@ -14,6 +14,15 @@
 			<artifactId>wholly-core</artifactId>
 		</dependency>
 		<!-- hibernate start -->
+		<!-- Object-to-Relation-Mapping (ORM) integration with Hibernate, JPA, 
+			and myBatis. (depends on spring-core, spring-beans, spring-context, spring-tx) 
+			Define this if you need ORM (org.springframework.orm.*) -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>

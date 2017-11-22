@@ -11,18 +11,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig.Feature;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-import org.codehaus.jackson.map.ser.CustomSerializerFactory;
-import org.codehaus.jackson.map.ser.FilterProvider;
-import org.codehaus.jackson.map.ser.impl.SimpleBeanPropertyFilter;
-import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
-
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.whollyframework.util.StringUtil;
-import com.whollyframework.util.tree.JNode;
-import com.whollyframework.util.tree.Node;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -199,12 +196,13 @@ public class JsonUtil {
 	public static ObjectMapper getMapper2() {
 		if (objectMapper == null) {
 			objectMapper = new ObjectMapper(); // can reuse, share globally
-			objectMapper.configure(Feature.WRITE_NULL_MAP_VALUES, false);
-			 //使Jackson JSON支持Unicode编码非ASCII字符  
-		    CustomSerializerFactory serializerFactory= new CustomSerializerFactory();  
-		    serializerFactory.addSpecificMapping(String.class, new StringUnicodeSerializer());
-		    objectMapper.setSerializerFactory(serializerFactory);  
-		    objectMapper.setSerializationInclusion(Inclusion.NON_NULL);
+			objectMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+			//使Jackson JSON支持Unicode编码非ASCII字符  
+		    SimpleModule module = new SimpleModule();  
+		    module.addSerializer(String.class, new StringUnicodeSerializer());  
+		    objectMapper.registerModule(module);  
+		    //设置null值不参与序列化(字段不被显示)  
+		    objectMapper.setSerializationInclusion(Include.NON_NULL);  
 		    objectMapper.getSerializerProvider().setNullKeySerializer(new CustomNullKeySerializer());
 		    objectMapper.setAnnotationIntrospector(new CustomFilteringIntrospector());
 			
@@ -217,9 +215,10 @@ public class JsonUtil {
 	
 	public static void main(String[] args) throws Exception {
 		// 1. Collection to String
-		Collection<Node> list = new ArrayList<Node>();
-		JNode node = new JNode();
-		node.setId("001");
+		Collection<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		Map<String, Object> node = new HashMap<String, Object>();
+		node.put("id","001");
+		
 		list.add(node);
 		Map<String, Object> attr = new HashMap<String, Object>();
 		Map<String, Object> valueMap = new HashMap<String, Object>();
@@ -229,7 +228,7 @@ public class JsonUtil {
 				"{11df-8a45-2d46df42-be72-dfc9d0c0080b:'名称5',11df-8a45-2d4b9a33-be72-dfc9d0c0080b:'n1',11df-8a45-2d4b9a34-be72-dfc9d0c0080b:'@amp;nbsp'}");
 		attr.put("nullvalue", null);
 		attr.put("ustt", "<a>sfdsdf<test></a>\"/>");
-		node.setAttr(attr);
+		node.put("attrs", attr);
 
 		String json = toJson(attr);
 		System.out.println(json);

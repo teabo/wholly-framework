@@ -24,17 +24,17 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.MapType;
-import org.codehaus.jackson.map.type.TypeFactory;
-import org.codehaus.jackson.type.JavaType;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.support.WebArgumentResolver;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver;
 
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.whollyframework.spring.mvc.bind.annotation.RequestJsonParam;
 import com.whollyframework.spring.mvc.util.MapWapper;
 
@@ -114,7 +114,7 @@ public class RequestJsonParamMethodArgumentResolver extends AbstractNamedValueMe
 	}
 	
 	protected JavaType getJavaType(Class<?> clazz) {
-        return TypeFactory.type(clazz);
+        return TypeFactory.defaultInstance().constructType(clazz);
     }
 
 	@Override

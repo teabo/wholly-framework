@@ -47,4 +47,18 @@ public class ResponseUtil {
 				out.close();
 		}
 	}
+
+	public static void setContentToResponse(HttpServletResponse response, String outMsgXml, String contentType) {
+		PrintWriter out = null;
+		try {
+			response.setHeader("Content-Type", contentType);
+			out = response.getWriter();
+			out.print(outMsgXml);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(out != null)
+				out.close();
+		}
+	}
 }

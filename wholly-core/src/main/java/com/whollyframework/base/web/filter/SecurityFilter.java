@@ -150,24 +150,17 @@ public class SecurityFilter extends HttpServlet implements Filter {
 	 * @return 是返回true,否则返回false
 	 */
 	private boolean isExcludeURI(String uri) {
-		return uri.indexOf("help") >= 0 || uri.indexOf("login.action") >= 0
-				|| uri.indexOf("login_zh.jsp") >= 0
-				|| uri.indexOf("calogin.action") >= 0
+		return uri.indexOf("help") >= 0 
+				|| uri.indexOf("index.jsp") >= 0 
+				|| uri.indexOf("login.jsp") >= 0
+				|| uri.indexOf("login.action") >= 0
 				|| uri.indexOf("logout.jsp") >= 0
-				|| uri.indexOf("permissionErr.jsp") >= 0 || uri.equals("")
-				|| uri.equals(Environment.getInstance().getContextPath()+"/")
-				|| (ACCESS_ADMIN && uri.endsWith("/admin/login.jsp"))
 				|| (uri.indexOf("timeOut.jsp") >= 0)
 				|| (uri.indexOf("login_error.jsp") >= 0)
-				|| (uri.indexOf("frame.jsp") >= 0)
-				|| uri.indexOf("/res/") >= 0
+				|| (uri.indexOf("denied.jsp") >= 0)				
+				|| uri.equals("") || uri.equals(Environment.getInstance().getContextPath()+"/")
+				|| (ACCESS_ADMIN && uri.endsWith("/admin/login.jsp"))
 				|| uri.endsWith(".ico")
-				|| uri.indexOf("login.jsp") >= 0
-				|| uri.indexOf("/ws/") >= 0
-				|| uri.indexOf("/s/") >= 0
-				|| uri.indexOf("index.jsp") >= 0 || uri.indexOf("/addin/") >= 0
-				|| uri.endsWith("/checkcookie.jsp")
-				|| uri.endsWith("/css/style.jsp")
 				|| (customfilter!=null?customfilter.isExcludeURI(uri):false);
 	}
 

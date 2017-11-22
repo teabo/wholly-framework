@@ -20,6 +20,7 @@ import com.whollyframework.base.model.ValueObject;
 import com.whollyframework.constans.Web;
 import com.whollyframework.util.DBUtil;
 import com.whollyframework.util.StringUtil;
+import com.whollyframework.util.reflect.ReflectUtil;
 import com.whollyframework.util.sequence.Sequence;
 
 @SuppressWarnings("unchecked")
@@ -33,6 +34,11 @@ public class IBatisBaseDAO<E, ID extends Serializable>{
 	 * beanName与sqlmap中的namespace对应
 	 */
 	private String beanName;
+	
+	public IBatisBaseDAO(){
+		Class<E> entityClass = ReflectUtil.getSuperClassGenricType(getClass());
+		this.beanName = entityClass.getSimpleName();
+	}
 
 	public IBatisBaseDAO(String beanName) {
 		// beanName与sqlmap中的namespace对应。

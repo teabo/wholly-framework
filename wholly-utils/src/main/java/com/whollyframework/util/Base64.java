@@ -213,16 +213,20 @@ public class Base64 {
 	}
 	
 	public static void main(String[] args) {
-		String str = "http://212.201.208.22:2212/entry?C=0300000001&ContentID=000001000000045903&F=72103_72104";
-		str = str + str + str + str + str;
-		byte [] b= org.apache.commons.net.util.Base64.encodeBase64(str.getBytes());
-		System.out.println(new String(b));  
-		b=org.apache.commons.net.util.Base64.decodeBase64(b);  
-        System.out.println(new String(b));  
-		
-        byte [] s= Base64.encode(str.getBytes());  
-        System.out.println(new String(s));  
-        s=Base64.decode(s);  
-        System.out.println(new String(s));  
+		String data = "中华人民共和国";
+		byte[] result = Base64.encode(data.getBytes());
+		System.out.println(data);
+		System.out.println(new String(result));
+		System.out.println(new String(Base64.decode(new String(result))));
+//		String s = "Mu1jQoag4dXvNDsl49jWU31/UOFzdOxkNJphsej0EXoCZ0Y3WgeYI3NoqxmBktkwMAZmeInlqVXxh4Ni8TX3EJAUyJAM4pM1LDME6CJh7w3iXJ8q/TseMFFfagXotZGeueiDZ4wGikDNJJUJzR10UjWmTwNbPjV7NtR9QnXrN7rBA0G4bkC9jo92TBeUfzdarNyQ3QVxHT1lLmatGuH8ULyMTAPztIFbIawuDT9DVk4a5w8DatW4rccKtHh6NwGWWe+T7dQBsdyoNxDjEjfhXDf1xdWOe2ZtsBxm6hVNOXSVVeS1kltpk4eKgvHM6CWNlyFyDhu2yjM26sGnb44QFg==";
+//		
+//		InputStream in = new ByteArrayInputStream(Base64.decode(s)); 
+//		
+//		try {
+//			FileOperator.writeFile("e:\\test.png", in);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 }

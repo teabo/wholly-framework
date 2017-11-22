@@ -10,16 +10,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser.Feature;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.type.TypeFactory;
-import org.codehaus.jackson.type.JavaType;
-
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser.Feature;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.whollyframework.protobuf.model.EnumTypeProtos;
@@ -28,6 +30,9 @@ import com.whollyframework.protobuf.model.MessageProtos;
 import com.whollyframework.protobuf.pojo.EnumType;
 import com.whollyframework.protobuf.pojo.InnerMessagePojo;
 import com.whollyframework.protobuf.pojo.MessagePojo;
+import com.whollyframework.util.json.CustomFilteringIntrospector;
+import com.whollyframework.util.json.CustomNullKeySerializer;
+import com.whollyframework.util.json.StringUnicodeSerializer;
 
 public class ProctoBufTest {
 
@@ -102,13 +107,20 @@ public class ProctoBufTest {
 
         // json测试
         final ObjectMapper objectMapper = new ObjectMapper();
-        final JavaType javaType = TypeFactory.type(pojoOBj.getClass());
+        final JavaType javaType = TypeFactory.defaultInstance().constructType(pojoOBj.getClass());
 
+        objectMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+		//使Jackson JSON支持Unicode编码非ASCII字符  
+	    SimpleModule module = new SimpleModule();  
+	    module.addSerializer(String.class, new StringUnicodeSerializer());  
+	    objectMapper.registerModule(module);  
+	    
         // JSON configuration not to serialize null field
-        objectMapper.getSerializationConfig().setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+	    //设置null值不参与序列化(字段不被显示)  
+	    objectMapper.setSerializationInclusion(Include.NON_NULL);  
 
         // JSON configuration not to throw exception on empty bean class
-        objectMapper.getSerializationConfig().disable(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS);
+	    objectMapper.getSerializerProvider().setNullKeySerializer(new CustomNullKeySerializer());
 
         // JSON configuration for compatibility
         objectMapper.configure(Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);

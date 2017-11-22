@@ -1,9 +1,6 @@
 package com.whollyframework.constans;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.Properties;
 
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -34,6 +31,8 @@ public class Environment implements Serializable {
 	private int _wwwPort = -1;
 
 	private String encoding;
+	
+	private String webSiteTitle;
 
 	/**
 	 * @return the encoding
@@ -53,16 +52,6 @@ public class Environment implements Serializable {
 	private static Environment env = null;
 
 	private Environment() {
-		Properties prop = new Properties();
-		InputStream is = Environment.class.getClassLoader()
-				.getResourceAsStream(Web.FRAMEWORK_PROPERTIES_FILE);
-		try {
-			prop.load(is);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		setEncoding(prop.getProperty(Web.FRAMEWORK_I18N_ENCODING));
 	}
 
 	public static Environment getInstance() {
@@ -140,6 +129,14 @@ public class Environment implements Serializable {
 	
 	public void setServerPort(int serverPort) {
 		this._wwwPort = serverPort;
+	}
+
+	public String getWebSiteTitle() {
+		return webSiteTitle;
+	}
+
+	public void setWebSiteTitle(String webSiteTitle) {
+		this.webSiteTitle = webSiteTitle;
 	}
 
 	public String getContext(String uri) {

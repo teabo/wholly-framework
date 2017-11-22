@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.ser.BeanPropertyWriter;
-import org.codehaus.jackson.map.ser.impl.SimpleBeanPropertyFilter;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
+import com.fasterxml.jackson.databind.ser.PropertyWriter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.whollyframework.util.StringUtil;
 
 public class IncludePropertyFilter extends SimpleBeanPropertyFilter {
@@ -21,6 +21,10 @@ public class IncludePropertyFilter extends SimpleBeanPropertyFilter {
 		return true;
 	}
 
+	protected boolean include(PropertyWriter writer) {
+		return true;
+	}
+	
 	protected boolean include(BeanPropertyWriter writer, Object bean) {
 		return get_propertiesToInclude(bean).contains(writer.getName());
 	}
@@ -89,4 +93,5 @@ public class IncludePropertyFilter extends SimpleBeanPropertyFilter {
 
 		}
 	}
+
 }
