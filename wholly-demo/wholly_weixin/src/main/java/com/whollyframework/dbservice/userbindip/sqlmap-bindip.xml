@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="BindIp">
+
+	<insert id="insert">
+		INSERT INTO SYS_USER_BIND_IP
+		(ID , USER_ID , START_IP , END_IP , AUTHOR_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
+		VALUES
+		(#id# , #userId# , #startIp# , #endIp# , #authorId# , #created# , #lastModified# , #lastModifyId# , #sortId# )
+	</insert>
+	
+	<insert id="insertMysql">
+		INSERT INTO SYS_USER_BIND_IP
+		(ID , USER_ID , START_IP , END_IP , AUTHOR_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
+		VALUES
+		(_nextval('SEQ_SYS_USER_BIND_IP') , #userId# , #startIp# , #endIp# , #authorId# , #created# , #lastModified# , #lastModifyId# , #sortId# )
+		<selectKey resultClass="int" >
+       		 SELECT _currval('SEQ_SYS_USER_BIND_IP') as id
+        </selectKey>
+	</insert>
+	
+	<delete id="deleteByPrimaryKey">
+		delete from SYS_USER_BIND_IP where ID=#id#
+	</delete>
+
+	<update id="updateByPrimaryKey">
+		update SYS_USER_BIND_IP
+		set 
+				USER_ID = #userId# ,
+ 		START_IP = #startIp# ,
+ 		END_IP = #endIp# ,
+ 		AUTHOR_ID = #authorId# ,
+ 		CREATED = #created# ,
+ 		LAST_MODIFIED = #lastModified# ,
+ 		LAST_MODIFY_ID = #lastModifyId# ,
+ 		SORT_ID = #sortId# 
+		where
+		ID=#id#
+	</update>
+
+	<select id="countByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="java.lang.Integer">
+		select count(*) from SYS_USER_BIND_IP
+		<include refid="IBatisDefault.Where_Clause" />
+	</select>
+
+	<select id="getAll" resultClass="com.whollyframework.dbservice.userbindip.model.BindIp">
+		select ID id , USER_ID userId , START_IP startIp , END_IP endIp , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_USER_BIND_IP t order by sortid
+	</select>
+
+	<select id="selectByPrimaryKey" resultClass="com.whollyframework.dbservice.userbindip.model.BindIp">
+		select  ID id , USER_ID userId , START_IP startIp , END_IP endIp , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_USER_BIND_IP t	where t.ID=#id#
+	</select>
+
+	<select id="selectByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="com.whollyframework.dbservice.userbindip.model.BindIp">
+		select ID id , USER_ID userId , START_IP startIp , END_IP endIp , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_USER_BIND_IP t
+		<isParameterPresent>
+			<include refid="IBatisDefault.Where_Clause" />
+			order by sortid
+			<isNotEmpty property="orderByClause">
+				,$orderByClause$
+      		</isNotEmpty>
+		</isParameterPresent>
+	</select>
+
+	<delete id="deleteByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		delete from SYS_USER_BIND_IP where ID in (select t.id from (select * from SYS_USER_BIND_IP) t
+		<include refid="IBatisDefault.Where_Clause" />)
+	</delete>
+	<!-- 常规调用 end -->
+</sqlMap>

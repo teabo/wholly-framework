@@ -32,7 +32,7 @@
 		<property name="model.subpackage" value="web"/>
 	</config>
 	
-	<config name="rest">
+	<!-- <config name="rest">
 		<property name="generator" value="Controller"/>
 		<property name="template.path" value="template/rest"/>
 		<property name="template.file" value="{}RestController.java.ftl"/>
@@ -40,7 +40,7 @@
 		<property name="model.package" value="com.whollyframework.portal"/>
 		<property name="model.springRestPath" value="/api"/>
 		<property name="model.subpackage" value="rest"/>
-	</config>
+	</config> -->
 	
 	<config name="serviceInterface">
 		<property name="generator" value="IBatis.Service"/>

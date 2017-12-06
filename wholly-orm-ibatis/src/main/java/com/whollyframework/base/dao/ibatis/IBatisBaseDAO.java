@@ -108,7 +108,7 @@ public class IBatisBaseDAO<E, ID extends Serializable>{
 				lines);
 	}
 
-	public void create(String sqlid, ValueObject vo) throws SQLException {
+	public int create(String sqlid, ValueObject vo) throws SQLException {
 		if (vo.getCreated()==null){
 			vo.setCreated(new Date());
 		}
@@ -130,6 +130,7 @@ public class IBatisBaseDAO<E, ID extends Serializable>{
 					vo);
 
 		}
+		return 1;
 	}
 
 	/**
@@ -317,8 +318,8 @@ public class IBatisBaseDAO<E, ID extends Serializable>{
 		return (E) find("selectByPrimaryKey", id);
 	}
 
-	public void create(E vo) throws SQLException {
-		create("insert", (ValueObject) vo);
+	public int create(E vo) throws SQLException {
+		return create("insert", (ValueObject) vo);
 	}
 
 	public int update(E vo) throws SQLException {

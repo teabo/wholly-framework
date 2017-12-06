@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="Organization">
+
+	<insert id="insert">
+		INSERT INTO SYS_ORGANIZATION
+		(ID , ORG_TYPE , NAME , TELEPHONE , DELFLAG , SORT_ID , CREATED , AUTHOR , AUTHOR_ID , LAST_MODIFIED , LAST_MODIFY_ID , PARENT_CODE , ORG_CODE )
+		VALUES
+		(#id# , #orgType# , #name# , #telephone# , #delflag# , #sortId# , #created# , #author# , #authorId# , #lastModified# , #lastModifyId# , #parentCode# , #orgCode# )
+	</insert>
+	
+	<insert id="insertMysql">
+		INSERT INTO SYS_ORGANIZATION
+		(ID , ORG_TYPE , NAME , TELEPHONE , DELFLAG , SORT_ID , CREATED , AUTHOR , AUTHOR_ID , LAST_MODIFIED , LAST_MODIFY_ID , PARENT_CODE , ORG_CODE )
+		VALUES
+		(_nextval('SEQ_SYS_ORGANIZATION'), #orgType# , #name# , #telephone# , #delflag# , #sortId# , #created# , #author# , #authorId# , #lastModified# , #lastModifyId# , #parentCode# , #orgCode# )
+		<selectKey resultClass="int" >
+       		 SELECT _currval('SEQ_SYS_ORGANIZATION') as id
+        </selectKey>
+	</insert>
+	
+	<delete id="deleteByPrimaryKey">
+		delete from SYS_ORGANIZATION where ID=#id#
+	</delete>
+
+	<update id="updateByPrimaryKey">
+		update SYS_ORGANIZATION
+		set 
+				ORG_TYPE = #orgType# ,
+ 		NAME = #name# ,
+ 		TELEPHONE = #telephone# ,
+ 		DELFLAG = #delflag# ,
+ 		SORT_ID = #sortId# ,
+ 		CREATED = #created# ,
+ 		AUTHOR = #author# ,
+ 		AUTHOR_ID = #authorId# ,
+ 		LAST_MODIFIED = #lastModified# ,
+ 		LAST_MODIFY_ID = #lastModifyId# ,
+ 		PARENT_CODE = #parentCode# ,
+ 		ORG_CODE = #orgCode# 
+		where
+		ID=#id#
+	</update>
+     
+   
+	<select id="countByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="java.lang.Integer">
+		select count(*) from (select ORG_TYPE orgType , NAME name , TELEPHONE telephone , DELFLAG delflag , SORT_ID sortId , CREATED created , AUTHOR author , AUTHOR_ID authorId , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , PARENT_CODE parentCode , ID id , ORG_CODE orgCode  from SYS_ORGANIZATION) t
+		<include refid="IBatisDefault.Where_Clause" />
+	</select>
+
+	<select id="getAll" resultClass="com.whollyframework.dbservice.org.model.Organization">
+		select ORG_TYPE orgType , NAME name , TELEPHONE telephone , DELFLAG delflag , SORT_ID sortId , CREATED created , AUTHOR author , AUTHOR_ID authorId , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , PARENT_CODE parentCode , ID id , ORG_CODE orgCode  from SYS_ORGANIZATION t order by sortid
+	</select>
+
+	<select id="selectByPrimaryKey" resultClass="com.whollyframework.dbservice.org.model.Organization">
+		select ORG_TYPE orgType , NAME name , TELEPHONE telephone , DELFLAG delflag , SORT_ID sortId , CREATED created , AUTHOR author , AUTHOR_ID authorId , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , PARENT_CODE parentCode , ID id , ORG_CODE orgCode  from SYS_ORGANIZATION t	where t.ID=#id#
+	</select>
+
+	<select id="selectByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="com.whollyframework.dbservice.org.model.Organization">
+		select * from (select ORG_TYPE orgType , NAME name , TELEPHONE telephone , DELFLAG delflag , SORT_ID sortId , CREATED created , AUTHOR author , AUTHOR_ID authorId , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , PARENT_CODE parentCode , ID id , ORG_CODE orgCode  from SYS_ORGANIZATION) t
+		<isParameterPresent>
+			<include refid="IBatisDefault.Where_Clause" />
+			<isNotEmpty property="orderByClause">
+				order by $orderByClause$
+      		</isNotEmpty>
+		</isParameterPresent>
+	</select>
+
+	<delete id="deleteByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		delete from SYS_ORGANIZATION where ID in (select t.id from (select ORG_TYPE orgType , NAME name , TELEPHONE telephone , DELFLAG delflag , SORT_ID sortId , CREATED created , AUTHOR author , AUTHOR_ID authorId , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , PARENT_CODE parentCode , ID id , ORG_CODE orgCode  from SYS_ORGANIZATION) t
+		<include refid="IBatisDefault.Where_Clause" />)
+	</delete>
+	<!-- 常规调用 end -->
+	
+	
+	<select id="simpleQueryByParentId" parameterClass="java.util.HashMap" resultClass="com.whollyframework.dbservice.org.model.Organization">
+		select ORG_TYPE orgType , NAME name , TELEPHONE telephone , DELFLAG delflag , SORT_ID sortId , CREATED created , AUTHOR author , AUTHOR_ID authorId , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , PARENT_CODE parentCode , ID id , ORG_CODE orgCode  from SYS_ORGANIZATION t	
+		 WHERE t.PARENT_CODE = #parentCode#
+	</select>
+	
+	<select id="getOrganizationByOrganizationIdIsNull" parameterClass="java.util.HashMap" resultClass="com.whollyframework.dbservice.org.model.Organization">
+		select ORG_TYPE orgType , NAME name , TELEPHONE telephone , DELFLAG delflag , SORT_ID sortId , CREATED created , AUTHOR author , AUTHOR_ID authorId , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , PARENT_CODE parentCode , ID id , ORG_CODE orgCode  from SYS_ORGANIZATION t	
+		 WHERE t.PARENT_CODE ='0'
+	</select>
+	
+	  <select id="getOrganizationByOrganizationOrgType" parameterClass="java.lang.String"
+        resultClass="com.whollyframework.dbservice.org.model.Organization">
+		select ORG_TYPE orgType , NAME name , TELEPHONE telephone , DELFLAG delflag , SORT_ID sortId , CREATED created , AUTHOR author , AUTHOR_ID authorId , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , PARENT_CODE parentCode , ID id , ORG_CODE orgCode  from SYS_ORGANIZATION t where ORG_TYPE = #orgType# 
+	</select>
+     
+</sqlMap>

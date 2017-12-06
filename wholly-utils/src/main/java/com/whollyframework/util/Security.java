@@ -140,11 +140,13 @@ public class Security {
 
 	public static void main(String[] args) {
 		try {
-			String password = Security.encryptPassword("123");
+			String password = Security.encryptPassword("18680226004");
 			System.out.println("encrypt: " + password);
 			
 			password = Security.decryptPassword(password);
 			System.out.println("decrypt: " + password);
+			
+			System.out.println(Security.decryptPassword("606c490e68d0b40d9284aa8f736642cb"));
 			
 			String data = "中华人民共和国";
 			System.out.println(data);

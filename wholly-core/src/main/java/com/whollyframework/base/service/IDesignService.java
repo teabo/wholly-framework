@@ -14,15 +14,15 @@ public interface IDesignService<E, ID extends Serializable> {
 
 	public E find(ID id) throws Exception;
 
-	public void doCreate(E vo) throws Exception;
+	public int doCreate(E vo) throws Exception;
 	
-	public void doUpdate(E vo) throws Exception;
+	public int doUpdate(E vo) throws Exception;
 
-	public void doRemove(E vo) throws Exception;
+	public int doRemove(E vo) throws Exception;
 
-	public void doRemove(ID[] selects) throws Exception;
+	public int doRemove(ID[] selects) throws Exception;
 
-	public void doRemove(ID pk) throws Exception;
+	public int doRemove(ID pk) throws Exception;
 	
 	public boolean isEmpty() throws Exception;
 

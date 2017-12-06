@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ChatHistoryVO">
+
+	<insert id="insert">
+		INSERT INTO WX_MSG_CHAT_HISTORY
+		(ID, TO_USER_NAME , FROM_USER_NAME , CREATE_TIME , MSG_TYPE , MSG_XML )
+		VALUES
+		(#id#, #toUserName# , #fromUserName# , #createTime# , #msgType# , #msgXml# )
+	</insert>
+	
+	<insert id="insertMysql">
+		INSERT INTO WX_MSG_CHAT_HISTORY
+		(ID, TO_USER_NAME , FROM_USER_NAME , CREATE_TIME , MSG_TYPE , MSG_XML )
+		VALUES
+		(_nextval('WX_MSG_CHAT_HISTORY'), #toUserName# , #fromUserName# , #createTime# , #msgType# , #msgXml# )
+		<selectKey resultClass="int" >
+       		 SELECT _currval('WX_MSG_CHAT_HISTORY') as id
+        </selectKey>
+	</insert>
+	
+	<delete id="deleteByPrimaryKey">
+		delete from WX_MSG_CHAT_HISTORY where ID=#id#
+	</delete>
+
+	<update id="updateByPrimaryKey">
+		update WX_MSG_CHAT_HISTORY
+		set 
+				TO_USER_NAME = #toUserName# ,
+ 		FROM_USER_NAME = #fromUserName# ,
+ 		CREATE_TIME = #createTime# ,
+ 		MSG_TYPE = #msgType# ,
+ 		MSG_XML = #msgXml# 
+		where
+		ID=#id#
+	</update>
+
+	<select id="countByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="java.lang.Integer">
+		select count(*) from (select ID id , TO_USER_NAME toUserName , FROM_USER_NAME fromUserName , CREATE_TIME createTime , MSG_TYPE msgType , MSG_XML msgXml  from WX_MSG_CHAT_HISTORY) t
+		<include refid="IBatisDefault.Where_Clause" />
+	</select>
+
+	<select id="getAll" resultClass="com.whollyframework.dbservice.wechat.chathistory.model.ChatHistoryVO">
+		select ID id , TO_USER_NAME toUserName , FROM_USER_NAME fromUserName , CREATE_TIME createTime , MSG_TYPE msgType , MSG_XML msgXml  from WX_MSG_CHAT_HISTORY t order by sortid
+	</select>
+
+	<select id="selectByPrimaryKey" resultClass="com.whollyframework.dbservice.wechat.chathistory.model.ChatHistoryVO">
+		select ID id , TO_USER_NAME toUserName , FROM_USER_NAME fromUserName , CREATE_TIME createTime , MSG_TYPE msgType , MSG_XML msgXml  from WX_MSG_CHAT_HISTORY t	where t.ID=#id#
+	</select>
+
+	<select id="selectByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="com.whollyframework.dbservice.wechat.chathistory.model.ChatHistoryVO">
+		select * from (select ID id , TO_USER_NAME toUserName , FROM_USER_NAME fromUserName , CREATE_TIME createTime , MSG_TYPE msgType , MSG_XML msgXml  from WX_MSG_CHAT_HISTORY) t
+		<isParameterPresent>
+			<include refid="IBatisDefault.Where_Clause" />
+			<isNotEmpty property="orderByClause">
+				order by $orderByClause$
+      		</isNotEmpty>
+		</isParameterPresent>
+	</select>
+
+	<delete id="deleteByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		delete from WX_MSG_CHAT_HISTORY where ID in (select t.id from (select ID id , TO_USER_NAME toUserName , FROM_USER_NAME fromUserName , CREATE_TIME createTime , MSG_TYPE msgType , MSG_XML msgXml  from WX_MSG_CHAT_HISTORY) t
+		<include refid="IBatisDefault.Where_Clause" />)
+	</delete>
+	<!-- 常规调用 end -->
+</sqlMap>

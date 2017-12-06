@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+	<!-- namespace取名为VO对象名 -->
+<sqlMap namespace="UserVO">
+
+	<!--
+		常规调用，基类实现（在com/whollyframework/base/dao/IBatisBaseDAO.java类中有实现方法）
+	-->
+	<insert id="insert">
+		INSERT INTO SYS_USER_INFO
+		(ID,loginName,ALIAS_NAME,CERT_ID,userPassword,userName,SEX,USERLEVEL,status,sort_Id,CREATED,author_Id,LAST_MODIFIED,last_Modify_Id,USERTYPE,ORG_ID,CERT_TYPE,HAS_BIND_IP,BIND_IP)
+		VALUES
+		(#id#,#loginName#,#aliasName#,#certId#,#userPassword#,#userName#,#sex#,#userLevel#,#status#,#sortId#,#created#,#authorId#,#lastModified#,#lastModifyId#,#userType#,#orgId#,#certType#,#hasBindIp#,#bindIps#)
+	</insert>
+	
+	<insert id="insertMysql">
+		INSERT INTO SYS_USER_INFO
+		(ID,loginName,ALIAS_NAME,CERT_ID,userPassword,userName,SEX,USERLEVEL,status,sort_Id,CREATED,author_Id,LAST_MODIFIED,last_Modify_Id,USERTYPE,ORG_ID,CERT_TYPE,HAS_BIND_IP,BIND_IP)
+		VALUES
+		(_nextval('SEQ_SYS_USER_INFO'),#loginName#,#aliasName#,#certId#,#userPassword#,#userName#,#sex#,#userLevel#,#status#,#sortId#,#created#,#authorId#,#lastModified#,#lastModifyId#,#userType#,#orgId#,#certType#,#hasBindIp#,#bindIps#)
+		<selectKey resultClass="int" >
+       		 SELECT _currval('SEQ_SYS_USER_INFO') as id
+        </selectKey>
+	</insert>
+
+	<delete id="deleteByPrimaryKey">
+		DELETE FROM SYS_USER_INFO WHERE ID = #id# 
+	</delete>
+
+	<update id="updateByPrimaryKey">
+		UPDATE SYS_USER_INFO
+		SET loginName = #loginName#,
+			ALIAS_NAME = #aliasName#,
+			userPassword = #userPassword#,
+			userName = #userName#,
+			CERT_TYPE=#certType#,
+			CERT_ID=#certId#,
+			SEX = #sex#,
+			USERLEVEL = #userLevel#,
+			USERTYPE=#userType#,
+			STATUS = #status#,
+			sort_Id = #sortId#,
+			CREATED = #created#,
+			author_Id = #authorId#,
+			LAST_MODIFIED = #lastModified#,
+			last_Modify_Id = #lastModifyId#,
+			ORG_ID=#orgId#,
+			HAS_BIND_IP=#hasBindIp#,
+			BIND_IP=#bindIps#
+		WHERE ID = #id#
+	</update>
+	<select id="getAll" resultClass="com.whollyframework.dbservice.user.model.UserVO">
+		select ID id , loginName loginName , ALIAS_NAME aliasName , userPassword userPassword , userName userName , SEX sex , USERLEVEL userlevel , STATUS status , sort_Id sortId , CREATED created , author_Id authorId , LAST_MODIFIED lastmodified , last_Modify_Id lastModifyId , CERT_ID certId , USERTYPE usertype , LOGIN_ERROR_TIMES loginErrorTimes , HAS_BIND_IP hasBindIp , BIND_IP bindIps ,org_id orgId  ,CERT_TYPE certType from SYS_USER_INFO t order by sort_Id
+	</select>
+
+	<select id="selectByPrimaryKey" resultClass="com.whollyframework.dbservice.user.model.UserVO">
+		select ID id , loginName loginName , ALIAS_NAME aliasName , userPassword userPassword , userName userName , SEX sex , USERLEVEL userlevel , STATUS status , sort_Id sortId , CREATED created , author_Id authorId , LAST_MODIFIED lastmodified , last_Modify_Id lastModifyId , CERT_ID certId , USERTYPE usertype , LOGIN_ERROR_TIMES loginErrorTimes , HAS_BIND_IP hasBindIp , BIND_IP bindIps ,org_id orgId  ,CERT_TYPE certType from SYS_USER_INFO t where t.ID=#id#
+	</select>
+
+	<select id="selectByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="com.whollyframework.dbservice.user.model.UserVO">
+		select ID id , loginName loginName , ALIAS_NAME aliasName , userPassword userPassword , userName userName , SEX sex , USERLEVEL userlevel , STATUS status , sort_Id sortId , CREATED created , author_Id authorId , LAST_MODIFIED lastmodified , last_Modify_Id lastModifyId , CERT_ID certId , USERTYPE usertype , LOGIN_ERROR_TIMES loginErrorTimes , HAS_BIND_IP hasBindIp , BIND_IP bindIps ,org_id orgId  ,CERT_TYPE certType from SYS_USER_INFO t
+		<isParameterPresent>
+			<include refid="IBatisDefault.Where_Clause" />
+			order by sort_Id
+			<isNotEmpty property="orderByClause">
+				,$orderByClause$
+      		</isNotEmpty>
+		</isParameterPresent>
+	</select>
+
+	<select id="countByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils" resultClass="java.lang.Integer">
+		SELECT count(*) FROM SYS_USER_INFO
+		<include refid="IBatisDefault.Where_Clause" />
+	</select>
+
+	<delete id="deleteByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		delete from SYS_USER_INFO where ID in (select ID from (select t.ID id,t.* from SYS_USER_INFO t)
+			<include refid="IBatisDefault.Where_Clause" />)
+	</delete>
+	<!-- 常规调用 end -->
+	
+	
+	<select id="existUserOrg" resultClass="java.lang.String">
+		select user_id from SYS_USER_ORG_SET
+		where user_id = #userid#
+	</select>
+	
+	<update id="updateUserOrg">
+		update SYS_USER_ORG_SET
+		set user_id = #userid#,
+			org_id  = #orgid#
+		where user_id = #userid#
+	</update>
+		
+	<insert id="insertUserOrg">
+		insert into SYS_USER_ORG_SET (org_id,user_id, org_user_id)
+		values ( #orgid#, #userid#, #id# )
+	</insert>
+	
+	<delete id="deleteUserOrg">
+		delete from SYS_USER_ORG_SET where 1=1
+		<dynamic prepend="and">
+			<isNotEmpty property="uids" prepend="and">
+					<![CDATA[
+						user_id in (#uids#)
+					]]>
+			</isNotEmpty>
+			<isNotEqual property="orgid" compareValue="0" prepend="and">
+					<![CDATA[
+						org_id in (#orgid#)
+					]]>
+			</isNotEqual>
+			<isNotEqual property="userid" compareValue="0" prepend="and">
+					<![CDATA[
+						user_id in (#userid#)
+					]]>
+			</isNotEqual>
+		</dynamic>
+	</delete>
+	
+	<select id="getUserByCert_id" resultClass="com.whollyframework.dbservice.user.model.UserVO">
+		select t.ID id, t.* from SYS_USER_INFO t where t.CERT_ID = #cert_id#
+	</select>
+	
+	<select id="getUserByloginName" resultClass="com.whollyframework.dbservice.user.model.UserVO">
+		select t.ID id, t.* from SYS_USER_INFO t where (t.loginName = #loginName# or t.alias_name = #loginName#)
+	</select>
+
+	<select id="getIdByloginName" resultClass="java.lang.String">
+		select ID from SYS_USER_INFO where (loginName = #name# or alias_name = #name#)
+	</select>
+	
+	<!-- 根据用户id查询部门信息 -->
+	<select id="queryOrgIdByUserId" resultClass="java.lang.String">
+		SELECT t.org_id FROM t_org_user t WHERE t.user_id = #uid#
+	</select>
+	
+	<!-- 根据单位查询用户 -->
+	<select id="queryUnitUser" resultClass="com.whollyframework.dbservice.user.model.UserVO">
+		SELECT t.ID id ,t.* FROM SYS_USER_INFO t WHERE t.org_id = #uid# order by CREATED Desc
+	</select>	
+	
+	<!-- 修改密码 -->
+	<update id="modifyUserPwd">
+		update SYS_USER_INFO set userPassword = #userPassword# where ID = #id#
+	</update>
+	<!-- 停用 启用 -->
+	 <update id="updateStatus">
+      UPDATE SYS_USER_INFO t set
+	  t.STATUS = #status#
+      where t.ID = #id#
+    </update>
+	
+	<select id="gerUserRoles"  resultClass="com.whollyframework.dbservice.role.model.Role">
+	   select ID id , NAME name , DESCRIPTION description , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId   
+	   from  (select r.* From SYS_ROLE_INFO r,SYS_USER_INFO u,SYS_USER_ROLE_SET ref
+        where u.ID=ref.user_id and r.id=ref.role_id and u.ID=#userId# ) t
+	 </select>
+</sqlMap>

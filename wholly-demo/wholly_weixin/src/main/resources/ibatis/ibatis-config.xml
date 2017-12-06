@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" errorTracingEnabled="true" maxRequests="32"
+		maxSessions="10" maxTransactions="5" useStatementNamespaces="true" />
+		
+	<sqlMap resource="ibatis-default.xml" />
+	<!--system start -->
+	<sqlMap resource="com/whollyframework/dbservice/menu/sqlmap-menu.xml" />
+	<sqlMap resource="com/whollyframework/dbservice/operatelog/sqlmap-operatelog.xml" />
+	<sqlMap resource="com/whollyframework/dbservice/org/sqlmap-org.xml" />
+	<sqlMap resource="com/whollyframework/dbservice/permission/sqlmap-permission.xml" />
+	<sqlMap resource="com/whollyframework/dbservice/role/sqlmap-role.xml" />
+	<sqlMap resource="com/whollyframework/dbservice/roleuser/sqlmap-roleuser.xml" />
+	<sqlMap resource="com/whollyframework/dbservice/user/sqlmap-user.xml" />
+	<sqlMap resource="com/whollyframework/dbservice/userbindip/sqlmap-bindip.xml" />
+	<sqlMap resource="com/whollyframework/dbservice/version/sqlmap-version.xml" />
+	<sqlMap resource="com/whollyframework/dbservice/sysconfig/sqlmap-sysconfig.xml" />
+	<!--system end -->
+	
+	<sqlMap resource="com/whollyframework/dbservice/wechat/msgnews/sqlmap-MsgNews.xml"/>
+	<sqlMap resource="com/whollyframework/dbservice/wechat/msgmedia/sqlmap-MsgMedia.xml"/>
+	<sqlMap resource="com/whollyframework/dbservice/wechat/msgcategory/sqlmap-MsgCategory.xml"/>
+	<sqlMap resource="com/whollyframework/dbservice/wechat/chathistory/sqlmap-ChatHistory.xml"/>
+</sqlMapConfig>

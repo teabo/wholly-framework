@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="Permission">
+
+	<insert id="insert">
+		INSERT INTO SYS_PERMISSION
+		(ID , ROLE_ID , RES_TYPE , RES_ID , AUTHOR_ID , AUTHOR , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
+		VALUES
+		(#id# , #roleId# , #resType# , #resId# , #authorId# , #author# , #created# , #lastModified# , #lastModifyId# , #sortId# )
+	</insert>
+	
+	<insert id="insertMysql">
+		INSERT INTO SYS_PERMISSION
+		(ID , ROLE_ID , RES_TYPE , RES_ID , AUTHOR_ID , AUTHOR , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
+		VALUES
+		(_nextval('SEQ_SYS_PERMISSION') , #roleId# , #resType# , #resId# , #authorId# , #author# , #created# , #lastModified# , #lastModifyId# , #sortId# )
+		<selectKey resultClass="int" >
+       		 SELECT _currval('SEQ_SYS_PERMISSION') as id
+        </selectKey>
+	</insert>
+	
+	<delete id="deleteByPrimaryKey">
+		delete from SYS_PERMISSION where ID=#id#
+	</delete>
+
+	<update id="updateByPrimaryKey">
+		update SYS_PERMISSION
+		set 
+				ROLE_ID = #roleId# ,
+ 		RES_TYPE = #resType# ,
+ 		RES_ID = #resId# ,
+ 		AUTHOR_ID = #authorId# ,
+ 		AUTHOR = #author# ,
+ 		CREATED = #created# ,
+ 		LAST_MODIFIED = #lastModified# ,
+ 		LAST_MODIFY_ID = #lastModifyId# ,
+ 		SORT_ID = #sortId# 
+		where
+		ID=#id#
+	</update>
+
+	<select id="countByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="java.lang.Integer">
+		select count(*) from SYS_PERMISSION
+		<include refid="IBatisDefault.Where_Clause" />
+	</select>
+
+	<select id="getAll" resultClass="com.whollyframework.dbservice.permission.model.Permission">
+		select ID id , ROLE_ID roleId , RES_TYPE resType , RES_ID resId , AUTHOR_ID authorId , AUTHOR author , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_PERMISSION t order by sortid
+	</select>
+
+	<select id="selectByPrimaryKey" resultClass="com.whollyframework.dbservice.permission.model.Permission">
+		select  ID id , ROLE_ID roleId , RES_TYPE resType , RES_ID resId , AUTHOR_ID authorId , AUTHOR author , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_PERMISSION t	where t.ID=#id#
+	</select>
+
+	<select id="selectByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="com.whollyframework.dbservice.permission.model.Permission">
+		select ID id , ROLE_ID roleId , RES_TYPE resType , RES_ID resId , AUTHOR_ID authorId , AUTHOR author , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_PERMISSION t
+		<isParameterPresent>
+			<include refid="IBatisDefault.Where_Clause" />
+			order by sortid
+			<isNotEmpty property="orderByClause">
+				,$orderByClause$
+      		</isNotEmpty>
+		</isParameterPresent>
+	</select>
+
+	<delete id="deleteByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		delete from SYS_PERMISSION where ID in (select t.id from (select * from SYS_PERMISSION) t
+		<include refid="IBatisDefault.Where_Clause" />)
+	</delete>
+	<!-- 常规调用 end -->
+</sqlMap>

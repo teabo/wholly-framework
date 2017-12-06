@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="Role">
+
+	<insert id="insert">
+		INSERT INTO SYS_ROLE_INFO
+		(ID , NAME , DESCRIPTION , AUTHOR_ID , AUTHOR , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
+		VALUES
+		(#id# , #name# , #description# , #authorId# , #author# , #created# , #lastModified# , #lastModifyId# , #sortId# )
+	</insert>
+	
+	<insert id="insertMysql">
+		INSERT INTO SYS_ROLE_INFO
+		(ID , NAME , DESCRIPTION , AUTHOR_ID , AUTHOR , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
+		VALUES
+		(_nextval('SEQ_SYS_ROLE_INFO') , #name# , #description# , #authorId# , #author# , #created# , #lastModified# , #lastModifyId# , #sortId# )
+		<selectKey resultClass="int" >
+       		 SELECT _currval('SEQ_SYS_ROLE_INFO') as id
+        </selectKey>
+	</insert>
+	
+	<delete id="deleteByPrimaryKey">
+		delete from SYS_ROLE_INFO where ID=#id#
+	</delete>
+
+	<update id="updateByPrimaryKey">
+		update SYS_ROLE_INFO
+		set 
+		NAME = #name# ,
+ 		DESCRIPTION = #description# ,
+ 		AUTHOR_ID = #authorId# ,
+ 		AUTHOR = #author# ,
+ 		CREATED = #created# ,
+ 		LAST_MODIFIED = #lastModified# ,
+ 		LAST_MODIFY_ID = #lastModifyId# ,
+ 		SORT_ID = #sortId# 
+		where
+		ID=#id#
+	</update>
+
+	<select id="countByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="java.lang.Integer">
+		select count(*) from SYS_ROLE_INFO
+		<include refid="IBatisDefault.Where_Clause" />
+	</select>
+
+	<select id="getAll" resultClass="com.whollyframework.dbservice.role.model.Role">
+		select ID id , NAME name , DESCRIPTION description , AUTHOR_ID authorId , AUTHOR author , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_ROLE_INFO t order by sortid
+	</select>
+
+	<select id="selectByPrimaryKey" resultClass="com.whollyframework.dbservice.role.model.Role">
+		select  ID id , NAME name , DESCRIPTION description , AUTHOR_ID authorId , AUTHOR author , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_ROLE_INFO t	where t.ID=#id#
+	</select>
+
+	<select id="selectByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="com.whollyframework.dbservice.role.model.Role">
+		select ID id , NAME name , DESCRIPTION description , AUTHOR_ID authorId , AUTHOR author , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_ROLE_INFO t
+		<isParameterPresent>
+			<include refid="IBatisDefault.Where_Clause" />
+			order by sortid
+		</isParameterPresent>
+	</select>
+
+	<delete id="deleteByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		delete from SYS_ROLE_INFO where ID in (select t.id from (select * from SYS_ROLE_INFO) t
+		<include refid="IBatisDefault.Where_Clause" />)
+	</delete>
+	<!-- 常规调用 end -->
+	
+	<delete id="deleteUserRoleRelByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		delete from SYS_USER_ROLE_SET t 
+		<include refid="IBatisDefault.Where_Clause" />
+	</delete>
+	
+	<select id="selectUserIdByRole" resultClass="java.lang.String">
+		select t.USER_ID from SYS_USER_ROLE_SET t where t.role_id = #roleid#
+	</select>
+	
+	<select id="getAllIds" resultClass="java.lang.String">
+		SELECT t.id FROM SYS_ROLE_INFO t;
+	</select>
+	
+	<!-- 根据资源id查询角色信息 -->
+	<select id="getRolesByMid" resultClass="com.whollyframework.dbservice.role.model.Role" parameterClass="java.util.Map">
+		select t.ID id , t.NAME name , t.DESCRIPTION description , t.AUTHOR_ID authorId , t.AUTHOR author , t.CREATED created , 
+		t.LAST_MODIFIED lastModified , t.LAST_MODIFY_ID lastModifyId , t.SORT_ID sortId  from SYS_ROLE_INFO t, SYS_PERMISSION p
+		where t.ID = p.ROLE_ID and p.RES_ID_ = #resId# and t.NAME like '%$name$%' order by sortid
+	</select>
+	
+	<!-- 查询不等于某资源id的角色信息 -->
+	<select id="getRolesNotEqualMid" resultClass="com.whollyframework.dbservice.role.model.Role" parameterClass="java.util.Map">
+		select ID id , NAME name , DESCRIPTION description , AUTHOR_ID authorId , AUTHOR author , CREATED created , 
+		LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId from SYS_ROLE_INFO s where s.ID not in 
+		(select distinct t.ID id from SYS_ROLE_INFO t, SYS_PERMISSION p where t.ID = p.ROLE_ID and 
+		p.RES_ID = #resId#) and s.NAME like '%$name$%' order by s.sort_id
+	</select>
+	
+</sqlMap>

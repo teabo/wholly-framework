@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="RoleUser">
+
+	<insert id="insert">
+		INSERT INTO SYS_USER_ROLE_SET
+		(ID , USER_ID , ROLE_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
+		VALUES
+		(#id# , #userId# , #roleId# , #created# , #lastModified# , #lastModifyId# , #sortId# )
+	</insert>
+	
+	<insert id="insertMysql">
+		INSERT INTO SYS_USER_ROLE_SET
+		(ID , USER_ID , ROLE_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
+		VALUES
+		(_nextval('SEQ_SYS_USER_ROLE_SET') , #userId# , #roleId# , #created# , #lastModified# , #lastModifyId# , #sortId# )
+		<selectKey resultClass="int" >
+       		 SELECT _currval('SEQ_SYS_USER_ROLE_SET') as id
+        </selectKey>
+	</insert>
+	
+	<delete id="deleteByPrimaryKey">
+		delete from SYS_USER_ROLE_SET where ID=#id#
+	</delete>
+
+	<update id="updateByPrimaryKey">
+		update SYS_USER_ROLE_SET
+		set 
+				USER_ID = #userId# ,
+ 		ROLE_ID = #roleId# ,
+ 		CREATED = #created# ,
+ 		LAST_MODIFIED = #lastModified# ,
+ 		LAST_MODIFY_ID = #lastModifyId# ,
+ 		SORT_ID = #sortId# 
+		where
+		ID=#id#
+	</update>
+
+	<select id="countByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="java.lang.Integer">
+		select count(*) from SYS_USER_ROLE_SET
+		<include refid="IBatisDefault.Where_Clause" />
+	</select>
+
+	<select id="getAll" resultClass="com.whollyframework.dbservice.roleuser.model.RoleUser">
+		select ID id , USER_ID userId , ROLE_ID roleId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_USER_ROLE_SET t order by sortid
+	</select>
+
+	<select id="selectByPrimaryKey" resultClass="com.whollyframework.dbservice.roleuser.model.RoleUser">
+		select  ID id , USER_ID userId , ROLE_ID roleId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_USER_ROLE_SET t	where t.ID=#id#
+	</select>
+
+	<select id="selectByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="com.whollyframework.dbservice.roleuser.model.RoleUser">
+		select ID id , USER_ID userId , ROLE_ID roleId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from SYS_USER_ROLE_SET t
+		<isParameterPresent>
+			<include refid="IBatisDefault.Where_Clause" />
+			order by sortid
+			<isNotEmpty property="orderByClause">
+				,$orderByClause$
+      		</isNotEmpty>
+		</isParameterPresent>
+	</select>
+
+	<delete id="deleteByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		delete from SYS_USER_ROLE_SET where ID in (select t.id from (select * from SYS_USER_ROLE_SET) t
+		<include refid="IBatisDefault.Where_Clause" />)
+	</delete>
+	<!-- 常规调用 end -->
+</sqlMap>

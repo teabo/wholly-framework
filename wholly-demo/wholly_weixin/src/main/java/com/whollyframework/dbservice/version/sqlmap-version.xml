@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="Version">
+
+	<insert id="insert">
+		INSERT INTO SYS_VERSION
+		(ID , APP_VERSION , DB_VERSION , VERSION_DESC , CREATE_DATE )
+		VALUES
+		(#id# , #appVersion# , #dbVersion# , #versionDesc# , #createDate# )
+	</insert>
+	
+	<insert id="insertMysql">
+		INSERT INTO SYS_VERSION
+		(ID , APP_VERSION , DB_VERSION , VERSION_DESC , CREATE_DATE )
+		VALUES
+		(_nextval('SEQ_SYS_VERSION') , #appVersion# , #dbVersion# , #versionDesc# , #createDate# )
+		<selectKey resultClass="int" >
+       		 SELECT _currval('SEQ_SYS_VERSION') as id
+        </selectKey>
+	</insert>
+	
+	<delete id="deleteByPrimaryKey">
+		delete from SYS_VERSION where ID=#id#
+	</delete>
+
+	<update id="updateByPrimaryKey">
+		update SYS_VERSION
+		set 
+				APP_VERSION = #appVersion# ,
+ 		DB_VERSION = #dbVersion# ,
+ 		VERSION_DESC = #versionDesc# ,
+ 		CREATE_DATE = #createDate# 
+		where
+		ID=#id#
+	</update>
+
+	<select id="countByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="java.lang.Integer">
+		select count(*) from SYS_VERSION
+		<include refid="IBatisDefault.Where_Clause" />
+	</select>
+
+	<select id="getAll" resultClass="com.whollyframework.dbservice.version.model.Version">
+		select ID id , APP_VERSION appVersion , DB_VERSION dbVersion , VERSION_DESC versionDesc , CREATE_DATE createDate  from SYS_VERSION t 
+	</select>
+
+	<select id="selectByPrimaryKey" resultClass="com.whollyframework.dbservice.version.model.Version">
+		select  ID id , APP_VERSION appVersion , DB_VERSION dbVersion , VERSION_DESC versionDesc , CREATE_DATE createDate  from SYS_VERSION t	where t.ID=#id#
+	</select>
+
+	<select id="selectByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="com.whollyframework.dbservice.version.model.Version">
+		select ID id , APP_VERSION appVersion , DB_VERSION dbVersion , VERSION_DESC versionDesc , CREATE_DATE createDate  from SYS_VERSION t
+		<isParameterPresent>
+			<include refid="IBatisDefault.Where_Clause" />
+			
+			<isNotEmpty property="orderByClause">
+				,$orderByClause$
+      		</isNotEmpty>
+		</isParameterPresent>
+	</select>
+
+	<delete id="deleteByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		DELETE FROM SYS_VERSION WHERE ID IN (SELECT T.ID FROM (SELECT * FROM SYS_VERSION) T
+		<include refid="IBatisDefault.Where_Clause" />)
+	</delete>
+	<!-- 常规调用 end -->
+</sqlMap>

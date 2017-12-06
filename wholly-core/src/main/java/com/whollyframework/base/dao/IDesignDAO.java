@@ -25,7 +25,7 @@ public interface IDesignDAO<E, ID extends Serializable> {
 	
 	public E find(ID id) throws SQLException;
 
-	public void create(E vo) throws SQLException;
+	public int create(E vo) throws SQLException;
 
 	public int update(E vo) throws SQLException;
 

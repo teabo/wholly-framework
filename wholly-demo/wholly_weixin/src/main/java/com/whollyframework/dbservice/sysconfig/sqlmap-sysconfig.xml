@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="SysParam">
+
+	<insert id="insert">
+		INSERT INTO SYS_CONFIG
+		(ID , PARAM_KEY , PARAM_VALUE , AUTHOR_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID ,PARAM_DESC )
+		VALUES
+		(#id# , #paramKey# , #paramValue# , #authorId# , #created# , #lastModified# , #lastModifyId# , #sortId# ,#paramDesc#)
+	</insert>
+	
+	<insert id="insertMysql">
+		INSERT INTO SYS_CONFIG
+		(ID , PARAM_KEY , PARAM_VALUE , AUTHOR_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID ,PARAM_DESC )
+		VALUES
+		(_nextval('SEQ_SYS_CONFIG') , #paramKey# , #paramValue# , #authorId# , #created# , #lastModified# , #lastModifyId# , #sortId# ,#paramDesc#)
+		<selectKey resultClass="int" >
+       		 SELECT _currval('SEQ_SYS_CONFIG') as id
+        </selectKey>
+	</insert>
+	
+	<delete id="deleteByPrimaryKey">
+		delete from SYS_CONFIG where ID=#id#
+	</delete>
+
+	<update id="updateByPrimaryKey">
+		update SYS_CONFIG
+		set 
+				PARAM_KEY = #paramKey# ,
+ 		PARAM_VALUE = #paramValue# ,
+ 		AUTHOR_ID = #authorId# ,
+ 		CREATED = #created# ,
+ 		LAST_MODIFIED = #lastModified# ,
+ 		LAST_MODIFY_ID = #lastModifyId# ,
+ 		SORT_ID = #sortId# ,
+ 		PARAM_DESC = #paramDesc#
+		where
+		ID=#id#
+	</update>
+
+	<select id="countByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="java.lang.Integer">
+		select count(*) from SYS_CONFIG
+		<include refid="IBatisDefault.Where_Clause" />
+	</select>
+
+	<select id="getAll" resultClass="com.whollyframework.dbservice.sysconfig.model.SysParam">
+		select ID id , PARAM_KEY paramKey , PARAM_VALUE paramValue , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId ,PARAM_DESC paramDesc from SYS_CONFIG t order by sortId
+	</select>
+
+	<select id="selectByPrimaryKey" resultClass="com.whollyframework.dbservice.sysconfig.model.SysParam">
+		select  ID id , PARAM_KEY paramKey , PARAM_VALUE paramValue , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId ,PARAM_DESC paramDesc from SYS_CONFIG t	where t.ID=#id#
+	</select>
+
+	<select id="selectByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="com.whollyframework.dbservice.sysconfig.model.SysParam">
+		select ID id , PARAM_KEY paramKey , PARAM_VALUE paramValue , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId ,PARAM_DESC paramDesc from SYS_CONFIG t
+		<isParameterPresent>
+			<include refid="IBatisDefault.Where_Clause" />
+			order by sortId
+			<isNotEmpty property="orderByClause">
+				,$orderByClause$
+      		</isNotEmpty>
+		</isParameterPresent>
+	</select>
+
+	<delete id="deleteByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		delete from SYS_CONFIG where ID in (select t.id from (select * from SYS_CONFIG) t
+		<include refid="IBatisDefault.Where_Clause" />)
+	</delete>
+	<!-- 常规调用 end -->
+	
+	<select id="getAllParamKey" resultClass="java.lang.String">
+		select PARAM_KEY paramKey from SYS_CONFIG t
+	</select>
+	
+	<select id="findByParamKey" resultClass="com.whollyframework.dbservice.sysconfig.model.SysParam">
+		select  ID id , PARAM_KEY paramKey , PARAM_VALUE paramValue , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId ,PARAM_DESC paramDesc from SYS_CONFIG t where t.PARAM_KEY=#paramKey#
+	</select>
+	
+</sqlMap>

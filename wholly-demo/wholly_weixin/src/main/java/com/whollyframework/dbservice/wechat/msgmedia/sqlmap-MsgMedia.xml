@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MsgMediaVO">
+
+	<insert id="insert">
+		INSERT INTO WX_MSG_MEDIA
+		(ID, TITLE , DESCRIPTION , MUSICURL , HQMUSICURL , FUNCFLAG , AUTHOR , AUTHOR_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
+		VALUES
+		(#id#, #title# , #description# , #musicurl# , #hqmusicurl# , #funcflag# , #author# , #authorId# , #created# , #lastModified# , #lastModifyId# , #sortId# )
+	</insert>
+	
+	<insert id="insertMysql">
+		INSERT INTO WX_MSG_MEDIA
+		(ID, TITLE , DESCRIPTION , MUSICURL , HQMUSICURL , FUNCFLAG , AUTHOR , AUTHOR_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
+		VALUES
+		(_nextval('WX_MSG_MEDIA'), #title# , #description# , #musicurl# , #hqmusicurl# , #funcflag# , #author# , #authorId# , #created# , #lastModified# , #lastModifyId# , #sortId# )
+		<selectKey resultClass="int" >
+       		 SELECT _currval('WX_MSG_MEDIA') as id
+        </selectKey>
+	</insert>
+	
+	<delete id="deleteByPrimaryKey">
+		delete from WX_MSG_MEDIA where ID=#id#
+	</delete>
+
+	<update id="updateByPrimaryKey">
+		update WX_MSG_MEDIA
+		set 
+				TITLE = #title# ,
+ 		DESCRIPTION = #description# ,
+ 		MUSICURL = #musicurl# ,
+ 		HQMUSICURL = #hqmusicurl# ,
+ 		FUNCFLAG = #funcflag# ,
+ 		AUTHOR = #author# ,
+ 		AUTHOR_ID = #authorId# ,
+ 		CREATED = #created# ,
+ 		LAST_MODIFIED = #lastModified# ,
+ 		LAST_MODIFY_ID = #lastModifyId# ,
+ 		SORT_ID = #sortId# 
+		where
+		ID=#id#
+	</update>
+
+	<select id="countByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="java.lang.Integer">
+		select count(*) from (select ID id , TITLE title , DESCRIPTION description , MUSICURL musicurl , HQMUSICURL hqmusicurl , FUNCFLAG funcflag , AUTHOR author , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from WX_MSG_MEDIA) t
+		<include refid="IBatisDefault.Where_Clause" />
+	</select>
+
+	<select id="getAll" resultClass="com.whollyframework.dbservice.wechat.msgmedia.model.MsgMediaVO">
+		select ID id , TITLE title , DESCRIPTION description , MUSICURL musicurl , HQMUSICURL hqmusicurl , FUNCFLAG funcflag , AUTHOR author , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from WX_MSG_MEDIA t order by sortid
+	</select>
+
+	<select id="selectByPrimaryKey" resultClass="com.whollyframework.dbservice.wechat.msgmedia.model.MsgMediaVO">
+		select ID id , TITLE title , DESCRIPTION description , MUSICURL musicurl , HQMUSICURL hqmusicurl , FUNCFLAG funcflag , AUTHOR author , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from WX_MSG_MEDIA t	where t.ID=#id#
+	</select>
+
+	<select id="selectByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="com.whollyframework.dbservice.wechat.msgmedia.model.MsgMediaVO">
+		select * from (select ID id , TITLE title , DESCRIPTION description , MUSICURL musicurl , HQMUSICURL hqmusicurl , FUNCFLAG funcflag , AUTHOR author , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from WX_MSG_MEDIA) t
+		<isParameterPresent>
+			<include refid="IBatisDefault.Where_Clause" />
+			<isNotEmpty property="orderByClause">
+				order by $orderByClause$
+      		</isNotEmpty>
+		</isParameterPresent>
+	</select>
+
+	<delete id="deleteByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		delete from WX_MSG_MEDIA where ID in (select t.id from (select ID id , TITLE title , DESCRIPTION description , MUSICURL musicurl , HQMUSICURL hqmusicurl , FUNCFLAG funcflag , AUTHOR author , AUTHOR_ID authorId , CREATED created , LAST_MODIFIED lastModified , LAST_MODIFY_ID lastModifyId , SORT_ID sortId  from WX_MSG_MEDIA) t
+		<include refid="IBatisDefault.Where_Clause" />)
+	</delete>
+	<!-- 常规调用 end -->
+</sqlMap>

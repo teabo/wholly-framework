@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/exchange.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/exchange.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/exchange-error.log</file>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY </onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>logs/exchange-error.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- project default level   -->
+	<logger name="org.springframework" additivity="false" level="ERROR" />
+	<logger name="org.springframework.web" additivity="false" level="ERROR"/>
+	<logger name="org.apache.struts2" additivity="false" level="ERROR"/>
+	<logger name="com.opensymphony.xwork2" additivity="false" level="ERROR"/>
+	<logger name="org.hibernate" additivity="false" level="ERROR"/>
+	<logger name="org.quartz" additivity="false" level="ERROR"/>
+	<logger name="net.sf.ehcache" additivity="false" level="ERROR"/>
+	<logger name="org.logicalcobwebs" additivity="false" level="ERROR"/>
+	<logger name="org.jboss" additivity="false" level="ERROR"/>
+	<logger name="org.apache.commons" additivity="false" level="ERROR"/>
+	<logger name="org.apache.activemq" additivity="false" level="ERROR"/>
+	<logger name="org.apache.mina" additivity="false" level="ERROR"/>
+	<logger name="org.apache.ftpserver" additivity="false" level="ERROR"/>
+	<logger name="org.apache.velocity" additivity="false" level="ERROR"/>
+	
+	<logger name="springfox.documentation" additivity="false" level="ERROR"/>
+	<logger name="com.ibatis" additivity="true" level="DEBUG"/>
+	<logger name="java.sql" additivity="true" level="DEBUG"/>
+
+	
+	<!-- project default level -->
+	<logger name="com.whollyframework" level="INFO" />
+	
+	<root level="DEBUG">
+		<appender-ref ref="console" />
+		<appender-ref ref="rollingFile" />
+		<appender-ref ref="errorFile" />
+	</root>
+</configuration>

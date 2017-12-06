@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="OperateLog">
+
+	<insert id="insertMysql">
+		INSERT INTO SYS_OPERATE_LOG
+		(ID , NUM_ID , REG_ID , USER_ID , ORGANIZATION , ORGANIZATION_ID , USER_NAME , TERMINAL_ID , OPERATE_TIME , OPERATE_TYPE , OPERATE_RESULT , ERROR_CODE , OPERATE_NAME , OPERATE_CONDITION , OPERATE_NUMBER , INSERT_TIME , COLLECT_TYPE , SENDID , MODEL_PATH)
+		VALUES
+		(_nextval('SEQ_SYS_OPERATE_LOG') , _currval('SEQ_SYS_OPERATE_LOG') , #regId# , #userId# , #organization# , #organizationId# , #userName# , #terminalId# , #operateTime# , #operateType# , #operateResult# , #errorCode# , #operateName# , #operateCondition# , #operateNumber# , #insertTime# , #collectType# , #sendid# , #modelPath#)
+		<selectKey resultClass="java.lang.Integer" >
+       		 SELECT _currval('SEQ_SYS_OPERATE_LOG')  as id
+        </selectKey>
+	</insert>
+	
+	<insert id="insertObj">
+		INSERT INTO SYS_OPERATE_LOG
+		(ID , NUM_ID , REG_ID , USER_ID , ORGANIZATION , ORGANIZATION_ID , USER_NAME , TERMINAL_ID , OPERATE_TIME , OPERATE_TYPE , OPERATE_RESULT , ERROR_CODE , OPERATE_NAME , OPERATE_CONDITION , OPERATE_NUMBER , INSERT_TIME , COLLECT_TYPE , SENDID , MODEL_PATH)
+		VALUES
+		(SEQ_OPERATE_LOG.NEXTVAL, #numId# , #regId# , #userId# , #organization# , #organizationId# , #userName# , #terminalId# , #operateTime# , #operateType# , #operateResult# , #errorCode# , #operateName# , #operateCondition# , #operateNumber# , #insertTime# , #collectType# , #sendid# , #modelPath#)
+		
+		<selectKey resultClass="java.lang.String" keyProperty="id" >
+       		 SELECT SEQ_OPERATE_LOG.CURRVAL  AS ID FROM DUAL
+        </selectKey>
+		
+	</insert>
+	
+	<delete id="deleteByPrimaryKey">
+		delete from SYS_OPERATE_LOG where ID=#id#
+	</delete>
+
+	<update id="updateByPrimaryKey">
+		update SYS_OPERATE_LOG
+		set 
+				NUM_ID = #numId# ,
+ 		REG_ID = #regId# ,
+ 		USER_ID = #userId# ,
+ 		ORGANIZATION = #organization# ,
+ 		ORGANIZATION_ID = #organizationId# ,
+ 		USER_NAME = #userName# ,
+ 		TERMINAL_ID = #terminalId# ,
+ 		OPERATE_TIME = #operateTime# ,
+ 		OPERATE_TYPE = #operateType# ,
+ 		OPERATE_RESULT = #operateResult# ,
+ 		ERROR_CODE = #errorCode# ,
+ 		OPERATE_NAME = #operateName# ,
+ 		OPERATE_CONDITION = #operateCondition# ,
+ 		OPERATE_NUMBER = #operateNumber# ,
+ 		INSERT_TIME = #insertTime# ,
+ 		COLLECT_TYPE = #collectType# ,
+ 		SENDID = #sendid# , 
+ 		MODEL_PATH = #modelPath#
+		where
+		ID=#id#
+	</update>
+
+	<select id="countByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="java.lang.Integer">
+		select count(*) from SYS_OPERATE_LOG
+		<include refid="IBatisDefault.Where_Clause" />
+	</select>
+
+	<select id="getAll" resultClass="com.whollyframework.dbservice.operatelog.model.OperateLog">
+		select ID id , NUM_ID numId , REG_ID regId , USER_ID userId , ORGANIZATION organization , ORGANIZATION_ID organizationId , USER_NAME userName , TERMINAL_ID terminalId , OPERATE_TIME operateTime , OPERATE_TYPE operateType , OPERATE_RESULT operateResult , ERROR_CODE errorCode , OPERATE_NAME operateName , OPERATE_CONDITION operateCondition , OPERATE_NUMBER operateNumber , INSERT_TIME insertTime , COLLECT_TYPE collectType , SENDID sendid, MODEL_PATH modelPath  from SYS_OPERATE_LOG t order by sortid
+	</select>
+
+	<select id="selectByPrimaryKey" resultClass="com.whollyframework.dbservice.operatelog.model.OperateLog">
+		select  ID id , NUM_ID numId , REG_ID regId , USER_ID userId , ORGANIZATION organization , ORGANIZATION_ID organizationId , USER_NAME userName , TERMINAL_ID terminalId , OPERATE_TIME operateTime , OPERATE_TYPE operateType , OPERATE_RESULT operateResult , ERROR_CODE errorCode , OPERATE_NAME operateName , OPERATE_CONDITION operateCondition , OPERATE_NUMBER operateNumber , INSERT_TIME insertTime , COLLECT_TYPE collectType , SENDID sendid, MODEL_PATH modelPath  from SYS_OPERATE_LOG t	where t.ID=#id#
+	</select>
+
+	<select id="selectByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils"
+		resultClass="com.whollyframework.dbservice.operatelog.model.OperateLog">
+		select ID id , NUM_ID numId , REG_ID regId , USER_ID userId , ORGANIZATION organization , ORGANIZATION_ID organizationId , USER_NAME userName , TERMINAL_ID terminalId , OPERATE_TIME operateTime , OPERATE_TYPE operateType , OPERATE_RESULT operateResult , ERROR_CODE errorCode , OPERATE_NAME operateName , OPERATE_CONDITION operateCondition , OPERATE_NUMBER operateNumber , INSERT_TIME insertTime , COLLECT_TYPE collectType , SENDID sendid, MODEL_PATH modelPath  from SYS_OPERATE_LOG t 
+		<isParameterPresent>
+			<include refid="IBatisDefault.Where_Clause" />
+			order by t.id desc
+		</isParameterPresent>
+	</select>
+
+	<delete id="deleteByWhere_Clause" parameterClass="com.whollyframework.base.dao.support.SQLUtils">
+		delete from SYS_OPERATE_LOG where ID in (select t.id from (select * from SYS_OPERATE_LOG) t
+		<include refid="IBatisDefault.Where_Clause" />)
+	</delete>
+	<!-- 常规调用 end -->
+</sqlMap>

@@ -14,5 +14,6 @@
 	
 	<modules>
 		<module>wholly-demo-web</module>
+		<module>wholly_weixin</module>
 	</modules>
 </project>

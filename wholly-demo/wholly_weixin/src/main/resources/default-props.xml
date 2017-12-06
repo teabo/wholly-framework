@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<Property>
+		<key>whollyframework.i18n.encoding</key>
+		<value>utf8</value>
+		<description>框架默认字符集</description>
+	</Property>
+	<Property>
+		<key>whollyframework.admin.access</key>
+		<value>true</value>
+		<description>是否允许访问管理后台</description>
+	</Property>
+	<Property>
+		<key>whollyframework.anonymous.access</key>
+		<value>false</value>
+		<description>是否允许匿名访问</description>
+	</Property>
+	<Property>
+		<key>whollyframework.skin.default</key>
+		<value>default</value>
+		<description>框架默认皮肤名称</description>
+	</Property>
+	<Property>
+		<key>whollyframework.security.filter</key>
+		<value>com.whollyframework.web.filter.CustomSecurityFilter</value>
+		<description>用户自定义安全拦截器</description>
+	</Property>
+	<Property>
+		<key>whollyframework.startup.listener</key>
+		<value>com.whollyframework.web.listener.CustomStartupListener</value>
+		<description>用户自定义启动监听器</description>
+	</Property>
+	<Property>
+		<key>whollyframework.error.uri</key>
+		<value>/res/common/error/error</value>
+		<description>出错页面地址</description>
+	</Property>
+	<Property>
+		<key>whollyframework.website.title</key>
+		<value>WhollyFramework-Demo</value>
+		<description>网站名称(siteTitle)</description>
+	</Property>
+	<Property>
+		<key>whollyframework.operate.log.regId</key>
+		<value>hsr-trans</value>
+		<description>系统标识（日志记录时使用）</description>
+	</Property>
+	<Property>
+		<key>whollyframework.user.reset.password</key>
+		<value>123456</value>
+		<description>重置密码</description>
+	</Property>
+	
+</list>

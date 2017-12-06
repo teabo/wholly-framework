@@ -14,7 +14,7 @@ public class ExpressCopyFile {
 	
 	public static final long BUFFER_SIZE = 1048576*100;
 	// 创建可以容纳3个线程的线程池
-	private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(1500);
+	private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(1000);
 	
 	private static ExecutorService fixedPathThreadPool = Executors.newSingleThreadExecutor();
 
@@ -22,7 +22,7 @@ public class ExpressCopyFile {
 		copyFiles(sourcePath, desPath, new ArrayList<String>());
 	}
 	
-	public static void copyFiles(String sourcePath, final String desPath, List<String> ignorePath) {
+	public static void copyFiles(String sourcePath, final String desPath, final List<String> ignorePath) {
 		try {
 			File file = new File(sourcePath);
 			File desFile = new File(desPath);
@@ -39,7 +39,7 @@ public class ExpressCopyFile {
 						if (!ignorePath.contains(f.getName())){
 							fixedPathThreadPool.execute(new Runnable() {
 								public void run() {
-									copyFiles(f.getPath(), desPath + File.separator + f.getName());
+									copyFiles(f.getPath(), desPath + File.separator + f.getName(), ignorePath);
 								}
 							});
 						} else {
@@ -104,23 +104,23 @@ public class ExpressCopyFile {
 	}
 	
 	private static void testCopyFiles(){
-		String sourcePath = "I:\\";
-		String desPath = "G:\\";
+		String sourcePath = "E:\\workspaces";
+		String desPath = "I:\\Work\\workspaces\\ygnet-work";
 		
 		try {
 			List<String> ignorePath = new ArrayList<String>();
-			ignorePath.add("360Downloads");
-			ignorePath.add("360WiFi");
-			ignorePath.add("360极速浏览器下载");
-			ignorePath.add("app");
-			ignorePath.add("attachment");
-			ignorePath.add("CCProxy");
-			ignorePath.add("dg_exShow");
-			ignorePath.add("exchange");
-			ignorePath.add("jcbk");
-			ignorePath.add("Oracle");
-			ignorePath.add("Program Files");
-			ignorePath.add("Seagate");
+//			ignorePath.add("360Downloads");
+//			ignorePath.add("360WiFi");
+//			ignorePath.add("360极速浏览器下载");
+//			ignorePath.add("app");
+//			ignorePath.add("attachment");
+//			ignorePath.add("CCProxy");
+//			ignorePath.add("dg_exShow");
+//			ignorePath.add("exchange");
+//			ignorePath.add("jcbk");
+//			ignorePath.add("Oracle");
+			ignorePath.add(".metadata");
+			ignorePath.add("target");
 			ignorePath.add("$RECYCLE.BIN");
 			ignorePath.add("System Volume Information");
 			

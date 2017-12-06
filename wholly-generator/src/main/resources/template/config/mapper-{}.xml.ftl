@@ -4,9 +4,19 @@
 
 	<insert id="insert">
 		INSERT INTO ${model.tableName}
-		(${model.sqlFields})
+		(${model.pkName}, ${model.sqlFields})
 		VALUES
-		(${model.modelFields})
+		(${r'#{'}${model.modelId}${r'}'}, ${model.modelFields})
+	</insert>
+	
+	<insert id="insertMysql">
+		INSERT INTO ${model.tableName}
+		(${model.pkName}, ${model.sqlFields})
+		VALUES
+		(_nextval('${model.tableName}') , ${model.modelFields})
+		<selectKey resultClass="int" >
+       		 SELECT _currval('${model.tableName}') as id
+        </selectKey>
 	</insert>
 	
 	<delete id="deleteByPrimaryKey">

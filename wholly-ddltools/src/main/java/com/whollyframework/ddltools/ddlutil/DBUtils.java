@@ -60,6 +60,45 @@ public class DBUtils {
 		}
 		return new ArrayList<String>();
 	}
+	
+	public static boolean existsTableNames(String tableName, String dbType,
+			Connection conn) {
+		boolean rtn = false;
+
+		ResultSet tableSet = null;
+		try {
+
+			String catalog = null;
+			String schemaPattern = null;
+			String schema = getSchema(conn, dbType);
+
+			if (dbType.equals(DBTYPE_MSSQL)) {
+				schemaPattern = schema;
+			} else if (dbType.equals(DBTYPE_MYSQL)) {
+				catalog = schema;
+			} else if (dbType.equals(DBTYPE_HSQLDB)) {
+				schemaPattern = schema;
+			} else if (dbType.equals(DBTYPE_DB2)) {
+				schemaPattern = schema;
+			}
+
+			DatabaseMetaData metaData = conn.getMetaData();
+			tableSet = metaData.getTables(catalog, schemaPattern, null,
+					new String[] { "TABLE" , "VIEW"});
+
+			while (tableSet.next()) {
+				String table = tableSet.getString(3);
+				if (table.equalsIgnoreCase(tableName)) return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeResultSet(tableSet);
+			closeConnection(conn);
+		}
+
+		return rtn;
+	}
 
 	protected static Collection<String> getOracleTableNames(
 			String[] conditions, String[] cValues, String dbType,
