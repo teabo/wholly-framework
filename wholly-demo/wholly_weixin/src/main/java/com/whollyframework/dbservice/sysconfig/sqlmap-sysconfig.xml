@@ -16,7 +16,7 @@
 		(ID , PARAM_KEY , PARAM_VALUE , AUTHOR_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID ,PARAM_DESC )
 		VALUES
 		(_nextval('SEQ_SYS_CONFIG') , #paramKey# , #paramValue# , #authorId# , #created# , #lastModified# , #lastModifyId# , #sortId# ,#paramDesc#)
-		<selectKey resultClass="int" >
+		<selectKey resultClass="java.lang.Integer" >
        		 SELECT _currval('SEQ_SYS_CONFIG') as id
         </selectKey>
 	</insert>

@@ -3,6 +3,7 @@ package com.whollyframework.web.wechat.chatapi;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,6 +18,7 @@ import com.whollyframework.base.service.IDesignService;
 import com.whollyframework.utils.http.ResponseUtil;
 
 @Controller
+@Scope("prototype")
 @RequestMapping(value = "/wechat/api")
 public class WeixinApiController extends BaseController<ApiResult, String> {
 	

@@ -19,7 +19,7 @@
 		(ID,loginName,ALIAS_NAME,CERT_ID,userPassword,userName,SEX,USERLEVEL,status,sort_Id,CREATED,author_Id,LAST_MODIFIED,last_Modify_Id,USERTYPE,ORG_ID,CERT_TYPE,HAS_BIND_IP,BIND_IP)
 		VALUES
 		(_nextval('SEQ_SYS_USER_INFO'),#loginName#,#aliasName#,#certId#,#userPassword#,#userName#,#sex#,#userLevel#,#status#,#sortId#,#created#,#authorId#,#lastModified#,#lastModifyId#,#userType#,#orgId#,#certType#,#hasBindIp#,#bindIps#)
-		<selectKey resultClass="int" >
+		<selectKey resultClass="java.lang.Integer" >
        		 SELECT _currval('SEQ_SYS_USER_INFO') as id
         </selectKey>
 	</insert>

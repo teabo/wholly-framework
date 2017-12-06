@@ -23,6 +23,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
+import com.weixin.sdk.kit.SignatureCheckKit;
+
 /**
  * 提供接收和推送给公众平台消息的加解密接口(UTF8编码的字符串).
  * <ol>
@@ -276,9 +278,9 @@ public class WXBizMsgCrypt {
 	 */
 	public String verifyUrl(String msgSignature, String timeStamp, String nonce, String echoStr)
 			throws AesException {
-		String signature = SHA1.getSHA1(token, timeStamp, nonce, echoStr);
-
-		if (!signature.equals(msgSignature)) {
+		
+		boolean isOk = SignatureCheckKit.me.checkSignature(msgSignature, timeStamp, nonce);
+		if (!isOk) {
 			throw new AesException(AesException.ValidateSignatureError);
 		}
 

@@ -2,12 +2,10 @@ package com.whollyframework.web.wechat.chatmsg;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.weixin.sdk.api.ApiConfig;
-import com.weixin.sdk.kit.PropKit;
 import com.weixin.sdk.msg.in.InImageMsg;
 import com.weixin.sdk.msg.in.InLinkMsg;
 import com.weixin.sdk.msg.in.InLocationMsg;
@@ -29,15 +27,13 @@ import com.weixin.sdk.msg.in.speech_recognition.InSpeechRecognitionResults;
 import com.weixin.sdk.msg.out.OutMusicMsg;
 import com.weixin.sdk.msg.out.OutNewsMsg;
 import com.weixin.sdk.msg.out.OutTextMsg;
-import com.whollyframework.base.service.IDesignService;
-import com.whollyframework.dbservice.wechat.chathistory.model.ChatHistoryVO;
-import com.whollyframework.dbservice.wechat.chathistory.service.ChatHistoryService;
 import com.whollyframework.web.wechat.MsgController;
 
 /**
  * WeixinController 的 index方法即可直接运行看效果，在此基础之上修改相关的方法即可进行实际项目开发
  */
 @Controller
+@Scope("prototype")
 @RequestMapping(value = "/wechat/msg")
 public class WeixinMsgController extends MsgController {
 	static Logger logger = LoggerFactory.getLogger(WeixinMsgController.class);
@@ -45,14 +41,18 @@ public class WeixinMsgController extends MsgController {
 	 * 
 	 */
 	private static final long serialVersionUID = 6593275967346985187L;
-	private static final String helpStr = "TEABO-茶博网。分享技术、分享方法、分享感悟、分享思想、完美人生。提示：\n1.发送 help 获取帮助。\n2.发送 news 查看TEABO最新动态。\n\t公众号持续更新中，想要更多惊喜欢迎每天关注 ^_^";
+	private static final String helpStr = "TEABO-茶博网。分享技术、分享方法、分享感悟、分享思想、完美人生。提示：\n";
+	
+	protected String getHelpString(){
+		return helpStr + WeChatMsgCategoryUtil.categorys2String();
+	}
 	
 	protected void processInTextMsg(InTextMsg inTextMsg) {
 		String msgContent = inTextMsg.getContent().trim();
 		Process:try {
 			if ("help".equalsIgnoreCase(msgContent)) {
 				OutTextMsg outMsg = new OutTextMsg(inTextMsg);
-				outMsg.setContent(helpStr);
+				outMsg.setContent(getHelpString());
 				render(outMsg);
 			} else if ("news".equalsIgnoreCase(msgContent)) {
 				OutNewsMsg outMsg = new OutNewsMsg(inTextMsg);
@@ -91,62 +91,44 @@ public class WeixinMsgController extends MsgController {
 			logger.error(e.getMessage(), e);
 		}
 		OutTextMsg outMsg = new OutTextMsg(inTextMsg);
-		outMsg.setContent(inTextMsg.getContent() + "\t文本消息输入异常请重新输入！ " + "\n\n" + helpStr);
+		outMsg.setContent(getHelpString());
 		render(outMsg);
-		// //转发给多客服PC客户端
-		// OutCustomMsg outCustomMsg = new OutCustomMsg(inTextMsg);
-		// render(outCustomMsg);
 	}
 	
 	
 	
 	@Override
 	protected void processInVoiceMsg(InVoiceMsg inVoiceMsg) {
-		// 转发给多客服PC客户端
-//		OutCustomMsg outCustomMsg = new OutCustomMsg(inVoiceMsg);
-//		render(outCustomMsg);
 		OutTextMsg outMsg = new OutTextMsg(inVoiceMsg);
-		outMsg.setContent("\t文本消息输入异常请重新输入！ " + "\n\n" + helpStr);
+		outMsg.setContent(getHelpString());
 		render(outMsg);
 	}
 
 	@Override
 	protected void processInVideoMsg(InVideoMsg inVideoMsg) {
-		// 转发给多客服PC客户端
-//		OutCustomMsg outCustomMsg = new OutCustomMsg(inVideoMsg);
-//		render(outCustomMsg);
 		OutTextMsg outMsg = new OutTextMsg(inVideoMsg);
-		outMsg.setContent("\t文本消息输入异常请重新输入！ " + "\n\n" + helpStr);
+		outMsg.setContent(getHelpString());
 		render(outMsg);
 	}
 
 	@Override
 	protected void processInShortVideoMsg(InShortVideoMsg inShortVideoMsg) {
-		// 转发给多客服PC客户端
-//		OutCustomMsg outCustomMsg = new OutCustomMsg(inShortVideoMsg);
-//		render(outCustomMsg);
 		OutTextMsg outMsg = new OutTextMsg(inShortVideoMsg);
-		outMsg.setContent("\t文本消息输入异常请重新输入！ " + "\n\n" + helpStr);
+		outMsg.setContent(getHelpString());
 		render(outMsg);
 	}
 
 	@Override
 	protected void processInLocationMsg(InLocationMsg inLocationMsg) {
-		// 转发给多客服PC客户端
-//		OutCustomMsg outCustomMsg = new OutCustomMsg(inLocationMsg);
-//		render(outCustomMsg);
 		OutTextMsg outMsg = new OutTextMsg(inLocationMsg);
-		outMsg.setContent("\t文本消息输入异常请重新输入！ " + "\n\n" + helpStr);
+		outMsg.setContent(getHelpString());
 		render(outMsg);
 	}
 
 	@Override
 	protected void processInLinkMsg(InLinkMsg inLinkMsg) {
-		// 转发给多客服PC客户端
-//		OutCustomMsg outCustomMsg = new OutCustomMsg(inLinkMsg);
-//		render(outCustomMsg);
 		OutTextMsg outMsg = new OutTextMsg(inLinkMsg);
-		outMsg.setContent("\t文本消息输入异常请重新输入！ " + "\n\n" + helpStr);
+		outMsg.setContent(getHelpString());
 		render(outMsg);
 	}
 
@@ -157,11 +139,8 @@ public class WeixinMsgController extends MsgController {
 	}
 
 	protected void processInImageMsg(InImageMsg inImageMsg) {
-		// 转发给多客服PC客户端
-//		OutCustomMsg outCustomMsg = new OutCustomMsg(inImageMsg);
-//		render(outCustomMsg);
 		OutTextMsg outMsg = new OutTextMsg(inImageMsg);
-		outMsg.setContent("\t文本消息输入异常请重新输入！ " + "\n\n" + helpStr);
+		outMsg.setContent(getHelpString());
 		render(outMsg);
 	}
 
@@ -173,7 +152,7 @@ public class WeixinMsgController extends MsgController {
 				.getEvent())) {
 			logger.debug("关注：" + inFollowEvent.getFromUserName());
 			OutTextMsg outMsg = new OutTextMsg(inFollowEvent);
-			outMsg.setContent("感谢您的关注!\n" + helpStr);
+			outMsg.setContent("感谢您的关注!\n" + getHelpString());
 			render(outMsg);
 		}
 		// 如果为取消关注事件，将无法接收到传回的信息

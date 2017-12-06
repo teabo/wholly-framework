@@ -15,7 +15,7 @@
 		(ID, TO_USER_NAME , FROM_USER_NAME , CREATE_TIME , MSG_TYPE , MSG_XML )
 		VALUES
 		(_nextval('WX_MSG_CHAT_HISTORY'), #toUserName# , #fromUserName# , #createTime# , #msgType# , #msgXml# )
-		<selectKey resultClass="int" >
+		<selectKey resultClass="java.lang.Integer" >
        		 SELECT _currval('WX_MSG_CHAT_HISTORY') as id
         </selectKey>
 	</insert>

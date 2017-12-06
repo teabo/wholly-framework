@@ -15,7 +15,7 @@
 		(ID, TITLE , DESCRIPTION , MUSICURL , HQMUSICURL , FUNCFLAG , AUTHOR , AUTHOR_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
 		VALUES
 		(_nextval('WX_MSG_MEDIA'), #title# , #description# , #musicurl# , #hqmusicurl# , #funcflag# , #author# , #authorId# , #created# , #lastModified# , #lastModifyId# , #sortId# )
-		<selectKey resultClass="int" >
+		<selectKey resultClass="java.lang.Integer" >
        		 SELECT _currval('WX_MSG_MEDIA') as id
         </selectKey>
 	</insert>

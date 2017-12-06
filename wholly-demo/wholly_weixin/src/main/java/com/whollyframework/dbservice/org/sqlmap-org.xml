@@ -16,7 +16,7 @@
 		(ID , ORG_TYPE , NAME , TELEPHONE , DELFLAG , SORT_ID , CREATED , AUTHOR , AUTHOR_ID , LAST_MODIFIED , LAST_MODIFY_ID , PARENT_CODE , ORG_CODE )
 		VALUES
 		(_nextval('SEQ_SYS_ORGANIZATION'), #orgType# , #name# , #telephone# , #delflag# , #sortId# , #created# , #author# , #authorId# , #lastModified# , #lastModifyId# , #parentCode# , #orgCode# )
-		<selectKey resultClass="int" >
+		<selectKey resultClass="java.lang.Integer" >
        		 SELECT _currval('SEQ_SYS_ORGANIZATION') as id
         </selectKey>
 	</insert>

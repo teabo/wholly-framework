@@ -16,7 +16,7 @@
 		(ID , USER_ID , START_IP , END_IP , AUTHOR_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
 		VALUES
 		(_nextval('SEQ_SYS_USER_BIND_IP') , #userId# , #startIp# , #endIp# , #authorId# , #created# , #lastModified# , #lastModifyId# , #sortId# )
-		<selectKey resultClass="int" >
+		<selectKey resultClass="java.lang.Integer" >
        		 SELECT _currval('SEQ_SYS_USER_BIND_IP') as id
         </selectKey>
 	</insert>
