@@ -105,7 +105,7 @@ public class MyBatisBaseDAO<E, ID extends Serializable>{
 				getBeanName() + "." + selectid, params, new RowBounds(lines * (page - 1), lines));
 	}
 
-	public void create(String sqlid, ValueObject vo) throws SQLException {
+	public int create(String sqlid, ValueObject vo) throws SQLException {
 		if (vo.getCreated()==null){
 			vo.setCreated(new Date());
 		}
@@ -127,6 +127,7 @@ public class MyBatisBaseDAO<E, ID extends Serializable>{
 					vo);
 
 		}
+		return 1;
 	}
 
 	/**
@@ -314,8 +315,8 @@ public class MyBatisBaseDAO<E, ID extends Serializable>{
 		return (E) find("selectByPrimaryKey", id);
 	}
 
-	public void create(E vo) throws SQLException {
-		create("insert", (ValueObject) vo);
+	public int create(E vo) throws SQLException {
+		return create("insert", (ValueObject) vo);
 	}
 
 	public int update(E vo) throws SQLException {

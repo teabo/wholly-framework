@@ -42,7 +42,7 @@ public class ${model.className} extends BaseController<${model.objectName}VO,Str
 	@RequestMapping({"/index"})
     public String index(Model model,HttpServletRequest request, HttpServletResponse response){
     	
-    	return forward("list");
+    		return forward("list");
     }
 
 }

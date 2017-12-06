@@ -143,8 +143,9 @@ public class HibernateBaseDAO<T, ID extends Serializable> extends HibernateSuppo
 	 * @param vo value object
 	 * @see com.whollyframework.base.dao.IBaseDAO#create(com.whollyframework.base.model.ValueObject)
 	 */
-	public void create(T vo) throws SQLException {
+	public int create(T vo) throws SQLException {
 		save(vo);
+		return 1;
 	}
 
 	/**

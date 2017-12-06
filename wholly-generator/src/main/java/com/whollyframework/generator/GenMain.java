@@ -19,8 +19,8 @@ public class GenMain {
      * 测试，根据配置文件生成相应的模块代码
      */
     public static void main(String[] args) throws IOException {
-    	String objectName = "User";
-    	String tableName = "T_USER";
+    	String objectName = "MsgMedia";
+    	String tableName = "WX_MSG_MEDIA";
     	String pkName = "ID";
     	String config = "gencode-conf.xml";
     	if (args!=null && args.length>0){

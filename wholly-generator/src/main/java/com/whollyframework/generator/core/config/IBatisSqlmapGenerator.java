@@ -90,9 +90,12 @@ public class IBatisSqlmapGenerator extends AbstractGenerator {
 
 		for (Column c : columns) {
 			String fieldName = c.getFieldName();
+			select_res.append(fieldName).append(" ").append(getBeanFiledName(model, fieldName)).append(" , ");
+			if (model.getPkName().equals(fieldName)) {
+				continue;
+			}
 			columns_res.append(fieldName).append(" , ");
 			fields_res.append(getFiledName(model, fieldName)).append(" , ");
-			select_res.append(fieldName).append(" ").append(getBeanFiledName(model, fieldName)).append(" , ");
 		}
 		res.put("columns_res", columns_res.substring(0, columns_res.lastIndexOf(",")));
 		res.put("fields_res", fields_res.substring(0, fields_res.lastIndexOf(",")));
