@@ -49,14 +49,14 @@
 	<logger name="org.apache.velocity" additivity="false" level="ERROR"/>
 	
 	<logger name="springfox.documentation" additivity="false" level="ERROR"/>
-	<logger name="com.ibatis" additivity="true" level="DEBUG"/>
-	<logger name="java.sql" additivity="true" level="DEBUG"/>
+	<logger name="com.ibatis" additivity="false" level="ERROR"/>
+	<logger name="java.sql" additivity="false" level="ERROR"/>
 
 	
 	<!-- project default level -->
 	<logger name="com.whollyframework" level="INFO" />
 	
-	<root level="DEBUG">
+	<root level="ERROR">
 		<appender-ref ref="console" />
 		<appender-ref ref="rollingFile" />
 		<appender-ref ref="errorFile" />

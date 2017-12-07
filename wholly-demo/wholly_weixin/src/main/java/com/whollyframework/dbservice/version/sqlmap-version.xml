@@ -16,7 +16,7 @@
 		(ID , APP_VERSION , DB_VERSION , VERSION_DESC , CREATE_DATE )
 		VALUES
 		(_nextval('SEQ_SYS_VERSION') , #appVersion# , #dbVersion# , #versionDesc# , #createDate# )
-		<selectKey resultClass="int" >
+		<selectKey resultClass="java.lang.Integer" >
        		 SELECT _currval('SEQ_SYS_VERSION') as id
         </selectKey>
 	</insert>

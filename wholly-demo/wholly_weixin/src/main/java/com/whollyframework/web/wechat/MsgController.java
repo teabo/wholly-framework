@@ -19,6 +19,8 @@ import com.weixin.sdk.api.ApiConfigKit;
 import com.weixin.sdk.kit.HttpKit;
 import com.weixin.sdk.kit.MsgEncryptKit;
 import com.weixin.sdk.kit.PropKit;
+import com.weixin.sdk.kit.SignatureCheckKit;
+import com.weixin.sdk.kit.StrKit;
 import com.weixin.sdk.msg.InMsgParser;
 import com.weixin.sdk.msg.OutMsgXmlBuilder;
 import com.weixin.sdk.msg.in.InImageMsg;
@@ -60,15 +62,16 @@ public abstract class MsgController extends BaseController<ChatHistoryVO, String
 	private static final Logger log = LoggerFactory.getLogger(MsgController.class);
 	private String inMsgXml = null; // 本次请求 xml数据
 	private InMsg inMsg = null; // 本次请求 xml 解析后的 InMsg 对象象
+	private ApiConfig ac = null; // 本次请求 xml 解析后的 InMsg 对象象
 
 	@Autowired
 	private ChatHistoryService chatHistoryService;
-	
+
 	@Override
 	public IDesignService<ChatHistoryVO, String> getService() {
 		return chatHistoryService;
 	}
-	
+
 	public MsgController() {
 		super(new ChatHistoryVO());
 	}
@@ -78,21 +81,69 @@ public abstract class MsgController extends BaseController<ChatHistoryVO, String
 	 * ApiConfig 属性值
 	 */
 	public ApiConfig getApiConfig() {
-		ApiConfig ac = new ApiConfig();
-
-		// 配置微信 API 相关常量
-		ac.setToken(PropKit.get("token"));
-		ac.setAppId(PropKit.get("appId"));
-		ac.setAppSecret(PropKit.get("appSecret"));
-
-		/**
-		 * 是否对消息进行加密，对应于微信平台的消息加解密方式： 1：true进行加密且必须配置 encodingAesKey
-		 * 2：false采用明文模式，同时也支持混合模式
-		 */
-		ac.setEncryptMessage(PropKit.getBoolean("encryptMessage", false));
-		ac.setEncodingAesKey(PropKit.get("encodingAesKey",
-				"setting it in config file"));
+		if (ac==null){
+			ac = new ApiConfig();
+	
+			// 配置微信 API 相关常量
+			ac.setToken(PropKit.get("token"));
+			ac.setAppId(PropKit.get("appId"));
+			ac.setAppSecret(PropKit.get("appSecret"));
+	
+			/**
+			 * 是否对消息进行加密，对应于微信平台的消息加解密方式： 1：true进行加密且必须配置 encodingAesKey
+			 * 2：false采用明文模式，同时也支持混合模式
+			 */
+			ac.setEncryptMessage(PropKit.getBoolean("encryptMessage", false));
+			ac.setEncodingAesKey(PropKit.get("encodingAesKey", "setting it in config file"));
+		}
 		return ac;
+	}
+
+	/**
+	 * 是否为开发者中心保存服务器配置的请求
+	 */
+	private boolean isConfigServerRequest() {
+		return StrKit.notBlank(getParams().getParameterAsString("echostr"));
+	}
+
+	/**
+	 * 配置开发者中心微信服务器所需的 url 与 token
+	 * 
+	 * @return true 为config server 请求，false 正式消息交互请求
+	 */
+	public void configServer() {
+		// 通过 echostr 判断请求是否为配置微信服务器回调所需的 url 与 token
+		String echostr = getPara("echostr");
+		String signature = getPara("signature");
+		String timestamp = getPara("timestamp");
+		String nonce = getPara("nonce");
+		boolean isOk = SignatureCheckKit.me.checkSignature(signature, timestamp, nonce);
+		if (isOk)
+			renderText(echostr);
+		else
+			log.error("验证失败：configServer");
+	}
+
+	/**
+	 * 检测签名
+	 */
+	private boolean checkSignature() {
+		String signature = getPara("signature");
+		String timestamp = getPara("timestamp");
+		String nonce = getPara("nonce");
+		if (StrKit.isBlank(signature) || StrKit.isBlank(timestamp) || StrKit.isBlank(nonce)) {
+			renderText("check signature failure");
+			return false;
+		}
+
+		if (SignatureCheckKit.me.checkSignature(signature, timestamp, nonce)) {
+			return true;
+		} else {
+			log.error("check signature failure: " + " signature = " + signature + " timestamp = " + timestamp
+					+ " nonce = " + nonce);
+
+			return false;
+		}
 	}
 
 	/**
@@ -103,47 +154,59 @@ public abstract class MsgController extends BaseController<ChatHistoryVO, String
 		this.setRequest(request);
 		this.setResponse(response);
 		ApiConfigKit.setThreadLocalApiConfig(getApiConfig());
-		// 开发模式输出微信服务发送过来的 xml 消息
-		if (ApiConfigKit.isDevMode()) {
-			log.info("接收消息:" + getInMsgXml(true));
-		}
 
-		// 解析消息并根据消息类型分发到相应的处理方法
-		InMsg msg = getInMsg(true);
-		if (msg instanceof InTextMsg)
-			processInTextMsg((InTextMsg) msg);
-		else if (msg instanceof InImageMsg)
-			processInImageMsg((InImageMsg) msg);
-		else if (msg instanceof InVoiceMsg)
-			processInVoiceMsg((InVoiceMsg) msg);
-		else if (msg instanceof InVideoMsg)
-			processInVideoMsg((InVideoMsg) msg);
-		else if (msg instanceof InShortVideoMsg) // 支持小视频
-			processInShortVideoMsg((InShortVideoMsg) msg);
-		else if (msg instanceof InLocationMsg)
-			processInLocationMsg((InLocationMsg) msg);
-		else if (msg instanceof InLinkMsg)
-			processInLinkMsg((InLinkMsg) msg);
-		else if (msg instanceof InCustomEvent)
-			processInCustomEvent((InCustomEvent) msg);
-		else if (msg instanceof InFollowEvent)
-			processInFollowEvent((InFollowEvent) msg);
-		else if (msg instanceof InQrCodeEvent)
-			processInQrCodeEvent((InQrCodeEvent) msg);
-		else if (msg instanceof InLocationEvent)
-			processInLocationEvent((InLocationEvent) msg);
-		else if (msg instanceof InMassEvent)
-			processInMassEvent((InMassEvent) msg);
-		else if (msg instanceof InMenuEvent)
-			processInMenuEvent((InMenuEvent) msg);
-		else if (msg instanceof InSpeechRecognitionResults)
-			processInSpeechRecognitionResults((InSpeechRecognitionResults) msg);
-		else if (msg instanceof InTemplateMsgEvent)
-			processInTemplateMsgEvent((InTemplateMsgEvent) msg);
-		else if (msg instanceof InShakearoundUserShakeEvent)
-			processInShakearoundUserShakeEvent((InShakearoundUserShakeEvent) msg);
-		else
-			log.error("未能识别的消息类型。 消息 xml 内容为：\n" + getInMsgXml());
+		// 如果是服务器配置请求，则配置服务器并返回
+		if (isConfigServerRequest()) {
+			configServer();
+			return;
+		}
+		// 签名检测
+		if (checkSignature()) {
+
+			// 开发模式输出微信服务发送过来的 xml 消息
+			if (ApiConfigKit.isDevMode()) {
+				log.info("接收消息:" + getInMsgXml(true));
+			}
+
+			// 解析消息并根据消息类型分发到相应的处理方法
+			InMsg msg = getInMsg(true);
+			if (msg instanceof InTextMsg)
+				processInTextMsg((InTextMsg) msg);
+			else if (msg instanceof InImageMsg)
+				processInImageMsg((InImageMsg) msg);
+			else if (msg instanceof InVoiceMsg)
+				processInVoiceMsg((InVoiceMsg) msg);
+			else if (msg instanceof InVideoMsg)
+				processInVideoMsg((InVideoMsg) msg);
+			else if (msg instanceof InShortVideoMsg) // 支持小视频
+				processInShortVideoMsg((InShortVideoMsg) msg);
+			else if (msg instanceof InLocationMsg)
+				processInLocationMsg((InLocationMsg) msg);
+			else if (msg instanceof InLinkMsg)
+				processInLinkMsg((InLinkMsg) msg);
+			else if (msg instanceof InCustomEvent)
+				processInCustomEvent((InCustomEvent) msg);
+			else if (msg instanceof InFollowEvent)
+				processInFollowEvent((InFollowEvent) msg);
+			else if (msg instanceof InQrCodeEvent)
+				processInQrCodeEvent((InQrCodeEvent) msg);
+			else if (msg instanceof InLocationEvent)
+				processInLocationEvent((InLocationEvent) msg);
+			else if (msg instanceof InMassEvent)
+				processInMassEvent((InMassEvent) msg);
+			else if (msg instanceof InMenuEvent)
+				processInMenuEvent((InMenuEvent) msg);
+			else if (msg instanceof InSpeechRecognitionResults)
+				processInSpeechRecognitionResults((InSpeechRecognitionResults) msg);
+			else if (msg instanceof InTemplateMsgEvent)
+				processInTemplateMsgEvent((InTemplateMsgEvent) msg);
+			else if (msg instanceof InShakearoundUserShakeEvent)
+				processInShakearoundUserShakeEvent((InShakearoundUserShakeEvent) msg);
+			else
+				log.error("未能识别的消息类型。 消息 xml 内容为：\n" + getInMsgXml());
+		} else {
+			renderText("签名验证失败，请确定是微信服务器在发送消息过来");
+		}
 	}
 
 	public String getPara(String key) {
@@ -160,14 +223,14 @@ public abstract class MsgController extends BaseController<ChatHistoryVO, String
 			log.info("发送消息:" + outMsgXml);
 			log.info("--------------------------------------------------------------------------------\n");
 		}
-		outMsg.setMsgXML(outMsgXml);
+		outMsg.setMsgXML(new String(outMsgXml));
 		ChatHistoryVO vo = new ChatHistoryVO(outMsg);
 		try {
 			getService().doCreate(vo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		// 是否需要加密消息
 		if (ApiConfigKit.getApiConfig().isEncryptMessage()) {
 			outMsgXml = MsgEncryptKit.encrypt(outMsgXml, getPara("timestamp"), getPara("nonce"));
@@ -176,15 +239,20 @@ public abstract class MsgController extends BaseController<ChatHistoryVO, String
 		ResponseUtil.setContentToResponse(getResponse(), outMsgXml, "text/xml; charset=UTF-8");
 	}
 
-	public void renderNull() {
-		
+	public void renderText(String text) {
+		ResponseUtil.setContentToResponse(getResponse(), text, "text/plain; charset=UTF-8");
 	}
+
+	public void renderNull() {
+
+	}
+
 	public void renderOutTextMsg(String content) {
 		OutTextMsg outMsg = new OutTextMsg(getInMsg());
 		outMsg.setContent(content);
 		render(outMsg);
 	}
-	
+
 	public String getInMsgXml() {
 		return getInMsgXml(false);
 	}
@@ -204,7 +272,7 @@ public abstract class MsgController extends BaseController<ChatHistoryVO, String
 	public InMsg getInMsg() {
 		return getInMsg(false);
 	}
-	
+
 	public InMsg getInMsg(boolean submit) {
 		if (inMsg == null || submit)
 			inMsg = InMsgParser.parse(getInMsgXml(submit));

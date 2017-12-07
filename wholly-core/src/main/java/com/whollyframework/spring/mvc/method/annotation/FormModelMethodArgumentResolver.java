@@ -49,7 +49,6 @@ public class FormModelMethodArgumentResolver implements HandlerMethodArgumentRes
     public FormModelMethodArgumentResolver() {
     }
 
-    @Override
     public boolean supportsParameter(MethodParameter parameter) {
         if (parameter.hasParameterAnnotation(FormModel.class)) {
             return true;

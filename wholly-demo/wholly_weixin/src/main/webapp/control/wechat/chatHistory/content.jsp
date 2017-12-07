@@ -48,12 +48,12 @@ function doexit() {
 			<td class="field" align="right"><font color="red">*</font>信息类型：</td>
 			<td id="fax_h" title="上级机构" class="justForHelp">
 			<!-- (1：text 文本消息、2：image 图片消息、3：voice 语音消息、4：video 视频消息、5：music 音乐消息、6：news 图文消息) -->
-				${content.msgType eq "1"?"文本消息":"" }
-				${content.msgType eq "2"?"图片消息":"" }
-				${content.msgType eq "3"?"语音消息":"" }
-				${content.msgType eq "4"?"视频消息":"" }
-				${content.msgType eq "5"?"音乐消息":"" }
-				${content.msgType eq "6"?"图文消息":"" }
+				${content.msgType eq "text"?"文本消息":"" }
+				${content.msgType eq "image"?"图片消息":"" }
+				${content.msgType eq "voice"?"语音消息":"" }
+				${content.msgType eq "video"?"视频消息":"" }
+				${content.msgType eq "music"?"音乐消息":"" }
+				${content.msgType eq "news"?"图文消息":"" }
 			</td>
 			<td class="field" align="right"><font color="red">*</font>创建时间：</td>
 			<td id="cert_id_h" colspan="1" >
@@ -62,8 +62,8 @@ function doexit() {
 		</tr>
 		<tr >
 			<td class="field" align="right">信息内容XML：</td>
-			<td id="tel_h" colspan="3" class="justForHelp">
-				${content.msgXml }
+			<td id="tel_h" colspan="3" style="height:50px;">
+				<xmp>${content.msgXml }</xmp>
 			</td>
 		</tr>
 	</table>

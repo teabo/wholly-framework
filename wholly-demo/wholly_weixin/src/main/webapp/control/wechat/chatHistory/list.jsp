@@ -45,17 +45,17 @@
 				width : 130,
 				formatter: function(value, row, index){
 					//(1：text 文本消息、2：image 图片消息、3：voice 语音消息、4：video 视频消息、5：music 音乐消息、6：news 图文消息)
-					if (value==1){
+					if (value=='text'){
 						return "文本消息";
-					} else if (value==2){
+					} else if (value=='image'){
 						return "图片消息";
-					} else if (value==3){
+					} else if (value=='voice'){
 						return "语音消息";
-					} else if (value==4){
+					} else if (value=='video'){
 						return "视频消息";
-					} else if (value==5){
+					} else if (value=='music'){
 						return "音乐消息";
-					} else if (value==6){
+					} else if (value=='news'){
 						return "图文消息";
 					}
 				}

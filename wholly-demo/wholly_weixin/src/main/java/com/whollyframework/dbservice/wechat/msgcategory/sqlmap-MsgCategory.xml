@@ -15,7 +15,7 @@
 		(ID, ITEM_KEY , ITEM_DESC , MSG_TYPE , MEDIA_ID , CONTENT , AUTHOR , AUTHOR_ID , CREATED , LAST_MODIFIED , LAST_MODIFY_ID , SORT_ID )
 		VALUES
 		(_nextval('WX_MSG_CATEGORY'), #itemKey# , #itemDesc# , #msgType# , #mediaId# , #content# , #author# , #authorId# , #created# , #lastModified# , #lastModifyId# , #sortId# )
-		<selectKey resultClass="int" >
+		<selectKey resultClass="java.lang.Integer" >
        		 SELECT _currval('WX_MSG_CATEGORY') as id
         </selectKey>
 	</insert>

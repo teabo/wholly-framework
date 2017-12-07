@@ -14,7 +14,7 @@
 		(${model.pkName}, ${model.sqlFields})
 		VALUES
 		(_nextval('${model.tableName}') , ${model.modelFields})
-		<selectKey resultClass="int" >
+		<selectKey resultClass="java.lang.Integer" >
        		 SELECT _currval('${model.tableName}') as id
         </selectKey>
 	</insert>
